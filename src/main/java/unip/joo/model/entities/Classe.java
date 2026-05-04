@@ -64,12 +64,11 @@ public class Classe {
         this.descricao = descricao;
     }
 
-    public List<Habilidade> getHabilidades() {
-        return habilidades;
-    }
-
-    public void setHabilidades(List<Habilidade> habilidades) {
-        this.habilidades = habilidades;
+    public Habilidade getHabilidade(long id) {
+        return habilidades.stream()
+                .filter(h -> h.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 
     public int getAtributo(NomeAtributo tipo) {

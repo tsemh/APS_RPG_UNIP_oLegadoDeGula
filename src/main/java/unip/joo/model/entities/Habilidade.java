@@ -9,14 +9,18 @@ public class Habilidade {
     private String descricao;
     private int quantidadeDado;
     private int valorDado;
+    private int valorExtra;
+    private int tempoEspera;
 
-    public Habilidade(long id, Efeito efeito, String nome, String descricao, int quantidadeDado, int valorDado) {
+    public Habilidade(long id, Efeito efeito, String nome, String descricao, int quantidadeDado, int valorDado, int valorExtra, int tempoEspera) {
         this.id = id;
         this.efeito = efeito;
         this.nome = nome;
         this.descricao = descricao;
         this.quantidadeDado = quantidadeDado;
         this.valorDado = valorDado;
+        this.valorExtra = valorExtra;
+        this.tempoEspera = tempoEspera;
     }
 
     public long getId() {
@@ -33,5 +37,21 @@ public class Habilidade {
 
     public String getDescricao() {
         return descricao;
+    }
+
+    public int getQuantidadeDado() {
+        return this.quantidadeDado;
+    }
+
+    public int getValorDado() {
+        return this.valorDado;
+    }
+
+    public int getValorExtra() {
+        return this.valorExtra;
+    }
+
+    public int getTempoEspera() {
+        return tempoEspera;
     }
 }

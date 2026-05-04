@@ -1,6 +1,7 @@
 package unip.joo.model.entities;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -9,7 +10,7 @@ public abstract class Personagem {
     protected String nome;
     protected String descricao;
     protected Classe classe;
-    protected Map<String, String> fala = new HashMap<>();
+    protected Map<String, String> fala;
 
     public Personagem(long id, String nome, String descricao, Classe classe, Map<String, String> fala) {
         this.id = id;
@@ -32,7 +33,7 @@ public abstract class Personagem {
     public String getFala(String key) {
         return fala.get(key);
     }
-
+    public Map<String, String> getAllFalas() { return new LinkedHashMap<>(fala); }
     public Classe getClasse() { return classe; }
 
     public static int rollDice(int diceAmount, int diceLimit){
