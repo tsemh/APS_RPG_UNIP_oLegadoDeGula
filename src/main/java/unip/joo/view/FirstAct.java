@@ -838,7 +838,7 @@ public class FirstAct {
             int newHealth = elodin.getClasse().getVida() - damage;
             elodin.getClasse().setVida(Math.max(0, newHealth));
             dialogue.add(gameText.getFirtsAct("combat.enemy.pulso.success"));
-            dialogue.add(String.format(gameText.getSystemMessage("combat.pulso.damage.taken"), damage));
+            dialogue.add(String.format(gameText.getSystemMessage("combat.player.damage.taken"), damage));
         } else if (isCriticalError) {
             int selfDamage = rollDice(2, 10)+3;
             int newDroneHealth = drone.getClasse().getVida() - selfDamage;
