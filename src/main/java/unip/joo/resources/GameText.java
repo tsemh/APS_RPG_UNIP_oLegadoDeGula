@@ -223,8 +223,23 @@ public class GameText {
         );
 
         put(
+                "combat.player.criticalError",
+                "ERRO CRITICO!"
+        );
+
+        put(
                 "combat.enemy.critical",
                 "O monstro acertou um GOLPE CRITICO!"
+        );
+
+        put(
+                "combat.enemy.criticalError",
+                "ERRO CRITICO! O monstro falhou espetacularmente!"
+        );
+
+        put(
+                "combat.enemy.pulso.critical",
+                "Pulso eletromagnético crítico! Efeitos ampliados!"
         );
 
         put(
@@ -233,13 +248,13 @@ public class GameText {
         );
 
         put(
-                "combat.enemy.miss",
-                "O monstro errou o ataque!"
+                "combat.player.self.damage",
+                "Você se machucou e perdeu %d pontos de vida!"
         );
 
         put(
-                "combat.player.death",
-                "VOCE MORREU!"
+                "combat.enemy.self.damage",
+                "O monstro se danificou e perdeu %d pontos de vida!"
         );
 
         put(
@@ -266,6 +281,16 @@ public class GameText {
         put(
                 "combat.enemy.roll.pulso",
                 ">> Dado de pulso do drone: [%d] vs Sua defesa: [%d]"
+        );
+
+        put(
+                "combat.enemy.miss",
+                "O monstro errou o ataque!"
+        );
+
+        put(
+                "combat.player.death",
+                "VOCE MORREU!"
         );
 
         // Mensagem de cooldown
@@ -683,6 +708,30 @@ public class GameText {
                 "Você pula para acertar o drone e acerta um golpe em cheio na cabeça dele, \n" +
                         "fazendo a máquina cair para trás."
         );
+        put(
+                "combat.player.ruptura.criticalError",
+                "Você avança para agarrar o drone, mas tropeça no próprio pé! O cano enferrujado escorrega \n" +
+                        "de sua mão e acerta seu próprio joelho, causando uma dor lancinante que o paralisa momentaneamente."
+        );
+        put(
+                "combat.player.Violencia.criticalError",
+                "Você tenta golpear desajeitadamente, perdendo completamente o controle! O cano sai voando \n" +
+                        "de sua mão e volta na sua direção, acertando seu ombro com força surpreendente."
+        );
+        put(
+                "combat.player.Impacto.criticalError",
+                "Você tenta deslizar para atacar o drone, mas escorrega desastrosamente no chão sujo e cai \n" +
+                        "de cara, batendo a cabeça no cano que estava segurando."
+        );
+        put(
+                "combat.player.Esmaga.criticalError",
+                "Você pula com toda a força para esmagar o drone, mas calcula mal a distância e cai de \n" +
+                        "barriga no chão, o impacto reverberando por todo seu corpo como um trovão."
+        );
+        put(
+                "combat.player.criticalError.default",
+                "Você comete um erro grosseiro e acaba se machucando no processo!"
+        );
         
         // Ataques do Drone
         put(
@@ -711,6 +760,21 @@ public class GameText {
                 "combat.enemy.pulso.success",
                 "Uma onda invisível atravessa seu corpo. Sua visão falha por um segundo. \n" +
                         "Seus movimentos ficam lentos."
+        );
+        put(
+                "combat.enemy.ataqueeletrico.criticalError",
+                "O drone tenta liberar uma descarga elétrica devastadora, mas há um curto-circuito catastrófico! \n" +
+                        "Faíscas voam de seu próprio corpo enquanto seus circuitos entram em colapso, danificando seus sistemas internos."
+        );
+        put(
+                "combat.enemy.investida.criticalError",
+                "O drone avança para uma investida mecânica violenta, mas calcula mal a trajetória e colide \n" +
+                        "contra uma pilastra enferrujada com força bruta, danificando severamente seus servomotores."
+        );
+        put(
+                "combat.enemy.pulso.criticalError",
+                "O drone tenta emitir um pulso eletromagnético massivo, mas a sobrecarga causa um feedback \n" +
+                        "devastador nos seus sistemas, danificando componentes vitais internos."
         );
         
         put(

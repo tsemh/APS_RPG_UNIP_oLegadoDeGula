@@ -619,20 +619,33 @@ public class FirstAct {
             combatDialogue.add(String.format(gameText.getSystemMessage("combat.roll.attack"), attackRoll, droneDefense));
 
             boolean isCritical = diceRoll == 20;
+            boolean isCriticalError = diceRoll == 1;
 
             if (isCritical) {
-                baseDamage = baseDamage * 2;
                 combatDialogue.add(gameText.getSystemMessage("combat.player.critical"));
+            } else if (isCriticalError) {
+                combatDialogue.add(gameText.getSystemMessage("combat.player.criticalError"));
             }
 
             boolean attackHit = attackRoll >= droneDefense;
 
-            if (attackHit) {
+            if (attackHit && !isCriticalError) {
                 int finalDamage = baseDamage;
+                if (isCritical) {
+                finalDamage = baseDamage * 2;
+                }
+        
                 int newDroneHealth = drone.getClasse().getVida() - finalDamage;
                 drone.getClasse().setVida(Math.max(0, newDroneHealth));
                 combatDialogue.add(getSuccessMessage(abilityChoice));
                 combatDialogue.add(String.format(gameText.getSystemMessage("roll.losesLife.drone"), finalDamage));
+            } else if (isCriticalError) {
+                // Erro crítico: jogador se machuca com o próprio ataque
+                int selfDamage = baseDamage;
+                int newPlayerHealth = elodin.getClasse().getVida() - selfDamage;
+                elodin.getClasse().setVida(Math.max(0, newPlayerHealth));
+                combatDialogue.add(getCriticalErrorMessage(abilityChoice));
+                combatDialogue.add(String.format(gameText.getSystemMessage("combat.player.self.damage"), selfDamage));
             } else {
                 combatDialogue.add(gameText.getSystemMessage("test.failure"));
                 combatDialogue.add(getFailureMessage(abilityChoice));
@@ -668,6 +681,18 @@ public class FirstAct {
             default: message = gameText.getSystemMessage("error.unknownAbility"); break;
         }
         return message != null ? message : gameText.getSystemMessage("test.failure");
+    }
+
+    private String getCriticalErrorMessage(int abilityChoice) {
+        String message;
+        switch (abilityChoice) {
+            case 1: message = gameText.getFirtsAct("combat.player.ruptura.criticalError"); break;
+            case 2: message = gameText.getFirtsAct("combat.player.Violencia.criticalError"); break;
+            case 3: message = gameText.getFirtsAct("combat.player.Impacto.criticalError"); break;
+            case 4: message = gameText.getFirtsAct("combat.player.Esmaga.criticalError"); break;
+            default: message = gameText.getSystemMessage("combat.player.criticalError.default"); break;
+        }
+        return message != null ? message : gameText.getSystemMessage("combat.player.criticalError.default");
     }
 
     private void executeDroneTurn(Monstro drone, int playerDefense) {
@@ -708,17 +733,37 @@ public class FirstAct {
     }
 
     private void executeDroneElectricAttack(Monstro drone, int playerDefense, int droneIntelecto, List<String> dialogue) {
-        int droneAttackRoll = rollDice(1, 20) + droneIntelecto;
+        int diceRoll = rollDice(1, 20);
+        int droneAttackRoll = diceRoll + droneIntelecto;
 
         dialogue.add(gameText.getSystemMessage("combat.enemy.ataqueeletrico.name"));
         dialogue.add(String.format(gameText.getSystemMessage("combat.enemy.roll.attack"), droneAttackRoll, playerDefense));
 
-        if (droneAttackRoll >= playerDefense) {
+        boolean isCritical = diceRoll == 20;
+        boolean isCriticalError = diceRoll == 1;
+
+        if (isCritical) {
+            dialogue.add(gameText.getSystemMessage("combat.enemy.critical"));
+        } else if (isCriticalError) {
+            dialogue.add(gameText.getSystemMessage("combat.enemy.criticalError"));
+        }
+
+        if (droneAttackRoll >= playerDefense && !isCriticalError) {
             int damage = rollDice(1, 10) + 2;
+            if (isCritical) {
+                damage = damage * 2;
+            }
             int newHealth = elodin.getClasse().getVida() - damage;
             elodin.getClasse().setVida(Math.max(0, newHealth));
             dialogue.add(gameText.getFirtsAct("combat.enemy.ataqueeletrico.success"));
             dialogue.add(String.format(gameText.getSystemMessage("combat.player.damage.taken"), damage));
+        } else if (isCriticalError) {
+            // Erro crítico: drone se danifica com o próprio ataque
+            int selfDamage = rollDice(1, 10) + 2;
+            int newDroneHealth = drone.getClasse().getVida() - selfDamage;
+            drone.getClasse().setVida(Math.max(0, newDroneHealth));
+            dialogue.add(gameText.getFirtsAct("combat.enemy.ataqueeletrico.criticalError"));
+            dialogue.add(String.format(gameText.getSystemMessage("combat.enemy.self.damage"), selfDamage));
         } else {
             dialogue.add(gameText.getFirtsAct("combat.enemy.ataqueeletrico.failure"));
         }
@@ -729,17 +774,37 @@ public class FirstAct {
     }
 
     private void executeDroneMechanicalCharge(Monstro drone, int playerDefense, int droneForca, List<String> dialogue) {
-        int droneAttackRoll = rollDice(1, 20) + droneForca;
+        int diceRoll = rollDice(1, 20);
+        int droneAttackRoll = diceRoll + droneForca;
 
         dialogue.add(gameText.getSystemMessage("combat.enemy.investida.name"));
         dialogue.add(String.format(gameText.getSystemMessage("combat.enemy.roll.attack"), droneAttackRoll, playerDefense));
 
-        if (droneAttackRoll >= playerDefense) {
+        boolean isCritical = diceRoll == 20;
+        boolean isCriticalError = diceRoll == 1;
+
+        if (isCritical) {
+            dialogue.add(gameText.getSystemMessage("combat.enemy.critical"));
+        } else if (isCriticalError) {
+            dialogue.add(gameText.getSystemMessage("combat.enemy.criticalError"));
+        }
+
+        if (droneAttackRoll >= playerDefense && !isCriticalError) {
             int damage = rollDice(1, 8) + 3;
+            if (isCritical) {
+                damage = damage * 2;
+            }
             int newHealth = elodin.getClasse().getVida() - damage;
             elodin.getClasse().setVida(Math.max(0, newHealth));
             dialogue.add(gameText.getFirtsAct("combat.enemy.investida.success"));
             dialogue.add(String.format(gameText.getSystemMessage("combat.player.damage.taken"), damage));
+        } else if (isCriticalError) {
+            // Erro crítico: drone se danifica com o próprio ataque
+            int selfDamage = rollDice(1, 8) + 3;
+            int newDroneHealth = drone.getClasse().getVida() - selfDamage;
+            drone.getClasse().setVida(Math.max(0, newDroneHealth));
+            dialogue.add(gameText.getFirtsAct("combat.enemy.investida.criticalError"));
+            dialogue.add(String.format(gameText.getSystemMessage("combat.enemy.self.damage"), selfDamage));
         } else {
             dialogue.add(gameText.getFirtsAct("combat.enemy.investida.failure"));
         }
@@ -750,14 +815,35 @@ public class FirstAct {
     }
 
     private void executeDroneElectromagneticPulse(Monstro drone, int playerDefense, int droneIntelecto, List<String> dialogue) {
-        int droneAttackRoll = rollDice(1, 20) + droneIntelecto;
+        int diceRoll = rollDice(1, 20);
+        int droneAttackRoll = diceRoll + droneIntelecto;
 
         dialogue.add(gameText.getSystemMessage("combat.enemy.pulso.name"));
         dialogue.add(String.format(gameText.getSystemMessage("combat.enemy.roll.pulso"), droneAttackRoll, playerDefense));
 
-        if (droneAttackRoll >= playerDefense) {
+        boolean isCritical = diceRoll == 20;
+        boolean isCriticalError = diceRoll == 1;
+
+        if (isCritical) {
+            dialogue.add(gameText.getSystemMessage("combat.enemy.critical"));
+        } else if (isCriticalError) {
+            dialogue.add(gameText.getSystemMessage("combat.enemy.criticalError"));
+        }
+
+        if (droneAttackRoll >= playerDefense && !isCriticalError) {
             dialogue.add(gameText.getFirtsAct("combat.enemy.pulso.success"));
             // Efeito: próximo turno do jogador será mais lento (pode ser implementado com cooldown extra)
+            if (isCritical) {
+                // Efeito crítico: cooldown extra ou efeito mais forte
+                dialogue.add(gameText.getSystemMessage("combat.enemy.pulso.critical"));
+            }
+        } else if (isCriticalError) {
+            // Erro crítico: pulso falha e causa sobrecarga no próprio drone
+            int selfDamage = rollDice(1, 6);
+            int newDroneHealth = drone.getClasse().getVida() - selfDamage;
+            drone.getClasse().setVida(Math.max(0, newDroneHealth));
+            dialogue.add(gameText.getFirtsAct("combat.enemy.pulso.criticalError"));
+            dialogue.add(String.format(gameText.getSystemMessage("combat.enemy.self.damage"), selfDamage));
         } else {
             dialogue.add(gameText.getFirtsAct("combat.enemy.pulso.failure"));
         }
