@@ -831,15 +831,16 @@ public class FirstAct {
         }
 
         if (droneAttackRoll >= playerDefense && !isCriticalError) {
-            dialogue.add(gameText.getFirtsAct("combat.enemy.pulso.success"));
-            // Efeito: próximo turno do jogador será mais lento (pode ser implementado com cooldown extra)
+            int damage = rollDice(2, 10) + 3;
             if (isCritical) {
-                // Efeito crítico: cooldown extra ou efeito mais forte
-                dialogue.add(gameText.getSystemMessage("combat.enemy.pulso.critical"));
+                damage = damage * 2;
             }
+            int newHealth = elodin.getClasse().getVida() - damage;
+            elodin.getClasse().setVida(Math.max(0, newHealth));
+            dialogue.add(gameText.getFirtsAct("combat.enemy.pulso.success"));
+            dialogue.add(String.format(gameText.getSystemMessage("combat.pulso.damage.taken"), damage));
         } else if (isCriticalError) {
-            // Erro crítico: pulso falha e causa sobrecarga no próprio drone
-            int selfDamage = rollDice(1, 6);
+            int selfDamage = rollDice(2, 10)+3;
             int newDroneHealth = drone.getClasse().getVida() - selfDamage;
             drone.getClasse().setVida(Math.max(0, newDroneHealth));
             dialogue.add(gameText.getFirtsAct("combat.enemy.pulso.criticalError"));
