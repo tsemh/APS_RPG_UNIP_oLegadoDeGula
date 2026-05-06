@@ -582,7 +582,7 @@ public class FirstAct {
                         gameText.getFirtsAct("outcome.three"),
                         gameText.getFirtsAct("outcome.four"),
                         gameText.getFirtsAct("outcome.five"),
-                        gameText.getAsciiArts("game.name"),
+                        gameText.getAsciiArts("game.name")
                 );
                 displayDialogue(victoryDialogue);
             } else if (playerHealth <= 0) {
@@ -611,13 +611,14 @@ public class FirstAct {
 
     private void executePlayerTurn(int abilityChoice, Monstro drone, int droneDefense) {
         try {
-            int attackRoll = rollDice(1, 20) + forcaElodin;
+            int diceRoll = rollDice(1, 20);
+            int attackRoll = diceRoll + forcaElodin;
             int baseDamage = rollDice(2, 10) + 3;
 
             List<String> combatDialogue = new ArrayList<>();
             combatDialogue.add(String.format(gameText.getSystemMessage("combat.roll.attack"), attackRoll, droneDefense));
 
-            boolean isCritical = (attackRoll - forcaElodin) == 20;
+            boolean isCritical = diceRoll == 20;
 
             if (isCritical) {
                 baseDamage = baseDamage * 2;
