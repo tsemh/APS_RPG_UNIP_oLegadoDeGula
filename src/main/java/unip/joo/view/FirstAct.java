@@ -582,7 +582,7 @@ public class FirstAct {
                         gameText.getFirtsAct("outcome.three"),
                         gameText.getFirtsAct("outcome.four"),
                         gameText.getFirtsAct("outcome.five"),
-                        gameText.getAsciiArts("game.name"),
+                        gameText.getAsciiArts("game.name")
                 );
                 displayDialogue(victoryDialogue);
             } else if (playerHealth <= 0) {
