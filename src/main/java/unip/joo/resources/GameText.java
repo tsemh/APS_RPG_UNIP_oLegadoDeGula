@@ -797,9 +797,9 @@ public class GameText {
        );
        put(
                "outcome.five",
-               "Você limpa o sangue das mãos no casaco e olha na direção do Porto. O sol mal consegue\n
-                atravessar a poluição, mas o seu caminho agora tem um propósito. Você sabe onde precisa \n
-                ir. Você sabe o que precisa fazer. E não vai parar até conseguir."
+               "Você limpa o sangue das mãos no casaco e olha na direção do Porto. O sol mal consegue\n"+
+                "atravessar a poluição, mas o seu caminho agora tem um propósito. Você sabe onde precisa\n"+
+                "ir. Você sabe o que precisa fazer. E não vai parar até conseguir."
        );
 
     }};
