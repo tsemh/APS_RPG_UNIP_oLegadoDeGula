@@ -1,4 +1,4 @@
-package unip.joo.controller.protagonista;
+package unip.joo.controller.elodin;
 
 import unip.joo.model.ENUM.Sexo;
 import unip.joo.model.entities.Humano;
@@ -10,7 +10,7 @@ public class HumanoController {
     private ClasseController classe =  new ClasseController();
 
     public Humano createElodin() {
-        String nome = "Protagonista da silva";
+        String nome = "Elodin";
         return new Humano(
                 Sexo.MASCULINO,
                 true,

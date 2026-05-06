@@ -168,18 +168,13 @@ public class GameText {
         );
 
         put(
-                "roll.dice.player",
-                ">> Seu dado de ataque é: [%d]"
-        );
-
-        put(
                 "roll.dice.enemy",
                 ">> O dado de ataque do inimigo é: [%d]"
         );
 
         put(
-                "defense.opponent",
-                "A defesa do seu oponente é: [%s]"
+                "combat.roll.attack",
+                ">> Seu dado de ataque: [%d] vs Defesa do seu oponente: [%d]"
         );
 
         put(
@@ -250,6 +245,27 @@ public class GameText {
         put(
                 "combat.separator",
                 "---------------------------"
+        );
+
+        put(
+                "combat.enemy.ataqueeletrico.name",
+                ">> Drone usa: Ataque Elétrico"
+        );
+        put(
+                "combat.enemy.investida.name",
+                ">> Drone usa: Investida Mecânica"
+        );
+        put(
+                "combat.enemy.pulso.name",
+                ">> Drone usa: Pulso Eletromagnético"
+        );
+        put(
+                "combat.enemy.roll.attack",
+                ">> Dado de ataque do drone: [%d] vs Sua defesa: [%d]"
+        );
+        put(
+                "combat.enemy.roll.pulso",
+                ">> Dado de pulso do drone: [%d] vs Sua defesa: [%d]"
         );
 
         // Mensagem de cooldown
@@ -337,7 +353,9 @@ public class GameText {
 
         put(
             "pieceTwo.init.choice.one",
-            "Ir a barraca de sucatas [1] \n Ir a barraca de comidas [2] \n Ir a barraca de liquidos [3]"
+            "[1] Ir a barraca de sucatas\n " +
+            "[2] Ir a barraca de comidas\n " +
+            "[3] Ir a barraca de liquidos"
         );
 
         put(
@@ -634,6 +652,149 @@ public class GameText {
                 "Você encurta a distância num instante, agarra o oponente com firmeza e, sem dar espaço para \n" +
                         "reação, desce o cano de metal contra sua cabeça em um golpe pesado que ressoa seco."
         );
+        put(
+                "combat.drone.Violencia.failure",
+                "Você tenta atacar de qualquer jeito, mas seu corpo ainda está instável. \n" +
+                        "O golpe sai fraco, sem precisão, e o drone apenas se ajusta, evitando o impacto com \n" +
+                        "mínimo esforço."
+        );
+        put(
+                "combat.drone.Violencia.success",
+                "Mesmo sem técnica, você consegue acertar um golpe simples com o cano enferrujado. \n" +
+                        "Não é forte… mas é o suficiente para manter o inimigo recuando."
+        );
+        put(
+                "combat.drone.Impacto.failure",
+                "Você tenta dar um ataque direto no drone, mas ele acaba colocando um braço na frente, \n" +
+                        "fazendo com que você não o acerte."
+        );
+        put(
+                "combat.drone.Impacto.success",
+                "Você corre em direção ao drone, desliza por baixo das pernas dele e dá um ataque direto \n" +
+                        "nas costas da máquina, deixando-a um pouco desequilibrada."
+        );
+        put(
+                "combat.drone.Esmaga.failure",
+                "Você pula para dar um ataque mais forte no drone, mas ele simplesmente pula para \n" +
+                        "trás, fazendo você acertar o chão com sua força."
+        );
+        put(
+                "combat.drone.Esmaga.success",
+                "Você pula para acertar o drone e acerta um golpe em cheio na cabeça dele, \n" +
+                        "fazendo a máquina cair para trás."
+        );
+        
+        // Ataques do Drone
+        put(
+                "combat.enemy.ataqueeletrico.failure",
+                "A descarga passa raspando, queimando o ar ao seu lado. \n" +
+                        "Seu corpo treme… mas você aguenta."
+        );
+        put(
+                "combat.enemy.ataqueeletrico.success",
+                "A eletricidade percorre seu corpo como um choque violento, travando seus músculos por \n" +
+                        "um instante."
+        );
+        put(
+                "combat.enemy.investida.failure",
+                "Você consegue se jogar pro lado no último segundo, sentindo o vento do impacto."
+        );
+        put(
+                "combat.enemy.investida.success",
+                "O drone avança sem hesitar e colide com você, te jogando contra o chão com força brutal."
+        );
+        put(
+                "combat.enemy.pulso.failure",
+                "O pulso distorce o ar, mas você consegue se manter firme, mesmo com o corpo tremendo."
+        );
+        put(
+                "combat.enemy.pulso.success",
+                "Uma onda invisível atravessa seu corpo. Sua visão falha por um segundo. \n" +
+                        "Seus movimentos ficam lentos."
+        );
+        
+        put(
+                "combat.victory.drone.death.one",
+                "Com um grito de fúria que ecoa na sua própria mente, você aproveita a brecha e crava a sucata\n" +
+                        "naquele olho metálico gigante, afundando cada vez mais o cano enferrujado dentro dele.\n" +
+                        "Há resistência — sempre há — mas desta vez você não recua."
+        );
+        
+        put(
+                "combat.victory.drone.death.two",
+                "A máquina emite um estrondo que atravessa o ar, seus movimentos ficam erráticos, descontrolados.\n" +
+                        "Você sente uma mistura estranha sob suas mãos — sangue, óleo, metal. Talvez isso seja tudo que\n" +
+                        "uma coisa assim possa oferecer. Talvez."
+        );
+        
+        put(
+                "combat.victory.drone.death.three",
+                "E nesse instante, uma realização fria invade sua mente: matéria orgânica. A máquina a procura,\n" +
+                        "a desperdiça, a consome. Você finalmente entende por qual motivo mais pessoas andam sumindo —\n" +
+                        "não é apenas o metal que faz falta. Somos um recurso. Sempre fomos."
+        );
+        
+        put(
+                "combat.victory.drone.death.four",
+                "O drone desaba. Inerte. Finalmente."
+        );
+        
+        put(
+                "combat.defeat.player.death.one",
+                "Seu corpo falha. Cada nervo queimado, cada músculo tenso além do limite. Você tenta se mover,\n" +
+                        "mas não consegue — a máquina é muito rápida, muito precisa, muito... perfeita."
+        );
+        
+        put(
+                "combat.defeat.player.death.two",
+                "O último golpe não vem de uma direção. É como se viesse de todos os lados ao mesmo tempo.\n" +
+                        "Você sente o metal penetrando, a dor elétrica que queima cada célula, e então... nada.\n" +
+                        "Apenas silêncio absoluto."
+        );
+        
+        put(
+                "combat.defeat.player.death.three",
+                "Você desaba. Seu corpo bate contra o chão úmido, coberto de poeira e sangue. A máquina fica\n" +
+                        "sobre você, parada, observando. Sempre observando. Esperando que você se mova novamente.\n" +
+                        "Mas você não vai se mover."
+        );
+        
+        put(
+                "combat.defeat.player.death.four",
+                "A visão embaça. Sons distantes se dissolvem. Um zumbido constante nos ouvidos, como se a própria\n" +
+                        "morte tivesse um som. Você tenta respirar, mas não há ar — apenas o cheiro de queimado e metal\n" +
+                        "oxidado invadindo suas narinas."
+        );
+        
+        put(
+                "combat.defeat.player.death.five",
+                "Nesse último instante, uma imagem vem à sua mente. Seu filho. Seu rosto. Onde ele está agora?\n" +
+                        "O que vai acontecer com ele? Essas perguntas não terão respostas. Você já não está lá para\n" +
+                        "respondê-las. Já não está em lugar algum."
+        );
+        put(
+                "outcome.one",
+                "Ofegante, você se apoia em uma pilastra, observando a destruição ao redor. A praça está\n" +
+"um caos. Ao olhar para os mutantes e para os drones que atacam a multidão, você nota algo \n" +
+"perturbador: eles não agem por instinto individual. Eles se movem em uníssono, \n" +
+"flanqueando as vítimas com uma precisão matemática, como se respondessem a um comando."
+        );
+        put(
+                "outcome.two",
+                "Essa coordenação perfeita engatilha uma memória dolorosa do seu sonho: o som metálico\n" + 
+"e o movimento em enxame dos drones que levaram sua filha."
+        );
+        put(
+                "outcome.three",
+                "Você percebe que, embora esses mutantes sejam de carne, a inteligência que os\n" + 
+"guia é a mesma que controla os drones. Eles são terminais biológicos de uma rede maior. "
+        );
+        put(
+                "outcome.four",
+                "Sua mente estala, como um clique seco que reorganiza tudo. De repente, o insight surge, cristalino.\n" +
+                "No fim das contas, tudo se resume à gula. Para pôr fim a todos esses “braços”, não adianta cortá-los\n" +
+                "um a um, é preciso derrubar a infraestrutura que os sustenta."
+       );
 
     }};
 
@@ -652,10 +813,7 @@ public class GameText {
             "habilidade.ultimoFolego",
             "após a vida do personagem ficar menor que 30%, o personagem ganha +1 \n" +
                     "dado de dado do mesmo tipo na arma que está usando e 10% de resistência a dano. \n" +
-                    "(1 vez por combate) ",
-
-            "habilidade.raioEletrico",
-            ""
+                    "(1 vez por combate) "
 
     );
     private final Map<String, String> temporaryAbilities = new LinkedHashMap<>() {{

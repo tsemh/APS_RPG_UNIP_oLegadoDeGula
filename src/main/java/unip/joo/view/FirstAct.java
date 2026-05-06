@@ -2,41 +2,39 @@ package unip.joo.view;
 
 import unip.joo.controller.drone.MonstroController;
 import unip.joo.controller.humanoFactory.HumanoFactoryController;
-import unip.joo.controller.protagonista.HumanoController;
 import unip.joo.model.ENUM.NomeAtributo;
-import unip.joo.model.entities.Atributo;
 import unip.joo.model.entities.Habilidade;
 import unip.joo.model.entities.Humano;
 import unip.joo.model.entities.Monstro;
 import unip.joo.resources.GameText;
+import unip.joo.util.Util.*;
 
 import java.util.*;
 
-public class Game {
+import static unip.joo.util.Util.printText;
+import static unip.joo.util.Util.rollDice;
+
+public class FirstAct {
     private final GameText gameText = new GameText();
     private final Scanner scanner = new Scanner(System.in);
 
-    private final HumanoController humanoController = new HumanoController();
-    private final Humano elodin = humanoController.createElodin();
-
+    private Humano elodin;
     private final HumanoFactoryController humanoFactoryController = new HumanoFactoryController();
-    private final int vigorElodin = elodin.getClasse().getAtributo(NomeAtributo.VIGOR);
-    private final int forcaElodin = elodin.getClasse().getAtributo(NomeAtributo.FORCA);
+    private int vigorElodin;
+    private int forcaElodin;
 
     // Mapa para controlar o tempo de espera das habilidades (turno em que ficarão disponíveis)
     private final Map<Integer, Integer> abilityCooldown = new HashMap<>();
     private int currentTurn = 0;
 
-    public void init() {
+    public void init(Humano elodin) {
+        this.elodin = elodin;
+        this.vigorElodin = elodin.getClasse().getAtributo(NomeAtributo.VIGOR);
+        this.forcaElodin = elodin.getClasse().getAtributo(NomeAtributo.FORCA);
         gameStart();
     }
 
     // ==================== MÉTODOS DE MENU E VALIDAÇÃO ====================
-
-    private void printText(String text) {
-        System.out.println(text);
-        scanner.nextLine();
-    }
 
     private int getPlayerChoice(String menuText) {
         try {
@@ -64,13 +62,13 @@ public class Game {
     // ==================== MÉTODOS DE DIÁLOGO ====================
 
     private void displayDialogue(List<String> dialogue) {
-        dialogue.forEach(this::printText);
+        dialogue.forEach(text -> printText(scanner, text));
     }
 
     private void displayActPiece(Map<String, String> act, String piece) {
         act.forEach((key, value) -> {
             if (key.contains(piece)) {
-                printText(value);
+                printText(scanner, value);
             }
         });
     }
@@ -97,7 +95,7 @@ public class Game {
     private String getCooldownMessage(int abilityId, Habilidade ability) {
         int availableTurn = abilityCooldown.getOrDefault(abilityId, 0);
         int turnsRemaining = availableTurn - currentTurn;
-        return String.format("⚠️ %s está em recarga! Ainda faltam %d turno(s) para poder usá-la novamente.",
+        return String.format("%s está em recarga! Ainda faltam %d turno(s) para poder usá-la novamente.",
                 ability.getNome(), turnsRemaining);
     }
 
@@ -269,8 +267,8 @@ public class Game {
     private void interactWithFoodTent() {
         Humano jonas = humanoFactoryController.createJonas();
 
-        printText(gameText.getFirtsAct("pieceTwo.food.one.one"));
-        printText(jonas.getFala("init.one"));
+        printText(scanner,gameText.getFirtsAct("pieceTwo.food.one.one"));
+        printText(scanner,jonas.getFala("init.one"));
 
         while (true) {
             int choice = getPlayerChoice(elodin.getFala("firstAct.pieceTwo.food.choice"));
@@ -388,10 +386,10 @@ public class Game {
     private void interactWithBeggar(Map<String, String> firstAct) {
         Humano beggar = humanoFactoryController.createBeggar();
 
-        printText(gameText.getFirtsAct("prePieceThree.beggar.one"));
-        printText(gameText.getFirtsAct("prePieceThree.beggar.two"));
+        printText(scanner,gameText.getFirtsAct("prePieceThree.beggar.one"));
+        printText(scanner,gameText.getFirtsAct("prePieceThree.beggar.two"));
 
-        beggar.getAllFalas().values().forEach(this::printText);
+        beggar.getAllFalas().values().forEach(text -> printText(scanner, text));
 
         displayActPiece(firstAct, "pieceThree");
     }
@@ -407,26 +405,26 @@ public class Game {
             Monstro drone = monstroController.createDrone();
 
             if (drone == null || drone.getClasse() == null) {
-                printText(gameText.getSystemMessage("error.invalidMonster"));
+                printText(scanner, gameText.getSystemMessage("error.invalidMonster"));
                 return;
             }
 
             int elodinAgilidade = getElodinAgilidade();
             int droneAgilidade = getMonstroAgilidade(drone);
 
-            printText(String.format(gameText.getSystemMessage("test.iniciativa"), elodinAgilidade));
+            printText(scanner,String.format(gameText.getSystemMessage("test.iniciativa"), elodinAgilidade));
 
             boolean elodinWinsInitiative = resolveInitiative(elodinAgilidade, droneAgilidade);
 
             if (elodinWinsInitiative) {
-                printText(gameText.getFirtsAct("combat.drone.eletricPulse.failure"));
+                printText(scanner,gameText.getFirtsAct("combat.drone.eletricPulse.failure"));
                 startCombat(drone);
             } else {
                 applyDroneSpecialAttack(drone);
                 startCombat(drone);
             }
         } catch (Exception e) {
-            printText(gameText.getSystemMessage("error.combatInit"));
+            printText(scanner,gameText.getSystemMessage("error.combatInit"));
             e.printStackTrace();
         }
     }
@@ -435,7 +433,7 @@ public class Game {
         try {
             return elodin.getClasse().getAtributo(NomeAtributo.AGILIDADE);
         } catch (NullPointerException e) {
-            printText(gameText.getSystemMessage("error.missingAttribute"));
+            printText(scanner,gameText.getSystemMessage("error.missingAttribute"));
             return 0;
         }
     }
@@ -444,7 +442,7 @@ public class Game {
         try {
             return monstro.getClasse().getAtributo(NomeAtributo.AGILIDADE);
         } catch (NullPointerException e) {
-            printText(gameText.getSystemMessage("error.missingMonsterAttribute"));
+            printText(scanner,gameText.getSystemMessage("error.missingMonsterAttribute"));
             return 0;
         }
     }
@@ -457,18 +455,18 @@ public class Game {
 
         do {
             if (attempts >= maxAttempts) {
-                printText(gameText.getSystemMessage("error.initiativeLimit"));
+                printText(scanner,gameText.getSystemMessage("error.initiativeLimit"));
                 return true;
             }
 
             playerRoll = rollDice(1, 20);
             monsterRoll = rollDice(1, 20);
 
-            printText(String.format(gameText.getSystemMessage("roll.dice"), playerRoll));
-            printText(String.format(gameText.getSystemMessage("roll.dice.opponent"), monsterRoll));
+            printText(scanner,String.format(gameText.getSystemMessage("roll.dice"), playerRoll));
+            printText(scanner,String.format(gameText.getSystemMessage("roll.dice.opponent"), monsterRoll));
 
             if (playerRoll == monsterRoll) {
-                printText(gameText.getSystemMessage("test.again"));
+                printText(scanner,gameText.getSystemMessage("test.again"));
             }
 
             attempts++;
@@ -477,30 +475,19 @@ public class Game {
         return playerRoll > monsterRoll;
     }
 
-    private int rollDice(int quantity, int sides) {
-        if (quantity <= 0 || sides <= 0) {
-            printText(gameText.getSystemMessage("error.invalidDice"));
-            return 0;
-        }
 
-        int total = 0;
-        for (int i = 0; i < quantity; i++) {
-            total += (int) (Math.random() * sides) + 1;
-        }
-        return total;
-    }
 
     private void applyDroneSpecialAttack(Monstro drone) {
         try {
             if (drone == null || drone.getClasse() == null) {
-                printText(gameText.getSystemMessage("error.invalidMonster"));
+                printText(scanner,gameText.getSystemMessage("error.invalidMonster"));
                 return;
             }
 
             Habilidade electricAbility = drone.getClasse().getHabilidade(3L);
 
             if (electricAbility == null) {
-                printText(gameText.getSystemMessage("error.missingAbility"));
+                printText(scanner,gameText.getSystemMessage("error.missingAbility"));
                 return;
             }
 
@@ -508,30 +495,37 @@ public class Game {
             int diceValue = electricAbility.getValorDado();
             int extraValue = electricAbility.getValorExtra();
 
-            printText(gameText.getFirtsAct("combat.drone.eletricPulse"));
+            printText(scanner,gameText.getFirtsAct("combat.drone.eletricPulse"));
 
-            int damageReceived = rollDice(diceQuantity, diceValue) + extraValue;
-            int newHealth = elodin.getClasse().getVida() - damageReceived;
-            elodin.getClasse().setVida(Math.max(0, newHealth));
+            int damageReceived = 0;
+            if (diceQuantity > 0 && diceValue > 0) {
+                damageReceived = rollDice(diceQuantity, diceValue) + extraValue;
+            } else if (extraValue > 0) {
+                damageReceived = extraValue;
+            }
 
-            printText(String.format(gameText.getSystemMessage("roll.losesLife"), damageReceived));
+            if (damageReceived > 0) {
+                int newHealth = elodin.getClasse().getVida() - damageReceived;
+                elodin.getClasse().setVida(Math.max(0, newHealth));
+                printText(scanner,String.format(gameText.getSystemMessage("roll.losesLife"), damageReceived));
+            }
 
         } catch (Exception e) {
-            printText(gameText.getSystemMessage("error.specialAttack"));
+            printText(scanner,gameText.getSystemMessage("error.specialAttack"));
             e.printStackTrace();
         }
     }
 
     private void startCombat(Monstro drone) {
         try {
-            printText(gameText.getFirtsAct("combat.drone.eletricPulse.default"));
+            printText(scanner,gameText.getFirtsAct("combat.drone.eletricPulse.default"));
 
             if (drone == null || drone.getClasse() == null) {
-                printText(gameText.getSystemMessage("error.invalidMonster"));
+                printText(scanner,gameText.getSystemMessage("error.invalidMonster"));
                 return;
             }
 
-            printText(gameText.getSystemMessage("turn.your"));
+            printText(scanner,gameText.getSystemMessage("turn.your"));
 
             int droneDefense = drone.getClasse().getDefesa();
             int droneHealth = drone.getClasse().getVida();
@@ -539,8 +533,7 @@ public class Game {
             int playerDefense = elodin.getClasse().getDefesa();
 
             while (playerHealth > 0 && droneHealth > 0) {
-                currentTurn++;
-                printText(String.format(gameText.getSystemMessage("turn.counter"), currentTurn));
+                printText(scanner,String.format(gameText.getSystemMessage("turn.counter"), currentTurn));
 
                 int choice = getPlayerChoice(gameText.getSystemMessage("temporary.abilities"));
 
@@ -550,7 +543,7 @@ public class Game {
                 }
 
                 if (!isValidChoice(choice, 1, 2, 3, 4)) {
-                    printText(gameText.getSystemMessage("error.invalidOption"));
+                    printText(scanner,gameText.getSystemMessage("error.invalidOption"));
                     continue;
                 }
 
@@ -558,13 +551,13 @@ public class Game {
                 if (!isAbilityAvailable(choice)) {
                     Habilidade ability = getAbilityById(choice);
                     if (ability != null) {
-                        printText(getCooldownMessage(choice, ability));
+                        printText(scanner,getCooldownMessage(choice, ability));
                     }
                     continue;
                 }
 
                 executePlayerTurn(choice, drone, droneDefense);
-
+                currentTurn++;
                 // Aplica cooldown de 2 turnos após usar a habilidade
                 setAbilityCooldown(choice, 2);
 
@@ -576,9 +569,28 @@ public class Game {
                     playerHealth = elodin.getClasse().getVida();
                 }
             }
-
+            
+            // Desfecho do combate
+            if (droneHealth <= 0) {
+                List<String> victoryDialogue = List.of(
+                        gameText.getFirtsAct("combat.victory.drone.death.one"),
+                        gameText.getFirtsAct("combat.victory.drone.death.two"),
+                        gameText.getFirtsAct("combat.victory.drone.death.three"),
+                        gameText.getFirtsAct("combat.victory.drone.death.four")
+                );
+                displayDialogue(victoryDialogue);
+            } else if (playerHealth <= 0) {
+                List<String> defeatDialogue = List.of(
+                        gameText.getFirtsAct("combat.defeat.player.death.one"),
+                        gameText.getFirtsAct("combat.defeat.player.death.two"),
+                        gameText.getFirtsAct("combat.defeat.player.death.three"),
+                        gameText.getFirtsAct("combat.defeat.player.death.four"),
+                        gameText.getFirtsAct("combat.defeat.player.death.five")
+                );
+                displayDialogue(defeatDialogue);
+            }
         } catch (Exception e) {
-            printText(gameText.getSystemMessage("error.combat"));
+            printText(scanner,gameText.getSystemMessage("error.combat"));
             e.printStackTrace();
         }
     }
@@ -597,10 +609,10 @@ public class Game {
             int baseDamage = rollDice(2, 10) + 3;
 
             List<String> combatDialogue = new ArrayList<>();
-            combatDialogue.add(String.format(gameText.getSystemMessage("roll.dice.player"), attackRoll));
-            combatDialogue.add(String.format(gameText.getSystemMessage("defense.opponent"), droneDefense));
+            combatDialogue.add(String.format(gameText.getSystemMessage("combat.roll.attack"), attackRoll, droneDefense));
 
             boolean isCritical = (attackRoll - forcaElodin) == 20;
+
             if (isCritical) {
                 baseDamage = baseDamage * 2;
                 combatDialogue.add(gameText.getSystemMessage("combat.player.critical"));
@@ -613,7 +625,7 @@ public class Game {
                 int newDroneHealth = drone.getClasse().getVida() - finalDamage;
                 drone.getClasse().setVida(Math.max(0, newDroneHealth));
                 combatDialogue.add(getSuccessMessage(abilityChoice));
-                combatDialogue.add(String.format(gameText.getFirtsAct("roll.losesLife.drone"), finalDamage));
+                combatDialogue.add(String.format(gameText.getSystemMessage("roll.losesLife.drone"), finalDamage));
             } else {
                 combatDialogue.add(gameText.getSystemMessage("test.failure"));
                 combatDialogue.add(getFailureMessage(abilityChoice));
@@ -622,73 +634,125 @@ public class Game {
             displayDialogue(combatDialogue);
 
         } catch (Exception e) {
-            printText(gameText.getSystemMessage("error.playerTurn"));
+            printText(scanner,gameText.getSystemMessage("error.playerTurn"));
             e.printStackTrace();
         }
     }
 
     private String getSuccessMessage(int abilityChoice) {
+        String message;
         switch (abilityChoice) {
-            case 1: return gameText.getFirtsAct("combat.drone.ruptura.success");
-            case 2: return gameText.getFirtsAct("combat.drone.habilidade2.success");
-            case 3: return gameText.getFirtsAct("combat.drone.habilidade3.success");
-            case 4: return gameText.getFirtsAct("combat.drone.habilidade4.success");
-            default: return gameText.getSystemMessage("error.unknownAbility");
+            case 1: message = gameText.getFirtsAct("combat.drone.ruptura.success"); break;
+            case 2: message = gameText.getFirtsAct("combat.drone.Violencia.success"); break;
+            case 3: message = gameText.getFirtsAct("combat.drone.Impacto.success"); break;
+            case 4: message = gameText.getFirtsAct("combat.drone.Esmaga.success"); break;
+            default: message = gameText.getSystemMessage("error.unknownAbility"); break;
         }
+        return message != null ? message : gameText.getSystemMessage("combat.critical");
     }
 
     private String getFailureMessage(int abilityChoice) {
+        String message;
         switch (abilityChoice) {
-            case 1: return gameText.getFirtsAct("combat.drone.ruptura.failure");
-            case 2: return gameText.getFirtsAct("combat.drone.habilidade2.failure");
-            case 3: return gameText.getFirtsAct("combat.drone.habilidade3.failure");
-            case 4: return gameText.getFirtsAct("combat.drone.habilidade4.failure");
-            default: return gameText.getSystemMessage("error.unknownAbility");
+            case 1: message = gameText.getFirtsAct("combat.drone.ruptura.failure"); break;
+            case 2: message = gameText.getFirtsAct("combat.drone.Violencia.failure"); break;
+            case 3: message = gameText.getFirtsAct("combat.drone.Impacto.failure"); break;
+            case 4: message = gameText.getFirtsAct("combat.drone.Esmaga.failure"); break;
+            default: message = gameText.getSystemMessage("error.unknownAbility"); break;
         }
+        return message != null ? message : gameText.getSystemMessage("test.failure");
     }
 
     private void executeDroneTurn(Monstro drone, int playerDefense) {
         try {
             if (drone == null || drone.getClasse() == null) {
-                printText(gameText.getSystemMessage("error.invalidMonster"));
+                printText(scanner,gameText.getSystemMessage("error.invalidMonster"));
                 return;
             }
 
-            printText(gameText.getSystemMessage("turn.enemy"));
+            printText(scanner,gameText.getSystemMessage("turn.enemy"));
 
-            int droneStrength = drone.getClasse().getAtributo(NomeAtributo.FORCA);
-            int attackRoll = rollDice(1, 20) + droneStrength;
+            // Drone escolhe aleatoriamente um dos 3 ataques
+            int attackChoice = rollDice(1, 3);
+            int droneIntelecto = drone.getClasse().getAtributo(NomeAtributo.INTELECTO);
+            int droneForca = drone.getClasse().getAtributo(NomeAtributo.FORCA);
 
-            printText(String.format(gameText.getSystemMessage("roll.dice.enemy"), attackRoll));
-            printText(String.format(gameText.getSystemMessage("defense.player"), playerDefense));
+            List<String> combatDialogue = new ArrayList<>();
 
-            boolean attackHit = attackRoll >= playerDefense;
-
-            if (attackHit) {
-                int damage = rollDice(2, 8) + droneStrength;
-                boolean isCritical = (attackRoll - droneStrength) == 20;
-
-                if (isCritical) {
-                    damage = damage * 2;
-                    printText(gameText.getSystemMessage("combat.enemy.critical"));
-                }
-
-                int newHealth = elodin.getClasse().getVida() - damage;
-                elodin.getClasse().setVida(Math.max(0, newHealth));
-                printText(String.format(gameText.getSystemMessage("combat.player.damage.taken"), damage));
-
-                if (elodin.getClasse().getVida() <= 0) {
-                    printText(gameText.getSystemMessage("combat.player.death"));
-                }
-            } else {
-                printText(gameText.getSystemMessage("combat.enemy.miss"));
+            switch (attackChoice) {
+                case 1: // Ataque Elétrico
+                    executeDroneElectricAttack(drone, playerDefense, droneIntelecto, combatDialogue);
+                    break;
+                case 2: // Investida Mecânica
+                    executeDroneMechanicalCharge(drone, playerDefense, droneForca, combatDialogue);
+                    break;
+                case 3: // Pulso Eletromagnético
+                    executeDroneElectromagneticPulse(drone, playerDefense, droneIntelecto, combatDialogue);
+                    break;
             }
 
-            printText("---------------------------");
+            displayDialogue(combatDialogue);
+            printText(scanner,gameText.getSystemMessage("combat.separator"));
 
         } catch (Exception e) {
-            printText(gameText.getSystemMessage("error.monsterTurn"));
+            printText(scanner,gameText.getSystemMessage("error.monsterTurn"));
             e.printStackTrace();
+        }
+    }
+
+    private void executeDroneElectricAttack(Monstro drone, int playerDefense, int droneIntelecto, List<String> dialogue) {
+        int droneAttackRoll = rollDice(1, 20) + droneIntelecto;
+
+        dialogue.add(gameText.getSystemMessage("combat.enemy.ataqueeletrico.name"));
+        dialogue.add(String.format(gameText.getSystemMessage("combat.enemy.roll.attack"), droneAttackRoll, playerDefense));
+
+        if (droneAttackRoll >= playerDefense) {
+            int damage = rollDice(1, 10) + 2;
+            int newHealth = elodin.getClasse().getVida() - damage;
+            elodin.getClasse().setVida(Math.max(0, newHealth));
+            dialogue.add(gameText.getFirtsAct("combat.enemy.ataqueeletrico.success"));
+            dialogue.add(String.format(gameText.getSystemMessage("combat.player.damage.taken"), damage));
+        } else {
+            dialogue.add(gameText.getFirtsAct("combat.enemy.ataqueeletrico.failure"));
+        }
+
+        if (elodin.getClasse().getVida() <= 0) {
+            dialogue.add(gameText.getSystemMessage("combat.player.death"));
+        }
+    }
+
+    private void executeDroneMechanicalCharge(Monstro drone, int playerDefense, int droneForca, List<String> dialogue) {
+        int droneAttackRoll = rollDice(1, 20) + droneForca;
+
+        dialogue.add(gameText.getSystemMessage("combat.enemy.investida.name"));
+        dialogue.add(String.format(gameText.getSystemMessage("combat.enemy.roll.attack"), droneAttackRoll, playerDefense));
+
+        if (droneAttackRoll >= playerDefense) {
+            int damage = rollDice(1, 8) + 3;
+            int newHealth = elodin.getClasse().getVida() - damage;
+            elodin.getClasse().setVida(Math.max(0, newHealth));
+            dialogue.add(gameText.getFirtsAct("combat.enemy.investida.success"));
+            dialogue.add(String.format(gameText.getSystemMessage("combat.player.damage.taken"), damage));
+        } else {
+            dialogue.add(gameText.getFirtsAct("combat.enemy.investida.failure"));
+        }
+
+        if (elodin.getClasse().getVida() <= 0) {
+            dialogue.add(gameText.getSystemMessage("combat.player.death"));
+        }
+    }
+
+    private void executeDroneElectromagneticPulse(Monstro drone, int playerDefense, int droneIntelecto, List<String> dialogue) {
+        int droneAttackRoll = rollDice(1, 20) + droneIntelecto;
+
+        dialogue.add(gameText.getSystemMessage("combat.enemy.pulso.name"));
+        dialogue.add(String.format(gameText.getSystemMessage("combat.enemy.roll.pulso"), droneAttackRoll, playerDefense));
+
+        if (droneAttackRoll >= playerDefense) {
+            dialogue.add(gameText.getFirtsAct("combat.enemy.pulso.success"));
+            // Efeito: próximo turno do jogador será mais lento (pode ser implementado com cooldown extra)
+        } else {
+            dialogue.add(gameText.getFirtsAct("combat.enemy.pulso.failure"));
         }
     }
 
@@ -700,16 +764,13 @@ public class Game {
         for (int i = 0; i < abilityIds.length; i++) {
             Habilidade ability = elodin.getClasse().getHabilidade(abilityIds[i]);
             if (ability != null) {
-                String status = isAbilityAvailable(abilityNumbers[i]) ? "✅" : "⏳";
+                String status = isAbilityAvailable(abilityNumbers[i]) ? "check" : "wait";
                 abilities.add(status + " " + ability.getNome() + ": \n" + ability.getDescricao() + "\n");
             }
         }
 
         abilities.add(gameText.getSystemMessage("util.enter"));
         displayDialogue(abilities);
-    }
-
-    private void droneRandomAttack() {
     }
 
     private void temporaryAbilities() {

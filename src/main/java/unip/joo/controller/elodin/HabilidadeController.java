@@ -1,4 +1,4 @@
-package unip.joo.controller.protagonista;
+package unip.joo.controller.elodin;
 
 import unip.joo.model.entities.Habilidade;
 import unip.joo.model.ENUM.Efeito;

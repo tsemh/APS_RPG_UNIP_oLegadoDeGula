@@ -3,8 +3,6 @@ package unip.joo.controller.protagonista;
 import java.util.ArrayList;
 import java.util.List;
 
-import static unip.joo.util.Util.idGenerator;
-
 import unip.joo.model.ENUM.NomeAtributo;
 import unip.joo.model.ENUM.NomeClasse;
 import unip.joo.model.entities.Atributo;
@@ -19,7 +17,7 @@ public class ClasseController {
     public Classe createClasse() {
         createAtributos();
         return new Classe(
-                idGenerator(),
+                200L,
                 this.atributos,
                 60,
                 15,

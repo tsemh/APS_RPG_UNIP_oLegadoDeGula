@@ -5,8 +5,6 @@ import unip.joo.model.ENUM.Sexo;
 import unip.joo.model.entities.Humano;
 import unip.joo.model.entities.Monstro;
 
-import static unip.joo.util.Util.idGenerator;
-
 public class MonstroController {
     private unip.joo.controller.drone.ClasseController classe =  new ClasseController();
 
@@ -14,7 +12,7 @@ public class MonstroController {
         String nome = "Eletro drone";
         return new Monstro(
                 false,
-                idGenerator(),
+                400L,
                 nome,
                 "Descrição Drone",
                 classe.createClasse(),

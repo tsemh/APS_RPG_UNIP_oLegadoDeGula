@@ -1,4 +1,4 @@
-package unip.joo.controller.drone;
+package unip.joo.controller.elodin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +17,12 @@ public class ClasseController {
     public Classe createClasse() {
         createAtributos();
         return new Classe(
-                300L,
+                200L,
                 this.atributos,
                 60,
-                12,
+                15,
                 NomeClasse.SOBREVIVENTE,
-                gameText.getDescriptions("classe.drone"),
+                gameText.getDescriptions("classe.sobrevivente"),
                 habilidades.createAllHabilidades()
         );
     }
@@ -30,10 +30,10 @@ public class ClasseController {
     private void createAtributos() {
         this.atributos = new ArrayList<>();
 
-        this.atributos.add(new Atributo(NomeAtributo.FORCA, 4));
-        this.atributos.add(new Atributo(NomeAtributo.AGILIDADE, 1));
-        this.atributos.add(new Atributo(NomeAtributo.VIGOR, 4));
-        this.atributos.add(new Atributo(NomeAtributo.INTELECTO, 1));
+        this.atributos.add(new Atributo(NomeAtributo.FORCA, 1));
+        this.atributos.add(new Atributo(NomeAtributo.AGILIDADE, 2));
+        this.atributos.add(new Atributo(NomeAtributo.VIGOR, 2));
+        this.atributos.add(new Atributo(NomeAtributo.INTELECTO, 3));
     }
 
 }

@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static unip.joo.util.Util.idGenerator;
-
 public class HumanoFactoryController {
     public Humano createDante() {
         String nome = "Dante";
@@ -20,7 +18,7 @@ public class HumanoFactoryController {
                 "Descrição Dente",
                 null,
                 falaDante(nome),
-                idGenerator()
+                500L
         );
     }
     public Humano createJonas() {
@@ -32,7 +30,7 @@ public class HumanoFactoryController {
                 "Descrição Jonas",
                 null,
                 falaJonas(nome),
-                idGenerator()
+                501L
         );
     }
     public Humano createSimmom() {
@@ -44,7 +42,7 @@ public class HumanoFactoryController {
                 "Descrição Simmom",
                 null,
                 falaSimmom(nome),
-                idGenerator()
+                502L
         );
     }
     public Humano createBeggar() {
@@ -56,7 +54,7 @@ public class HumanoFactoryController {
                 "Descrição Simmom",
                 null,
                 falaBeggar(nome),
-                idGenerator()
+                503L
         );
     }
 
