@@ -795,6 +795,12 @@ public class GameText {
                 "No fim das contas, tudo se resume à gula. Para pôr fim a todos esses “braços”, não adianta cortá-los\n" +
                 "um a um, é preciso derrubar a infraestrutura que os sustenta."
        );
+       put(
+               "outcome.five",
+               "Você limpa o sangue das mãos no casaco e olha na direção do Porto. O sol mal consegue\n
+                atravessar a poluição, mas o seu caminho agora tem um propósito. Você sabe onde precisa \n
+                ir. Você sabe o que precisa fazer. E não vai parar até conseguir."
+       );
 
     }};
 

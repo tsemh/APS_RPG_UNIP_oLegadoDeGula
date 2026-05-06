@@ -576,7 +576,13 @@ public class FirstAct {
                         gameText.getFirtsAct("combat.victory.drone.death.one"),
                         gameText.getFirtsAct("combat.victory.drone.death.two"),
                         gameText.getFirtsAct("combat.victory.drone.death.three"),
-                        gameText.getFirtsAct("combat.victory.drone.death.four")
+                        gameText.getFirtsAct("combat.victory.drone.death.four"),
+                        gameText.getFirtsAct("outcome.one"),
+                        gameText.getFirtsAct("outcome.two"),
+                        gameText.getFirtsAct("outcome.three"),
+                        gameText.getFirtsAct("outcome.four"),
+                        gameText.getFirtsAct("outcome.five"),
+                        gameText.getAsciiArts("game.name"),
                 );
                 displayDialogue(victoryDialogue);
             } else if (playerHealth <= 0) {
