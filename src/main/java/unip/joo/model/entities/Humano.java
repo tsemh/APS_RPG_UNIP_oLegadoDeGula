@@ -4,10 +4,12 @@ import unip.joo.model.ENUM.Sexo;
 
 import java.util.Map;
 
+// Herança: Humano estende Personagem
 public class Humano extends Personagem{
-    private Sexo sexo;
+    private Sexo sexo; // Encapsulamento
     private Boolean jogavel;
 
+    // Método Construtor
     public Humano(Sexo sexo, Boolean jogavel,
                   String nome, String descricao, Classe classe, Map<String, String> fala, long id) {
 
@@ -22,6 +24,11 @@ public class Humano extends Personagem{
 
     public Boolean getJogavel() {
         return jogavel;
+    }
+
+    @Override
+    public String getTipo() {
+        return "Humano"; // Sobrescrita / Polimorfismo de Classe
     }
 
 }

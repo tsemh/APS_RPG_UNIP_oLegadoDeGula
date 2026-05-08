@@ -3,7 +3,7 @@ package unip.joo.model.entities;
 import unip.joo.model.ENUM.Efeito;
 
 public class Habilidade {
-    private long id;
+    private long id; // Encapsulamento
     private Efeito efeito;
     private String nome;
     private String descricao;
@@ -12,6 +12,7 @@ public class Habilidade {
     private int valorExtra;
     private int tempoEspera;
 
+    // Método Construtor
     public Habilidade(long id, Efeito efeito, String nome, String descricao, int quantidadeDado, int valorDado, int valorExtra, int tempoEspera) {
         this.id = id;
         this.efeito = efeito;
@@ -21,6 +22,11 @@ public class Habilidade {
         this.valorDado = valorDado;
         this.valorExtra = valorExtra;
         this.tempoEspera = tempoEspera;
+    }
+
+    // Sobrecarga: construtor alternativo com valorExtra e tempoEspera padrão
+    public Habilidade(long id, Efeito efeito, String nome, String descricao, int quantidadeDado, int valorDado) {
+        this(id, efeito, nome, descricao, quantidadeDado, valorDado, 0, 0);
     }
 
     public long getId() {

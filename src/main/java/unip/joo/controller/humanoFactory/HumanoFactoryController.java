@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class HumanoFactoryController {
-    public Humano createDante() {
+public class HumanoFactoryController { // Classe Controladora de Fábrica
+    public Humano createDante() { // Criação de objetos (Fábrica)
         String nome = "Dante";
 
         return new Humano(
@@ -46,15 +46,27 @@ public class HumanoFactoryController {
         );
     }
     public Humano createBeggar() {
-        String nome = "Mengido";
+        String nome = "Mendigo";
         return new Humano(
                 Sexo.MASCULINO,
                 false,
                 nome,
-                "Descrição Simmom",
+                "Descrição Mendigo",
                 null,
                 falaBeggar(nome),
                 503L
+        );
+    }
+    public Humano createLena() {
+        String nome = "Lena";
+        return new Humano(
+                Sexo.FEMININO,
+                false,
+                nome,
+                "Descrição Mendigo",
+                null,
+                falaLena(nome),
+                504L
         );
     }
 
@@ -187,6 +199,93 @@ public class HumanoFactoryController {
 
         dialogue.put("speech.34", p + "Ou a gente levanta…");
         dialogue.put("speech.35", p + "Ou a gente desaparece.");
+
+        return dialogue;
+    }
+
+    private Map<String, String> falaLena(String nome) {
+        Map<String, String> dialogue = new LinkedHashMap<>();
+        String p = "<" + nome + ">: ";
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.1",
+                "<???>: " + "...Você entrou sem máscara.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.2",
+                "<???>: " + "Ou é burro… ou não teve escolha.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.3",
+                "<???>: " + "Entendi.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.4",
+                "<???>: " + "Então você é do tipo que observa antes de falar.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.5",
+                "<???>: " + "Lena.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.6",
+                p + "E antes que pergunte, não, eu não confiei em você.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.7",
+                p + "Eu só achei que você ia morrer rápido demais pra ser uma ameaça.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.8",
+                p + "Porque aqui dentro...");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.9",
+                p + "quem se move sozinho... geralmente não é gente.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.10",
+                p + "Ela Mata o que sobra.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.11",
+                p + "Ela controla fluxo.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.11.1",
+                p + "Energia.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.11.2",
+                p + "Movimento.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.11.3",
+                p + "Informação.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.12",
+                p + "E tudo que interfere nisso...");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.13",
+                p + "ela remove.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.14",
+                p + "Não.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.15",
+                p + "Ela não controla ninguém.\n" +
+                        "        Ela otimiza.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.16",
+                p + "Se você atrasa o sistema.\n" +
+                        "        Você vira ruído.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.17",
+                p + "É eliminado.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.18",
+                p + "Ou reaproveitado como peça.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.19",
+                p + "Eram variáveis que deixaram de ser úteis.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.20",
+                p + "E a GULA não guarda coisa inútil.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.21",
+                p + "(baixo, tensa) ...Não se mexe.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.22",
+                p + "Pronto. (pausa curta) \n        Agora ela sabe que você tá aqui.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.23",
+                p + "E quando ela percebe algo fora do fluxo... (pausa)\n         ela não ignora");
 
         return dialogue;
     }

@@ -5,8 +5,8 @@ import unip.joo.model.ENUM.NomeClasse;
 
 import java.util.List;
 
-public class Classe {
-    private long id;
+public class Classe { // Classe
+    private long id; // Encapsulamento
     private int vida;
     private int defesa;
     private NomeClasse nomeClasse;
@@ -14,6 +14,7 @@ public class Classe {
     private List<Atributo> atributos;
     private List<Habilidade> habilidades;
 
+    // Método Construtor
     public Classe(long id, List<Atributo> atributos, int vida, int defesa, NomeClasse nomeClasse, String descricao, List<Habilidade> habilidades) {
         this.id = id;
         this.atributos =  atributos;

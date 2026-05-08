@@ -11,14 +11,13 @@ import unip.joo.util.Util.*;
 
 import java.util.*;
 
-import static unip.joo.util.Util.printText;
-import static unip.joo.util.Util.rollDice;
+import static unip.joo.util.Util.*;
 
-public class FirstAct {
-    private final GameText gameText = new GameText();
-    private final Scanner scanner = new Scanner(System.in);
+public class FirstAct { // Classe de visão
+    private final GameText gameText = new GameText(); // Atributo Final
+    private final Scanner scanner = new Scanner(System.in); // Atributo Final
 
-    private Humano elodin;
+    private Humano elodin; // Encapsulamento
     private final HumanoFactoryController humanoFactoryController = new HumanoFactoryController();
     private int vigorElodin;
     private int forcaElodin;
@@ -41,7 +40,7 @@ public class FirstAct {
             System.out.println(menuText);
             String input = scanner.nextLine();
             return Integer.parseInt(input);
-        } catch (Exception e) {
+        } catch (Exception e) { // Tratamento de Exceções
             return -1;
         }
     }
@@ -60,10 +59,6 @@ public class FirstAct {
     }
 
     // ==================== MÉTODOS DE DIÁLOGO ====================
-
-    private void displayDialogue(List<String> dialogue) {
-        dialogue.forEach(text -> printText(scanner, text));
-    }
 
     private void displayActPiece(Map<String, String> act, String piece) {
         act.forEach((key, value) -> {
@@ -148,7 +143,7 @@ public class FirstAct {
         dialogue.add(String.format(gameText.getSystemMessage("test.vigor"), vigorElodin));
 
         for (int roll = 1; roll <= vigorElodin; roll++) {
-            diceResult = elodin.rollDice(1, 20);
+            diceResult = rollDice(1, 20);
             dialogue.add(String.format(gameText.getSystemMessage("roll.dice"), diceResult));
 
             if (diceResult >= difficultyToGetUp) {
@@ -157,7 +152,7 @@ public class FirstAct {
         }
 
         if (diceResult < difficultyToGetUp) {
-            int damage = elodin.rollDice(1, 4);
+            int damage = rollDice(1, 4);
             int newHealth = elodin.getClasse().getVida() - damage;
             elodin.getClasse().setVida(newHealth);
 
@@ -174,7 +169,7 @@ public class FirstAct {
         dialogue.add(elodin.getFala("firstAct.pieceOne.claridade"));
         dialogue.add(gameText.getFirtsAct("action.wakeUp.default.2"));
 
-        displayDialogue(dialogue);
+        displayDialogue(scanner, dialogue);
         chooseTentInteraction();
     }
 
@@ -211,7 +206,7 @@ public class FirstAct {
                 dante.getFala("init.two"),
                 dante.getFala("init.three")
         );
-        displayDialogue(initialDialogue);
+        displayDialogue(scanner, initialDialogue);
 
         while (true) {
             int choice = getPlayerChoice(elodin.getFala("firstAct.pieceTwo.scrap.choice"));
@@ -242,7 +237,7 @@ public class FirstAct {
                 dante.getFala("choice.one.four"),
                 dante.getFala("choice.one.five")
         );
-        displayDialogue(dialogue);
+        displayDialogue(scanner, dialogue);
     }
 
     private void showScrapChoiceTwo(Humano dante) {
@@ -259,7 +254,7 @@ public class FirstAct {
                 dante.getFala("final.two"),
                 dante.getFala("choice.two.two")
         );
-        displayDialogue(dialogue);
+        displayDialogue(scanner, dialogue);
     }
 
     // ==================== INTERAÇÃO COM A BARACA DE COMIDA ====================
@@ -304,7 +299,7 @@ public class FirstAct {
                 jonas.getFala("choice.one.nine"),
                 gameText.getFirtsAct("pieceTwo.food.one.three")
         );
-        displayDialogue(dialogue);
+        displayDialogue(scanner, dialogue);
     }
 
     private void showFoodChoiceTwo(Humano jonas) {
@@ -321,7 +316,7 @@ public class FirstAct {
                 jonas.getFala("final.one"),
                 jonas.getFala("final.two")
         );
-        displayDialogue(dialogue);
+        displayDialogue(scanner, dialogue);
     }
 
     // ==================== INTERAÇÃO COM A BARACA DE LÍQUIDO ====================
@@ -335,7 +330,7 @@ public class FirstAct {
                 simmom.getFala("init.two"),
                 simmom.getFala("init.three")
         );
-        displayDialogue(initialDialogue);
+        displayDialogue(scanner, initialDialogue);
 
         while (true) {
             int choice = getPlayerChoice(elodin.getFala("firstAct.pieceTwo.liquid.choice"));
@@ -365,7 +360,7 @@ public class FirstAct {
                 gameText.getFirtsAct("pieceTwo.liquid.one.one"),
                 gameText.getFirtsAct("pieceTwo.liquid.one.two")
         );
-        displayDialogue(dialogue);
+        displayDialogue(scanner, dialogue);
     }
 
     private void showLiquidChoiceTwo(Humano simmom) {
@@ -378,7 +373,7 @@ public class FirstAct {
                 elodin.getFala("firstAct.pieceTwo.liquid.two.two"),
                 simmom.getFala("choice.two.three")
         );
-        displayDialogue(dialogue);
+        displayDialogue(scanner, dialogue);
     }
 
     // ==================== INTERAÇÃO COM O MENDIGO ====================
@@ -584,16 +579,18 @@ public class FirstAct {
                         gameText.getFirtsAct("outcome.five"),
                         gameText.getAsciiArts("game.name")
                 );
-                displayDialogue(victoryDialogue);
+                displayDialogue(scanner, victoryDialogue);
             } else if (playerHealth <= 0) {
                 List<String> defeatDialogue = List.of(
                         gameText.getFirtsAct("combat.defeat.player.death.one"),
                         gameText.getFirtsAct("combat.defeat.player.death.two"),
                         gameText.getFirtsAct("combat.defeat.player.death.three"),
                         gameText.getFirtsAct("combat.defeat.player.death.four"),
-                        gameText.getFirtsAct("combat.defeat.player.death.five")
+                        gameText.getFirtsAct("combat.defeat.player.death.five"),
+                        gameText.getAsciiArts("youDied")
                 );
-                displayDialogue(defeatDialogue);
+                displayDialogue(scanner, defeatDialogue);
+                System.exit(0);
             }
         } catch (Exception e) {
             printText(scanner,gameText.getSystemMessage("error.combat"));
@@ -622,9 +619,9 @@ public class FirstAct {
             boolean isCriticalError = diceRoll == 1;
 
             if (isCritical) {
-                combatDialogue.add(gameText.getSystemMessage("combat.player.critical"));
+                combatDialogue.add(gameText.getSystemMessage("combat.critical"));
             } else if (isCriticalError) {
-                combatDialogue.add(gameText.getSystemMessage("combat.player.criticalError"));
+                combatDialogue.add(gameText.getSystemMessage("combat.criticalError"));
             }
 
             boolean attackHit = attackRoll >= droneDefense;
@@ -651,7 +648,7 @@ public class FirstAct {
                 combatDialogue.add(getFailureMessage(abilityChoice));
             }
 
-            displayDialogue(combatDialogue);
+            displayDialogue(scanner, combatDialogue);
 
         } catch (Exception e) {
             printText(scanner,gameText.getSystemMessage("error.playerTurn"));
@@ -690,9 +687,9 @@ public class FirstAct {
             case 2: message = gameText.getFirtsAct("combat.player.Violencia.criticalError"); break;
             case 3: message = gameText.getFirtsAct("combat.player.Impacto.criticalError"); break;
             case 4: message = gameText.getFirtsAct("combat.player.Esmaga.criticalError"); break;
-            default: message = gameText.getSystemMessage("combat.player.criticalError.default"); break;
+            default: message = gameText.getSystemMessage("combat.criticalError.default"); break;
         }
-        return message != null ? message : gameText.getSystemMessage("combat.player.criticalError.default");
+        return message != null ? message : gameText.getSystemMessage("combat.criticalError.default");
     }
 
     private void executeDroneTurn(Monstro drone, int playerDefense) {
@@ -723,7 +720,7 @@ public class FirstAct {
                     break;
             }
 
-            displayDialogue(combatDialogue);
+            displayDialogue(scanner, combatDialogue);
             printText(scanner,gameText.getSystemMessage("combat.separator"));
 
         } catch (Exception e) {
@@ -743,9 +740,9 @@ public class FirstAct {
         boolean isCriticalError = diceRoll == 1;
 
         if (isCritical) {
-            dialogue.add(gameText.getSystemMessage("combat.enemy.critical"));
+            dialogue.add(gameText.getSystemMessage("combat.critical"));
         } else if (isCriticalError) {
-            dialogue.add(gameText.getSystemMessage("combat.enemy.criticalError"));
+            dialogue.add(gameText.getSystemMessage("combat.criticalError"));
         }
 
         if (droneAttackRoll >= playerDefense && !isCriticalError) {
@@ -784,9 +781,9 @@ public class FirstAct {
         boolean isCriticalError = diceRoll == 1;
 
         if (isCritical) {
-            dialogue.add(gameText.getSystemMessage("combat.enemy.critical"));
+            dialogue.add(gameText.getSystemMessage("combat.critical"));
         } else if (isCriticalError) {
-            dialogue.add(gameText.getSystemMessage("combat.enemy.criticalError"));
+            dialogue.add(gameText.getSystemMessage("combat.criticalError"));
         }
 
         if (droneAttackRoll >= playerDefense && !isCriticalError) {
@@ -799,7 +796,6 @@ public class FirstAct {
             dialogue.add(gameText.getFirtsAct("combat.enemy.investida.success"));
             dialogue.add(String.format(gameText.getSystemMessage("combat.player.damage.taken"), damage));
         } else if (isCriticalError) {
-            // Erro crítico: drone se danifica com o próprio ataque
             int selfDamage = rollDice(1, 8) + 3;
             int newDroneHealth = drone.getClasse().getVida() - selfDamage;
             drone.getClasse().setVida(Math.max(0, newDroneHealth));
@@ -825,21 +821,22 @@ public class FirstAct {
         boolean isCriticalError = diceRoll == 1;
 
         if (isCritical) {
-            dialogue.add(gameText.getSystemMessage("combat.enemy.critical"));
+            dialogue.add(gameText.getSystemMessage("combat.critical"));
         } else if (isCriticalError) {
-            dialogue.add(gameText.getSystemMessage("combat.enemy.criticalError"));
+            dialogue.add(gameText.getSystemMessage("combat.criticalError"));
         }
 
         if (droneAttackRoll >= playerDefense && !isCriticalError) {
-            dialogue.add(gameText.getFirtsAct("combat.enemy.pulso.success"));
-            // Efeito: próximo turno do jogador será mais lento (pode ser implementado com cooldown extra)
+            int damage = rollDice(2, 10) + 3;
             if (isCritical) {
-                // Efeito crítico: cooldown extra ou efeito mais forte
-                dialogue.add(gameText.getSystemMessage("combat.enemy.pulso.critical"));
+                damage = damage * 2;
             }
+            int newHealth = elodin.getClasse().getVida() - damage;
+            elodin.getClasse().setVida(Math.max(0, newHealth));
+            dialogue.add(gameText.getFirtsAct("combat.enemy.pulso.success"));
+            dialogue.add(String.format(gameText.getSystemMessage("combat.player.damage.taken"), damage));
         } else if (isCriticalError) {
-            // Erro crítico: pulso falha e causa sobrecarga no próprio drone
-            int selfDamage = rollDice(1, 6);
+            int selfDamage = rollDice(2, 10)+3;
             int newDroneHealth = drone.getClasse().getVida() - selfDamage;
             drone.getClasse().setVida(Math.max(0, newDroneHealth));
             dialogue.add(gameText.getFirtsAct("combat.enemy.pulso.criticalError"));
@@ -863,7 +860,7 @@ public class FirstAct {
         }
 
         abilities.add(gameText.getSystemMessage("util.enter"));
-        displayDialogue(abilities);
+        displayDialogue(scanner, abilities);
     }
 
     private void temporaryAbilities() {

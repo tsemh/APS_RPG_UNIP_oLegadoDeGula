@@ -2,10 +2,11 @@ package unip.joo.model.entities;
 
 import unip.joo.model.ENUM.NomeAtributo;
 
-public class Atributo {
-    private NomeAtributo tipo;
+public class Atributo { // Classe
+    private NomeAtributo tipo; // Encapsulamento
     private int valor;
 
+    // Método Construtor
     public Atributo(NomeAtributo tipo, int valor) {
         this.tipo = tipo;
         this.valor = valor;

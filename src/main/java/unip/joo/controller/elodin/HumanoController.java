@@ -6,10 +6,10 @@ import unip.joo.model.entities.Humano;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HumanoController {
+public class HumanoController { // Classe Controladora
     private ClasseController classe =  new ClasseController();
 
-    public Humano createElodin() {
+    public Humano createElodin() { // Método Construtor de objetos via controller
         String nome = "Elodin";
         return new Humano(
                 Sexo.MASCULINO,

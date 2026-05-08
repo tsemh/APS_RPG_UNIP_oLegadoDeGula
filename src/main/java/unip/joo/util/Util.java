@@ -6,9 +6,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Util {
-    private static final GameText gameText = new GameText();
+public class Util { // Classe utilitária
+    private static final GameText gameText = new GameText(); // Atributo Estático / Atributo Final
 
+    // Método Estático
     public static int rollDice(int quantity, int sides) {
         int total = 0;
         for (int i = 0; i < quantity; i++) {
@@ -20,6 +21,7 @@ public class Util {
         System.out.println(text);
         scanner.nextLine();
     }
+
     public static void displayDialogue(Scanner scanner, List<String> dialogue) {
         dialogue.forEach(text -> printText(scanner, text));
     }

@@ -5,13 +5,14 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
 
-public abstract class Personagem {
-    private long id;
-    protected String nome;
+public abstract class Personagem implements Descritivel { // Classe Abstrata
+    private long id; // Encapsulamento
+    protected String nome; // Encapsulamento
     protected String descricao;
     protected Classe classe;
     protected Map<String, String> fala;
 
+    // Método Construtor
     public Personagem(long id, String nome, String descricao, Classe classe, Map<String, String> fala) {
         this.id = id;
         this.nome = nome;
@@ -36,12 +37,6 @@ public abstract class Personagem {
     public Map<String, String> getAllFalas() { return new LinkedHashMap<>(fala); }
     public Classe getClasse() { return classe; }
 
-    public static int rollDice(int diceAmount, int diceLimit){
-        Random random = new Random();
-        int result = 0;
-        for(int i = 0; i < diceAmount; i++){
-            result += random.nextInt(diceLimit)+1;
-        }
-        return result;
-    }
+    public abstract String getTipo(); // Método Abstrato
+
 }
