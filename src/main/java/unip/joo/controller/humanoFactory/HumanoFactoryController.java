@@ -259,12 +259,10 @@ public class HumanoFactoryController { // Classe Controladora de Fábrica
                 p + "Não.");
 
         dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.15",
-                p + "Ela não controla ninguém.\n" +
-                        "        Ela otimiza.");
+                p + "Ela não controla ninguém, ela otimiza.");
 
         dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.16",
-                p + "Se você atrasa o sistema.\n" +
-                        "        Você vira ruído.");
+                p + "Se você atrasa o sistema, você vira ruído.");
 
         dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.17",
                 p + "É eliminado.");
@@ -282,10 +280,10 @@ public class HumanoFactoryController { // Classe Controladora de Fábrica
                 p + "(baixo, tensa) ...Não se mexe.");
 
         dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.22",
-                p + "Pronto. (pausa curta) \n        Agora ela sabe que você tá aqui.");
+                p + "Pronto...Agora ela sabe que você tá aqui.");
 
         dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.23",
-                p + "E quando ela percebe algo fora do fluxo... (pausa)\n         ela não ignora");
+                p + "E quando ela percebe algo fora do fluxo... ela não ignora");
 
         return dialogue;
     }

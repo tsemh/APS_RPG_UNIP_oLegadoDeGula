@@ -148,13 +148,12 @@ public class GameText {
         );
 
         put(
-                "test.again",
-                "[EMPATE] FACA O TESTE NOVAMENTE"
-        );
-
-        put(
                 "roll.losesLife",
                 ">> Você perdeu [%s] pontos de vida \n"
+        );
+        put(
+                "actualLife",
+                ">> Vida atual: [%s]/[%s] \n"
         );
 
         put(
@@ -302,18 +301,18 @@ public class GameText {
         // Mensagem de teste de resistencia do Segundo Ato
         put(
                 "action.fortress.entry",
-                "[AÇÃO: RESISTIR O GÁS DA FORTALEZA] \nTeste: Vigor vs DT 12"
+                "[RESISTA AO GÁS DA FORTALEZA]"
         );
 
         put(
                 "action.fortress.run",
-                "[AÇÃO: FUGIR DA MULHER MASCARADA] \nTeste: Força vs DT 15"
+                "[FUJA DA MULHER MASCARADA]"
 
         );
 
         put(
                 "pieceTwo.Fortress.GasmaskLady.Item",
-                "Jogador recebe: Máscara de Gás [Nenhum dano adicional]."
+                "ITEM RECEBIDO: [MÁSCARA DE GÁS]."
         );
     }};
     private final Map<String, String> firstAct = new LinkedHashMap<>() {{
@@ -467,193 +466,45 @@ public class GameText {
                 "Um homem, maltrapilho com um papelão acima da cabeça, a escrita é confusa mas quando ele abre a boca você entende."
         );
         put(
-                "pieceThree.beggar.three",
-                "Por um segundo... tudo fica em silêncio."
+                "pieceThree.beggar.one",
+                "Por um segundo, tudo fica em silêncio.\n" +
+                "Então um estalo seco rasga o ar.\n" +
+                "O mendigo trava no lugar. Seu corpo enrijece antes de começar\n" +
+                "a tremer violentamente. Faíscas percorrem sua pele como veias de luz," 
         );
-
+        put(
+                "pieceThree.beggar.two",
+                "pulsando de dentro pra fora, a descarga aumenta, brutal, fazendo o ar ao redor vibrar.\n" +
+                "O cheiro de carne queimada se espalha rápido demais.\n" +
+                "Ele desaba no chão, rígido...sem vida."
+        );
+        put(
+                "pieceThree.beggar.three",
+                "E então o caos começa.\n" +
+                "A multidão explode em pânico, gritando a plenos pulmões enquanto\n" +
+                "seus corpos se empurram sem direção. Alguns caem e não levantam mais,\n" +
+                "outros são pisoteados no desespero. Mais estalos ecoam."
+        );
         put(
                 "pieceThree.beggar.four",
-                "Então, um estalo seco rasga o ar."
+                "O sangue se mistura com a poeira, transformando o chão em um borrão sujo e indistinto.\n" +
+                "Você levanta o olhar, e vê sobrevoando acima de tudo, uma máquina desce lentamente do céu."
         );
-
         put(
                 "pieceThree.beggar.five",
-                "O mendigo trava no lugar, o corpo enrijecendo antes de começar a tremer violentamente."
+                "Envolta por uma luz branca artificial, quase... sagrada, limpa demais para aquele lugar. Fria demais para ser humana.\n" +
+                "Ela para no ar e, o tempo parece desacelerar, como se tudo reconhecesse sua presença.\n" +
+                "A lente parecendo um enorme olho gira lentamente parando em você."
         );
-
         put(
                 "pieceThree.beggar.six",
-                "Faíscas percorrem sua pele como veias de luz, pulsando de dentro pra fora."
+                "..."
         );
-
         put(
                 "pieceThree.beggar.seven",
-                "<Mendigo>: V—vocês... ainda—"
-        );
-
-        put(
-                "pieceThree.beggar.eight",
-                "A descarga aumenta, brutal, fazendo o ar ao redor vibrar."
-        );
-
-        put(
-                "pieceThree.beggar.nine",
-                "O cheiro de carne queimada se espalha rápido demais."
-        );
-
-        put(
-                "pieceThree.beggar.ten",
-                "Ele desaba no chão, rígido."
-        );
-
-        put(
-                "pieceThree.beggar.eleven",
-                "Morto."
-        );
-
-        put(
-                "pieceThree.beggar.twelve",
-                "(pausa curta)"
-        );
-
-        put(
-                "pieceThree.beggar.thirteen",
-                "E então o caos começa."
-        );
-
-        put(
-                "pieceThree.beggar.fourteen",
-                "A multidão explode em pânico, gritos se sobrepondo enquanto corpos se empurram sem direção."
-        );
-
-        put(
-                "pieceThree.beggar.fifteen",
-                "Alguns caem... e não levantam mais."
-        );
-
-        put(
-                "pieceThree.beggar.sixteen",
-                "Outros são pisoteados no desespero."
-        );
-
-        put(
-                "pieceThree.beggar.seventeen",
-                "Mais estalos ecoam."
-        );
-
-        put(
-                "pieceThree.beggar.eighteen",
-                "Mais descargas."
-        );
-
-        put(
-                "pieceThree.beggar.nineteen",
-                "Um por um."
-        );
-
-        put(
-                "pieceThree.beggar.twenty",
-                "Como se algo, lá em cima, estivesse escolhendo."
-        );
-
-        put(
-                "pieceThree.beggar.twentyOne",
-                "O sangue se mistura com a poeira, transformando o chão em um borrão sujo e indistinto."
-        );
-
-        put(
-                "pieceThree.beggar.twentyTwo",
-                "Você levanta o olhar."
-        );
-
-        put(
-                "pieceThree.beggar.twentyThree",
-                "E vê."
-        );
-
-        put(
-                "pieceThree.beggar.twentyFour",
-                "Sobrevoando acima de tudo, uma máquina desce lentamente do céu."
-        );
-
-        put(
-                "pieceThree.beggar.twentyFive",
-                "Envolta por uma luz branca artificial, quase... sagrada."
-        );
-
-        put(
-                "pieceThree.beggar.twentySix",
-                "Limpa demais para aquele lugar."
-        );
-
-        put(
-                "pieceThree.beggar.twentySeven",
-                "Fria demais para ser humana."
-        );
-
-        put(
-                "pieceThree.beggar.twentyEight",
-                "Ela para no ar, e o movimento ao redor parece desacelerar."
-        );
-
-        put(
-                "pieceThree.beggar.twentyNine",
-                "Como se tudo reconhecesse sua presença."
-        );
-
-        put(
-                "pieceThree.beggar.thirty",
-                "Como se tudo soubesse."
-        );
-
-        put(
-                "pieceThree.beggar.thirtyOne",
-                "A lente gira lentamente."
-        );
-
-        put(
-                "pieceThree.beggar.thirtyTwo",
-                "E então... para em você."
-        );
-
-        put(
-                "pieceThree.beggar.thirtyThree",
-                "(pausa)"
-        );
-
-        put(
-                "pieceThree.beggar.thirtyFour",
-                "Não há som."
-        );
-
-        put(
-                "pieceThree.beggar.thirtyFive",
-                "Não há pressa."
-        );
-
-        put(
-                "pieceThree.beggar.thirtySix",
-                "Só certeza."
-        );
-
-        put(
-                "pieceThree.beggar.thirtySeven",
-                "Você sente isso antes mesmo de entender."
-        );
-
-        put(
-                "pieceThree.beggar.thirtyEight",
-                "Sem dúvida."
-        );
-
-        put(
-                "pieceThree.beggar.thirtyNine",
-                "Sem erro."
-        );
-
-        put(
-                "pieceThree.beggar.forty",
-                "Você é o próximo."
+                "Ela não emite som, calma como se nada estive acontecendo.\n"+
+                "Você sente isso antes mesmo de entender, é um sentimento profundo.\n" +
+                "que vem do seu amago, sem dúvida, sem questionamentos. Você é o próximo."
         );
 
         put(
@@ -950,7 +801,32 @@ public class GameText {
                     "                                                                                                    \n" +
                     "                                                                                                    ",
                     "youDied",
-                    "Você morreu!"
+                    "                                                                                                              \n" +
+                            "                                                                                                              \n" +
+                            "                                                                       .#@@@%:                                \n" +
+                            "                        .::::::.  .:::::   .:-+=-:.       .:-:..:::.:::=%:::+-::                              \n" +
+                            "                        #@@@@@@+  *@@@@% .@@@@@@@@@@.   =@@@@@@@@@@.@@@@@@@@@@@%                              \n" +
+                            "                         :@@@@%.  .@@@* -@@@@#..@@@@@. %@@@@*=#@@@@. #@@@=  +@@%                              \n" +
+                            "                          =@@@@+ .#@@%..@@@@@   .@@@@@-@@@@:   #@@%. #@@@+---.                                \n" +
+                            "                           +@@@@-+@@@. .@@@@%   .@@@@@#@@@@.         #@@@@@@@.                                \n" +
+                            "                            #@@@%@@@-  .@@@@@.  :@@@@%-@@@@-    ::   #@@@=  .:::                              \n" +
+                            "                             %@@@@@+    -@@@@@--@@@@@. %@@@@@*#@@@%..#@@@=..*@@%                              \n" +
+                            "                             .%@@@#.     .#@@@@@@@@*.   -@@@@@@@@#. @@@@@@@@@@@%                              \n" +
+                            "                                             ....           ...                                               \n" +
+                            "                                                                                                              \n" +
+                            "       =++++++=   -+++++++.   .*%@@%=.   -++++++=-.    .+++++++=:     =+++++++++++.++++++  +++++=:++++:       \n" +
+                            "       %@@@@@@@.  @@@@@@@@. +@@@@@@@@@@: +@@@@@@@@@@%  .@@@@@@@@@@@:  #@@@@@@@@@@@:@@@@@@  @@@@@%-@@@@-       \n" +
+                            "        %@@@@@@% =@@@@@@@. #@@@@- .@@@@@: =@@@# .@@@@.   @@@@. =@@@*   +@@@*  -@@@..@@@@    @@@# -@@@@-       \n" +
+                            "        %@@+@@@@.@@@-@@@@..@@@@#   =@@@@* =@@@#.=@@@@    @@@@..%@@@:   +@@@@%%%-   .@@@@    @@@# .@@@@.       \n" +
+                            "        %@@=%@@@@@@@.@@@@.:@@@@*   -@@@@# =@@@@@@@@*.    @@@@@@@@%:    +@@@@@@@-   .@@@@    @@@#  #@@*        \n" +
+                            "        %@@=.@@@@@@= @@@@..@@@@@.  *@@@@= =@@@# +@@@@ .. @@@@..@@@@-.. +@@@*  .===..@@@@-  :@@@*  ....        \n" +
+                            "       -%@@*-#@@@@@.=@@@@=.:@@@@@#%@@@@#.-*@@@%=-@@@@#@.=@@@@+.@@@@%@*=#@@@%++*@@@. -@@@@@@@@@@. -@@@@.       \n" +
+                            "       %@@@@*.@@@@=.@@@@@@. .+@@@@@@@%:  +@@@@@%.*@@@@#.@@@@@@:-@@@@@:#@@@@@@@@@@@.  .#@@@@@@#.  .%@@#.       \n" +
+                            "                                                                                                              \n" +
+                            "                                                                                                              \n" +
+                            "                                                                                                              \n" +
+                            "                                                                                                              \n" +
+                            "                                                                                                              "
 
     
     );
@@ -958,406 +834,90 @@ public class GameText {
     //  ========================= SEGUNDO ATO  ===================================
 
     private final Map<String, String> secondAct = new LinkedHashMap<>() {{
-        put(
-                "pieceOne.ato",
-                "SEGUNDO ATO"
-        );
-
-        put(
-                "pieceOne.outOfCity",
-                "Saindo da cidade, você continua firme em sua caminhada até a grande Fortaleza de Ferro."
-        );
-
-        put(
-                "pieceOne.outOfCity.2",
-                "Pelo caminho, você atravessa cenários de caos e sofrimento, ajudando aqueles que ainda podem ser salvos."
-        );
-
-        put(
-                "pieceOne.outOfCity.3",
-                "Após uma longa jornada, você finalmente chega ao seu destino."
-        );
-
-        put(
-                "pieceOne.entranceFortress.1",
-                "A fortaleza é imensa, tomada por correntes elétricas e pelo constante som de água escorrendo pelas estruturas metálicas."
-        );
-
-        put(
-                "pieceOne.entranceFortress.2",
-                "No entanto, algo está errado."
-        );
-
-        put(
-                "pieceOne.entranceFortress.3",
-                "Não há guardas."
-        );
-
-        put(
-                "pieceOne.entranceFortress.4",
-                "Não há movimento humano."
-        );
-
-        put(
-                "pieceOne.entranceFortress.5",
-                "É como se o lugar, ao mesmo tempo em que ainda funcionasse mecanicamente, estivesse completamente abandonado."
-        );
-
-        put(
-                "pieceOne.entranceFortress.6",
-                "Ao se aproximar, um gás forte invade seus pulmões, corroendo-o por dentro."
-        );
-
-        put(
-                "action.entranceFortress.GasResistance.success",
-                "Controlando sua respiração. Mesmo com a dor intensa, você consegue limitar o ar que entra em seus pulmões.\n" +
-                        "Sofre 1d4 + 2 de dano químico."
-        );
-
-        put(
-                "action.entranceFortress.GasResistance.failure",
-                "Seu corpo não resiste. O gás invade violentamente seu organismo, queimando e rasgando por dentro.\n" +
-                        "Sofre 1d8 + 4 de dano químico."
-        );
-
-        put(
-                "pieceTwo.Fortress.1",
-                "Após entrar na fortaleza, você se depara com uma mulher."
-        );
-
-        put(
-                "pieceTwo.Fortress.2",
-                "Ela é bonita, mas há algo estranho, sua aparência contrasta com o ambiente hostil ao redor. \n" +
-                        "Ela parece intacta demais para alguém naquele lugar."
-        );
-
-        put(
-                "pieceTwo.Fortress.3",
-                "De repente, ela se vira e corre em sua direção."
-        );
-
-        put(
-                "pieceTwo.Fortress.4",
-                "Sua expressão é fria."
-        );
-
-        put(
-                "pieceTwo.Fortress.5",
-                "Sua mão vai até a bolsa, como se estivesse pegando algo."
-        );
-
-        put(
-                "pieceTwo.Fortress.6",
-                "Ela está pronta para agir."
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.one",
-                "[1] Correr \n[2] Ficar."
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.run.success.1",
-                "Você corre mantendo o controle da respiração, como se já estivesse acostumado àquele ambiente\n" +
-                        "Sofre 1d4 + 3 de dano químico."
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.run.success.2",
-                "A mulher para...\n" +
-                        "E fica em meio aquela névoa verde."
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.run.failure.1",
-                "Você tenta correr em desespero, mas o gás o domina."
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.run.failure.2",
-                "Você tropeça. \nCai no chão. \nSem forças."
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.run.failure.3",
-                "A mulher se aproxima lentamente, calma, fria.\n" +
-                        "Mas, ao invés de atacar, ela pega algo."
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.run.failure.4",
-                "Uma máscara.\n" +
-                        "E coloca em você."
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.1",
-                "Sem conseguir se mover, o gás pesa em seus pulmões."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.2",
-                "A visão oscila por um instante. A figura para na frente dele."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.3",
-                "Observa. Sem pressa. Sem ameaça."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.4",
-                "Ela abre a bolsa. Pega um item. Uma máscara de gás."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.5",
-                "Entrega para você. Não como alguém que ataca."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.6",
-                "Mas como alguém que entende."
-
-        );
-        put(
-                "pieceTwo.Fortress.init.choice.stay.silence",
-                "(Silêncio)"
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.pause.1",
-                "(pausa curta, analisando)"
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.pause.2",
-                "(pausa)"
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.olhar",
-                "(olhar firme)"
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.pause.3",
-                "(pausa curta)"
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.7",
-                "Um som corta o silêncio da fortaleza."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.8",
-                "Um clique seco."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.9",
-                "Depois outro."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.10",
-                "As luzes tremem."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.11",
-                "A água nas estruturas… muda de direção."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.12",
-                "Por um instante, tudo para."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.13",
-                "Lena trava na hora."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.14",
-                "Um ruído começa a crescer pelos corredores."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.15",
-                "Não são passos."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.16",
-                "É… fluxo."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.17",
-                "Metal se ajustando."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.18",
-                "Correntes rangendo."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.19",
-                "Como se a própria fortaleza estivesse se reorganizando."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.20",
-                "O ar fica mais pesado."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.21",
-                "Difícil de respirar mesmo com a máscara."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.22",
-                "Você sente."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.23",
-                "Não é o gás."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.24",
-                "É outra coisa."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.25",
-                "Algo… percebendo."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.26",
-                "Então"
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.27",
-                "Um sussurro atravessa o ambiente."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.28",
-                "Não vem de um lugar específico."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.30",
-                "Vem de tudo."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.31",
-                " \"...\" "
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.32",
-                " (quase inaudível) "
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.33",
-                " \"“...fora do fluxo.\" "
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.34",
-                "Silêncio. "
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.35",
-                "Lena fecha os olhos por um segundo."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.36",
-                "Como se já esperasse isso. "
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.37",
-                "O som para."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.38",
-                "Tudo fica... quieto demais."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.39",
-                "Lena olha direto pra Dante:"
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.40",
-                "Ao longe Alguma coisa se move."
-
-        );
-
-        put(
-                "pieceTwo.Fortress.init.choice.stay.41",
-                "Dessa vez, vindo na direção deles."
-
-        );
+        put("pieceOne.ato", "SEGUNDO ATO");
+
+        put("pieceOne.outOfCity",
+                "Você deixa a cidade para trás e segue firme em direção à grande Fortaleza de Ferro.\n" +
+                        "Pelo caminho, atravessa cenários de caos e sofrimento, ajudando quem ainda pode ser salvo.\n" +
+                        "Mas após uma longa jornada, você finalmente chega em seu destino.");
+
+        put("pieceOne.entranceFortress",
+                "A fortaleza é imensa, tomada por correntes elétricas e pelo som constante de água escorrendo.\n" +
+                        "Mas algo está errado. Não há guardas. Não há movimento humano.\n" +
+                        "É como se o lugar ainda funcionasse mecanicamente, mas estivesse completamente abandonado.\n" +
+                        "Ao se aproximar, um gás forte invade seus pulmões, corroendo você por dentro.");
+
+        put("action.entranceFortress.GasResistance.success",
+                "Você controla sua respiração. Mesmo com a dor intensa, consegue limitar o ar que entra.");
+
+        put("action.entranceFortress.GasResistance.failure",
+                "Seu corpo não resiste. O gás invade violentamente seu organismo, queimando e rasgando você por dentro.");
+
+        put("action.entranceFortress.GasResistance.death",
+                "Você avança, mas o ar falta e o chão foge sob seus pés.\n" +
+                        "A névoa verde dança ao redor, fria e indiferente à sua luta.\n" +
+                        "Você tenta se apoiar na parede, mas o braço já não responde.\n" +
+                        "Os joelhos cedem. O corpo desaba no metal gelado.\n" +
+                        "A água escorre pelas estruturas, ritmada como um relógio.\n" +
+                        "Cada gotejo conta um segundo. Cada segundo doi mais.\n" +
+                        "Até que a dor passa. O som some. A luz se apaga.\n" +
+                        "E você fica ali, envolto pelo gás, esquecido pela fortaleza.");
+
+        put("pieceTwo.Fortress",
+                "Após entrar na fortaleza, você se depara com uma mulher. Ela é bonita, mas há algo estranho.\n" +
+                        "Sua aparência contrasta com o ambiente hostil. De repente, ela se vira e corre em sua direção.\n" +
+                        "A expressão dela é completamente fria. A mão dela vai até a bolsa, como se estivesse pegando algo.\n" +
+                        "Ela está pronta para agir.");
+
+        put("pieceTwo.Fortress.init.choice.one",
+                "[1] Correr\n[2] Ficar.");
+
+        put("pieceTwo.Fortress.init.choice.run.success",
+                "Você corre mantendo o controle da respiração, como se já estivesse acostumado ao ambiente.\n" +
+                        "A mulher para e fica em meio àquela névoa verde.");
+
+        put("pieceTwo.Fortress.init.choice.run.failure",
+                "Você tenta correr em desespero, mas o gás o domina. Você tropeça. Cai no chão. Sem forças.\n" +
+                        "A mulher se aproxima lentamente, calma, fria. Mas ao invés de atacar, ela pega algo.\n" +
+                        "Uma máscara. E coloca em você.");
+
+        put("pieceTwo.Fortress.init.choice.stay",
+                "Imóvel, você sente o gás pesar em seus pulmões e sua visão começar a oscilar.\n" +
+                        "A figura parada diante de você apenas observa, sem pressa e sem qualquer ameaça.\n" +
+                        "Ela abre a bolsa, retira uma máscara de gás e estende em sua direção.\n" +
+                        "Naquele gesto silencioso, não há violência, apenas uma estranha cumplicidade.");
+
+        put("pieceTwo.Fortress.init.choice.stay.pause.1",
+                "(pausa curta, analisando)");
+
+        put("pieceTwo.Fortress.init.choice.stay.silence",
+                "(Silêncio)");
+
+        put("pieceTwo.Fortress.init.choice.stay.pause.2",
+                "(pausa)");
+
+        put("pieceTwo.Fortress.init.choice.stay.pause.3",
+                "...");
+
+        put("pieceTwo.Fortress.init.choice.stay.disturbance",
+                "Um som atravessa o silêncio: um clique seco, depois outro, e as luzes começam a tremer.\n" +
+                        "A água escorrendo pelas estruturas muda de direção e por um instante tudo congela.\n" +
+                        "Lena trava. Um ruído cresce pelos corredores - não são passos, é algo fluindo.\n" +
+                        "Metal se ajustando, correntes rangendo, como se a fortaleza inteira estivesse se reorganizando.\n" +
+                        "O ar pesa nos pulmões, difícil respirar mesmo protegido pela máscara.");
+
+        put("pieceTwo.Fortress.init.choice.stay.sensation",
+                "Você percebe que não é o gás. É outra coisa, algo que reconhece sua presença.\n" +
+                        "Um sussurro então atravessa o ambiente, vindo não de um lugar, mas de tudo ao redor.\n" +
+                        "Quase inaudível, a voz diz algo Incognoscível e o silêncio retorna.\n" +
+                        "Lena fecha os olhos por um segundo, como quem já esperava por este momento.");
+
+        put("pieceTwo.Fortress.init.choice.stay.final",
+                "O som para e um silêncio sepulcral se instaura, deixando Lena visivelmente assustada, \n" +
+                        "a ponto de transparecer leves tremores em suas pernas.");
+
+        put("pieceTwo.Fortress.init.choice.stay.final.2",
+                "Alguma coisa está vindo.");
     }};
 
 

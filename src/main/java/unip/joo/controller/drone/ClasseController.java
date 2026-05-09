@@ -21,7 +21,7 @@ public class ClasseController {
                 this.atributos,
                 60,
                 12,
-                NomeClasse.SOBREVIVENTE,
+                NomeClasse.DRONE,
                 gameText.getDescriptions("classe.drone"),
                 habilidades.createAllHabilidades()
         );

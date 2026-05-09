@@ -80,5 +80,20 @@ public class HumanoController { // Classe Controladora
         dialogue.put("firstAct.pieceTwo.liquid.two.two",
                 p + "Tá... tinha esquecido.");
 
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.1",
+                p + "Por que você tá aqui… sozinha? \n  E por que ficou me encarando daquele jeito?");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.2",
+                p + "...Ela.");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.3",
+                p + "Você tá dizendo que ela controla pessoas?");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.4",
+                p + "...E o que acontece com o ruído?");
+
+        dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.5",
+                p + "Então o que eram essas pessoas...?");
+
         return dialogue;
     }}

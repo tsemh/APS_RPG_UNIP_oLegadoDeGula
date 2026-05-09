@@ -65,6 +65,21 @@ public class Classe { // Classe
         this.descricao = descricao;
     }
 
+    public String getNameAbilities() {
+        if (habilidades == null || habilidades.isEmpty()) {
+            return "Nenhuma habilidade disponivel";
+        }
+
+        StringBuilder names = new StringBuilder();
+        for (int i = 0; i < habilidades.size(); i++) {
+            names.append(habilidades.get(i).getNome());
+            if (i < habilidades.size() - 1) {
+                names.append(", ");
+            }
+        }
+        return names.toString();
+    }
+
     public Habilidade getHabilidade(long id) {
         return habilidades.stream()
                 .filter(h -> h.getId() == id)

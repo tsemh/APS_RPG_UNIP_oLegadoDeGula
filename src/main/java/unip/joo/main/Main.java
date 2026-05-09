@@ -10,11 +10,12 @@ public class Main { // Classe principal
         // Criação de objetos e instanciação
         HumanoController humanoController = new HumanoController();
         Humano elodin = humanoController.createElodin();
+        int defaultLife = elodin.getClasse().getVida();
 
         FirstAct firstAct = new FirstAct();
-        firstAct.init(elodin);
+        //firstAct.init(elodin);
 
         SecondAct secondAct = new SecondAct();
-        secondAct.init(elodin);
+        secondAct.init(elodin, defaultLife);
     }
 }

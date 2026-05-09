@@ -33,41 +33,6 @@ public class FirstAct { // Classe de visão
         gameStart();
     }
 
-    // ==================== MÉTODOS DE MENU E VALIDAÇÃO ====================
-
-    private int getPlayerChoice(String menuText) {
-        try {
-            System.out.println(menuText);
-            String input = scanner.nextLine();
-            return Integer.parseInt(input);
-        } catch (Exception e) { // Tratamento de Exceções
-            return -1;
-        }
-    }
-
-    private boolean isValidChoice(int choice, int... validOptions) {
-        for (int option : validOptions) {
-            if (choice == option) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void handleInvalidChoice() {
-        System.out.println(gameText.getSystemMessage("error.opcaoInvalida"));
-    }
-
-    // ==================== MÉTODOS DE DIÁLOGO ====================
-
-    private void displayActPiece(Map<String, String> act, String piece) {
-        act.forEach((key, value) -> {
-            if (key.contains(piece)) {
-                printText(scanner, value);
-            }
-        });
-    }
-
     // ==================== SISTEMA DE COOLDOWN ====================
 
     private void initializeAbilityCooldown() {
@@ -103,7 +68,7 @@ public class FirstAct { // Classe de visão
         int attempts = 0;
 
         while (true) {
-            int choice = getPlayerChoice(gameText.getSystemMessage("game.start"));
+            int choice = getPlayerChoice(scanner, gameText.getSystemMessage("game.start"));
 
             if (isValidChoice(choice, 1, 2)) {
                 if (choice == 1) {
@@ -127,7 +92,7 @@ public class FirstAct { // Classe de visão
 
     private void firstAct() {
         Map<String, String> firstAct = gameText.getAllFirtsAct();
-        displayActPiece(firstAct, "pieceOne");
+        displayActPiece(scanner, firstAct, "pieceOne");
         wakeUpInAlley();
         interactWithBeggar(firstAct);
         firstCombat();
@@ -175,7 +140,7 @@ public class FirstAct { // Classe de visão
 
     private void chooseTentInteraction() {
         while (true) {
-            int choice = getPlayerChoice(gameText.getFirtsAct("pieceTwo.init.choice.one"));
+            int choice = getPlayerChoice(scanner, gameText.getFirtsAct("pieceTwo.init.choice.one"));
 
             if (isValidChoice(choice, 1, 2, 3)) {
                 switch (choice) {
@@ -209,7 +174,7 @@ public class FirstAct { // Classe de visão
         displayDialogue(scanner, initialDialogue);
 
         while (true) {
-            int choice = getPlayerChoice(elodin.getFala("firstAct.pieceTwo.scrap.choice"));
+            int choice = getPlayerChoice(scanner, elodin.getFala("firstAct.pieceTwo.scrap.choice"));
 
             if (isValidChoice(choice, 1, 2)) {
                 if (choice == 1) {
@@ -266,7 +231,7 @@ public class FirstAct { // Classe de visão
         printText(scanner,jonas.getFala("init.one"));
 
         while (true) {
-            int choice = getPlayerChoice(elodin.getFala("firstAct.pieceTwo.food.choice"));
+            int choice = getPlayerChoice(scanner, elodin.getFala("firstAct.pieceTwo.food.choice"));
 
             if (isValidChoice(choice, 1, 2)) {
                 if (choice == 1) {
@@ -333,7 +298,7 @@ public class FirstAct { // Classe de visão
         displayDialogue(scanner, initialDialogue);
 
         while (true) {
-            int choice = getPlayerChoice(elodin.getFala("firstAct.pieceTwo.liquid.choice"));
+            int choice = getPlayerChoice(scanner, elodin.getFala("firstAct.pieceTwo.liquid.choice"));
 
             if (isValidChoice(choice, 1, 2)) {
                 if (choice == 1) {
@@ -386,7 +351,7 @@ public class FirstAct { // Classe de visão
 
         beggar.getAllFalas().values().forEach(text -> printText(scanner, text));
 
-        displayActPiece(firstAct, "pieceThree");
+        displayActPiece(scanner, firstAct, "pieceThree");
     }
 
     // ==================== SISTEMA DE COMBATE ====================
@@ -530,7 +495,7 @@ public class FirstAct { // Classe de visão
             while (playerHealth > 0 && droneHealth > 0) {
                 printText(scanner,String.format(gameText.getSystemMessage("turn.counter"), currentTurn));
 
-                int choice = getPlayerChoice(gameText.getSystemMessage("temporary.abilities"));
+                int choice = getPlayerChoice(scanner, gameText.getSystemMessage("temporary.abilities"));
 
                 if (choice == 5) {
                     showTemporaryAbilities();
@@ -586,11 +551,9 @@ public class FirstAct { // Classe de visão
                         gameText.getFirtsAct("combat.defeat.player.death.two"),
                         gameText.getFirtsAct("combat.defeat.player.death.three"),
                         gameText.getFirtsAct("combat.defeat.player.death.four"),
-                        gameText.getFirtsAct("combat.defeat.player.death.five"),
-                        gameText.getAsciiArts("youDied")
+                        gameText.getFirtsAct("combat.defeat.player.death.five")
                 );
-                displayDialogue(scanner, defeatDialogue);
-                System.exit(0);
+                verifyDeath(scanner, playerHealth, defeatDialogue);
             }
         } catch (Exception e) {
             printText(scanner,gameText.getSystemMessage("error.combat"));
