@@ -144,6 +144,7 @@ public class SecondAct { // Classe de visão
             elodin.getClasse().setVida(newHealth);
             dialogue.add(actualLife(damage, elodin.getClasse().getVida(), defaultLife));
             displayDialogue(scanner, dialogue);
+            verifyDeath(scanner, elodin.getClasse().getVida(), gameText.getSecondAct("action.entranceFortress.GasResistance.death"));
         }
 
     }

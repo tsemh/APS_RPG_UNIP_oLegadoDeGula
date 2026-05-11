@@ -1,15 +1,13 @@
 package unip.joo.controller.humanoFactory;
 
-import unip.joo.model.entities.Armadura;
-import unip.joo.model.entities.Arma;
-import unip.joo.model.entities.KitSobrevivencia;
-import unip.joo.model.entities.Item;
+import unip.joo.model.ENUM.Efeito;
+import unip.joo.model.entities.*;
 
 public class ItemFactoryController {
 
-    public static Item criarKitSobrevivencia(long id) {
+    public static Item createKitSobrevivencia() {
         return new KitSobrevivencia(
-            id,
+            1L,
             "Kit de Sobrevivência",
             "Restaura 25% da vida do personagem. Pode ser usado duas vezes.",
             25,
@@ -17,18 +15,18 @@ public class ItemFactoryController {
         );
     }
 
-    public static Item criarJaquetaReforcada(long id) {
+    public static Item createJaquetaReforcada() {
         return new Armadura(
-            id,
+            2L,
             "Jaqueta Reforçada",
             "Reduz danos de impacto em 10%.",
             10
         );
     }
 
-    public static Item criarBarraDeMetal(long id) {
+    public static Item createBarraDeMetal() {
         return new Arma(
-            id,
+            3L,
             "Barra de Metal",
             "Arma contundente improvisada.",
             3,
@@ -37,14 +35,32 @@ public class ItemFactoryController {
         );
     }
 
-    public static Item criarPistola(long id) {
+    public static Item createPistola() {
         return new Arma(
-            id,
+            4L,
             "Pistola",
             "Arma de fogo leve.",
             3,
             12,
             3
+        );
+    }
+    public static Item createMascaraDeGas() {
+        return new Armadura(
+            5L,
+            "Mascara de Gás",
+            "Protege contra gases tóxicos, reduzindo danos em 100%.",
+            100
+        );
+    }
+    public static Item createPendrive() {
+        return new Consumivel(
+            6L,
+            Efeito.DANO,
+            "Pendrive",
+            "Corrompe os sistemas de Gula",
+            0,
+            1
         );
     }
 }

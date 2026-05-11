@@ -294,6 +294,15 @@ public class HumanoFactoryController { // Classe Controladora de Fábrica
         dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.23",
                 p + "E quando ela percebe algo fora do fluxo... ela não ignora");
 
+        dialogue.put("thirdAct.lena.penDrive.one",
+                p + "Você não pode tentar matar ela, você tem que restaurar ela!");
+
+        dialogue.put("thirdAct.lena.penDrive.two",
+                p + "Corra até a sala dos servidores e coloque esse PEN DRIVE em um servidor roxo!");
+
+        dialogue.put("thirdAct.lena.penDrive.three",
+                p + "Corra, sua vida e talvez o resto da vida de todos nesse mundo, dependem disso!");
+
         return dialogue;
     }
 }

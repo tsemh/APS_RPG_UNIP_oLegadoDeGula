@@ -287,4 +287,7 @@ public abstract class Personagem implements Descritivel { // Classe Abstrata
         System.out.print("Pressione [ENTER] para continuar: ");
         scanner.nextLine();
     }
+
+    public abstract String getTipo(); // Método Abstrato
+
 }

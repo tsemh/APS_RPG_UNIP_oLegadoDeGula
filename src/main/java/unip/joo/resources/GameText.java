@@ -926,6 +926,155 @@ public class GameText {
                 "Alguma coisa está vindo.");
     }};
 
+    //  ========================= TERCEIRO ATO  ===================================
+
+    private final Map<String, String> thirdAct = new LinkedHashMap<>() {{
+        put("pieceOne.ato", "TERCEIRO ATO - O EMBATE FINAL");
+
+        put("pieceOne.lenaApproaches", "Você observa aquilo se aproximando aos poucos...");
+
+        put("pieceOne.penDriveIntro", "Lena olha para você e entrega uma espécie de aparelho com uma entrada antiga.");
+
+        put("pieceOne.choice", "[1] Correr para os servidores\n[2] Tentar enfrentar Gula");
+
+        put("testStrength.narrative", "Você tenta correr pela sua vida!");
+        put("testStrength.test", "Teste de Força [%d] vs DT 10");
+        put("testStrength.failureNarrative", 
+                "Dante tenta correr, mas Gula é mais rápida.\n" +
+                "A porta que Lena apontava se fecha violentamente.\n" +
+                "Não há nada que você possa fazer além de enfrentar ela.\n" +
+                "Algo extremamente difícil... mas não impossível.\n" +
+                "Dante saca sua pistola e fica de frente para Gula.");
+
+        put("testAgility.narrative", 
+                "Dante corre por sua vida, em disparada em linha reta!\n" +
+                "Conforme você avança, escuta cada vez mais os barulhos metálicos daquela coisa se aproximando.\n" +
+                "A I.A tenta impedir você bloqueando os caminhos!");
+
+        put("testAgility.test", "Teste de Agilidade [%d] vs DT 12");
+
+        put("testAgility.failureNarrative", 
+                "Você tenta fazer um rolamento para passar pela porta antes que ela feche.\n" +
+                "Mas não é rápido o suficiente.\n" +
+                "Seu corpo bate na porta com força.\n" +
+                "Sua visão fica um pouco embaçada.\n" +
+                "Você olha para frente e vê... aquela que destruiu tudo que você amava.\n" +
+                "Se aproximando lentamente.\n" +
+                "Certeira de uma coisa... sua morte.");
+
+        put("testAgility.successNarrative", 
+                "Dante se joga para frente e passa pela porta que ia se fechar!\n" +
+                "Ele rola para frente passando por outra... e consecutivamente por mais 3 portas!\n" +
+                "Pronto para acabar com isso!\n" +
+                "GULA acaba ficando para trás.\n" +
+                "Dante chega à sala dos servidores.\n" +
+                "Rapidamente colocando o pen drive no terminal principal e desestabilizando o sistema.\n" +
+                "Todas as portas se abrem.\n" +
+                "A GULA não parece tão imponente mais.\n" +
+                "Agora... é sua chance.\n" +
+                "Agora é seu momento.");
+
+        put("directCombat.init", 
+                "INICIO COMBATE - DANTE VS GULA\n" +
+                "A criatura se aproxima lentamente.\n" +
+                "Seu núcleo roxo pulsa no escuro.\n" +
+                "Está na hora.");
+
+        put("finalCombat.init", 
+                "LUTA FINAL - DANTE VS GULA (CORROMPIDA)\n" +
+                "Agora desestabilizada pelo pen drive.\n" +
+                "Ela está fraca... mas ainda perigosa.");
+
+        put("combat.initiative", ">> INICIATIVA: Dante [%d] vs Gula [%d]");
+        put("combat.danteFirst", ">> O núcleo de Gula pisca! Você vê uma fraqueza!\n>> Dante começa a correr em direção à inimiga!");
+        put("combat.gulaFirst", ">> Gula percebe seu alívio!\n>> Ela avança em sua direção com tudo que tem!");
+
+        put("combat.turn", ">> TURNO [%d]");
+        put("combat.health", ">> Dante: [%d/%d] | Gula: [%d/%d]");
+        put("combat.diceRoll", ">> Seu dado: [%s]");
+        put("combat.enemyDiceRoll", ">> Dado de Gula: [%s]");
+        put("combat.tie", ">> Empate! Rolando novamente...");
+        put("combat.attackRoll", ">> Dado de ataque: [%d] vs Defesa de Gula: [%d]");
+
+        put("dante.simpleAttack.success", "Dante avança com cautela e golpeia Gula com o cano de metal, acertando partes instáveis!");
+        put("dante.simpleAttack.failure", "Dante tenta atacar, mas hesita no último instante. O golpe passa perto sem causar dano.");
+
+        put("dante.desperateAttack.success", 
+                "Dante percebe a instabilidade e avança sem pensar! Com força total, ele gira o cano acima da cabeça e desfere um golpe horizontal brutal!");
+        put("dante.desperateAttack.failure", 
+                "Dante tenta atingir em cheio, mas Gula se desfaz em gosma escura. O golpe apenas atravessa energia instável!");
+
+        put("dante.gunshot.success", "Dante estabiliza a respiração e aponta a pistola para o núcleo de Gula. O disparo acerta em cheio!");
+        put("dante.gunshot.failure", "Dante tenta atirar, mas as luzes piscam agressivamente. Seu disparo apenas atravessa uma parte instável.");
+
+        put("combat.damageDealt", ">> Gula perdeu [%d] pontos de vida!");
+        put("combat.failedAttack", ">> FALHA NO ATAQUE!");
+
+        put("gula.laserAttack.success", "O núcleo de Gula pulsa violentamente! Uma descarga roxa escapa e atinge você brutalmente!");
+        put("gula.laserAttack.failure", "A energia oscila descontrolada. O disparo explode contra o cenário antes de alcançá-lo.");
+
+        put("gula.tentaclesAttack.success", "Partes do corpo de Gula se abrem violentamente! Tentáculos instáveis emergem e atingem você com brutalidade!");
+        put("gula.tentaclesAttack.failure", "Os tentáculos avançam descontrolados, atingindo paredes. A instabilidade faz os ataques perderem precisão!");
+
+        put("gula.finalAttack", "Gula para completamente! Seu núcleo começa a pulsar agressivamente! Uma gigantesca descarga roxa explode em sua direção!");
+
+        put("combat.damageTaken", ">> Você perdeu [%d] pontos de vida!");
+        put("combat.avoided", ">> Você conseguiu esquivar!");
+
+        put("combat.gulasTurn", ">> TURNO DE GULA");
+
+        put("victory.start", "\n========== VITÓRIA ==========\n");
+        put("victory.narrative", 
+                "Gula recua pela primeira vez.\n" +
+                "Seu núcleo pisca violentamente enquanto partes de seu corpo perdem forma.\n" +
+                "O brilho roxo que preenchia tudo começa a enfraquecer.\n" +
+                "\nDante respira com dificuldade.\n" +
+                "Seu corpo dói.\n" +
+                "Suas mãos tremem.\n" +
+                "Mas ele continua avançando.\n" +
+                "\nA criatura tenta se recompor uma última vez.\n" +
+                "Distorcendo sua estrutura em formas impossíveis.\n" +
+                "Tarde demais.\n" +
+                "\nDante ergue o cano de metal acima da cabeça.\n" +
+                "Com toda a força que ainda resta... ele atravessa o núcleo de Gula.\n" +
+                "\nPor um instante...\n" +
+                "silêncio.\n" +
+                "\nEntão a criatura inteira começa a colapsar.\n" +
+                "A energia roxa explode pelo ambiente.\n" +
+                "As paredes tremem violentamente.\n" +
+                "Os tentáculos desaparecem.\n" +
+                "As luzes se apagam.\n" +
+                "\nE Gula finalmente deixa de existir.\n" +
+                "\nDante permanece parado diante dos restos da criatura.\n" +
+                "Tentando recuperar o ar.\n" +
+                "\nPela primeira vez em muito tempo...\n" +
+                "o silêncio parece seguro.\n" +
+                "\nFIM - O LEGADO DE GULA");
+
+        put("defeat.start", "\n========== DERROTA ==========\n");
+        put("defeat.narrative", 
+                "Dante tenta permanecer de pé.\n" +
+                "Seu corpo falha.\n" +
+                "O calor das queimaduras atravessa sua pele.\n" +
+                "A instalação inteira pisca ao redor dele.\n" +
+                "\nGula se aproxima lentamente.\n" +
+                "Sem pressa.\n" +
+                "Sem hesitação.\n" +
+                "Seu núcleo pulsa de forma pesada.\n" +
+                "Iluminando o corredor escuro com uma luz roxa instável.\n" +
+                "\nDante tenta erguer a arma mais uma vez.\n" +
+                "Mas seus braços não respondem.\n" +
+                "\nA criatura para diante dele.\n" +
+                "Por um breve instante...\n" +
+                "o brilho do núcleo reflete diretamente em seus olhos.\n" +
+                "\nEntão...\n" +
+                "tentáculos de energia atravessam seu corpo violentamente.\n" +
+                "O cano de metal cai no chão.\n" +
+                "A pistola desliza para longe.\n" +
+                "\nAs luzes da instalação começam a falhar uma última vez.\n" +
+                "\nE tudo desaparece em roxo.");
+    }};
+
 
     public String getSystemMessage(String key) {
         return systemMessage.get(key);
@@ -938,6 +1087,8 @@ public class GameText {
 
     public String getSecondAct(String key) {return secondAct.get(key);}
     public Map getAllSecondsAct(){return secondAct;}
+
+    public String getThirdAct(String key) {return thirdAct.get(key);}
 
     public String getDescriptions(String key) {
         return descriptions.get(key);

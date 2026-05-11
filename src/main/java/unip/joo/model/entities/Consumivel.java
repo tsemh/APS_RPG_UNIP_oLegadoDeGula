@@ -4,24 +4,38 @@ import unip.joo.model.ENUM.Efeito;
 
 public class Consumivel extends Item {
     private int valorExtra;
-    private int tempoEspera;
+    private int usosRestantes;
 
-    public Consumivel(long id, Efeito efeito, String nome, String descricao, int valorExtra, int tempoEspera) {
+
+    public Consumivel(long id, Efeito efeito, String nome, String descricao, int valorExtra, int usosRestantes) {
         super(id, efeito, nome, descricao);
         this.valorExtra = valorExtra;
-        this.tempoEspera = tempoEspera;
+        this.usosRestantes = usosRestantes;
     }
 
     public int getValorExtra() {
         return valorExtra;
     }
 
-    public int getTempoEspera() {
-        return tempoEspera;
+    public int getUsosRestantes() {
+        return usosRestantes;
     }
 
     @Override
     public boolean isConsumivel() {
+        return true;
+    }
+
+    public boolean usar(Personagem personagem) {
+        if (usosRestantes <= 0) {
+            return false;
+        }
+
+        usosRestantes--;
+        if (usosRestantes <= 0 && personagem != null && personagem.getInventario() != null) {
+            personagem.getInventario().removeItem(this);
+        }
+
         return true;
     }
 
@@ -34,8 +48,8 @@ public class Consumivel extends Item {
         if (valorExtra != 0) {
             resumo.append(" +").append(valorExtra);
         }
-        if (tempoEspera > 0) {
-            resumo.append(" (cooldown: ").append(tempoEspera).append(" turnos)");
+        if (usosRestantes > 0) {
+            resumo.append(" (cooldown: ").append(usosRestantes).append(" turnos)");
         }
         return resumo.toString();
     }

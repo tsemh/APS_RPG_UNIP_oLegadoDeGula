@@ -15,10 +15,10 @@ public class InventoryFactoryController {
 
     public Inventario createInventoryDante(long personagemId) {
         List<Item> itens = new ArrayList<>();
-        itens.add(ItemFactoryController.criarKitSobrevivencia(1L));
-        itens.add(ItemFactoryController.criarJaquetaReforcada(2L));
-        itens.add(ItemFactoryController.criarBarraDeMetal(3L));
-        itens.add(ItemFactoryController.criarPistola(4L));
+        itens.add(ItemFactoryController.createKitSobrevivencia());
+        itens.add(ItemFactoryController.createJaquetaReforcada());
+        itens.add(ItemFactoryController.createBarraDeMetal());
+        itens.add(ItemFactoryController.createPistola());
         return new Inventario(1L, personagemId, 10, itens);
     }
 }
