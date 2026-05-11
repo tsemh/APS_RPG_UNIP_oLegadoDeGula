@@ -1,5 +1,6 @@
 package unip.joo.controller.humanoFactory;
 
+import unip.joo.controller.elodin.ClasseController;
 import unip.joo.model.ENUM.Sexo;
 import unip.joo.model.entities.Humano;
 
@@ -8,6 +9,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class HumanoFactoryController { // Classe Controladora de Fábrica
+    private InventoryFactoryController inventoryController = new InventoryFactoryController();
+    private ClasseController classeController = new ClasseController();
+
     public Humano createDante() { // Criação de objetos (Fábrica)
         String nome = "Dante";
 
@@ -15,10 +19,11 @@ public class HumanoFactoryController { // Classe Controladora de Fábrica
                 Sexo.MASCULINO,
                 false,
                 nome,
-                "Descrição Dente",
-                null,
+                "Descrição Dante",
+                classeController.createClasse(),
                 falaDante(nome),
-                500L
+                500L,
+                inventoryController.createInventoryDante(500L)
         );
     }
     public Humano createJonas() {
@@ -28,9 +33,10 @@ public class HumanoFactoryController { // Classe Controladora de Fábrica
                 false,
                 nome,
                 "Descrição Jonas",
-                null,
+                classeController.createClasse(),
                 falaJonas(nome),
-                501L
+                501L,
+                inventoryController.createInventory(501L)
         );
     }
     public Humano createSimmom() {
@@ -40,9 +46,10 @@ public class HumanoFactoryController { // Classe Controladora de Fábrica
                 false,
                 nome,
                 "Descrição Simmom",
-                null,
+                classeController.createClasse(),
                 falaSimmom(nome),
-                502L
+                502L,
+                inventoryController.createInventory(502L)
         );
     }
     public Humano createBeggar() {
@@ -52,9 +59,10 @@ public class HumanoFactoryController { // Classe Controladora de Fábrica
                 false,
                 nome,
                 "Descrição Mendigo",
-                null,
+                classeController.createClasse(),
                 falaBeggar(nome),
-                503L
+                503L,
+                inventoryController.createInventory(503L)
         );
     }
     public Humano createLena() {
@@ -63,10 +71,11 @@ public class HumanoFactoryController { // Classe Controladora de Fábrica
                 Sexo.FEMININO,
                 false,
                 nome,
-                "Descrição Mendigo",
-                null,
+                "Descrição Lena",
+                classeController.createClasse(),
                 falaLena(nome),
-                504L
+                504L,
+                inventoryController.createInventory(504L)
         );
     }
 

@@ -87,6 +87,10 @@ public class Classe { // Classe
                 .orElse(null);
     }
 
+    public List<Habilidade> getHabilidades() {
+        return habilidades;
+    }
+
     public int getAtributo(NomeAtributo tipo) {
         return atributos.stream()
                 .filter(a -> a.getTipo() == tipo)

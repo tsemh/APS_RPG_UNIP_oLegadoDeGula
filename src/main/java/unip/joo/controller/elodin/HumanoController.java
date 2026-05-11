@@ -8,6 +8,7 @@ import java.util.Map;
 
 public class HumanoController { // Classe Controladora
     private ClasseController classe =  new ClasseController();
+    private InventoryController inventoryFactory = new InventoryController();
 
     public Humano createElodin() { // Método Construtor de objetos via controller
         String nome = "Elodin";
@@ -18,7 +19,8 @@ public class HumanoController { // Classe Controladora
                 "Descrição protagonista",
                 classe.createClasse(),
                 falaElodin(nome),
-                100L
+                100L,
+                inventoryFactory.createInventory(100L)
                 );
     }
 

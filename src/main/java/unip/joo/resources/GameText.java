@@ -277,11 +277,6 @@ public class GameText {
                 "O monstro errou o ataque!"
         );
 
-        put(
-                "combat.player.death",
-                "VOCE MORREU!"
-        );
-
         // Mensagem de cooldown
         put(
                 "combat.ability.cooldown",
@@ -308,6 +303,11 @@ public class GameText {
                 "action.fortress.run",
                 "[FUJA DA MULHER MASCARADA]"
 
+        );
+
+        put(
+                "item.received",
+                ">> ITEM RECEBIDO: [%s]"
         );
 
         put(
@@ -685,8 +685,8 @@ public class GameText {
 
         put(
                 "combat.defeat.player.death.five",
-                "Nesse último instante, uma imagem vem à sua mente. Seu filho. Seu rosto. Onde ele está agora?\n" +
-                        "O que vai acontecer com ele? Essas perguntas não terão respostas. Você já não está lá para\n" +
+                "Nesse último instante, uma imagem vem à sua mente. Sua filha. Seu rosto. Onde ela está agora?\n" +
+                        "O que vai acontecer com ela? Essas perguntas não terão respostas. Você já não está lá para\n" +
                         "respondê-las. Já não está em lugar algum."
         );
         put(
@@ -711,6 +711,12 @@ public class GameText {
                 "Sua mente estala, como um clique seco que reorganiza tudo. De repente, o insight surge, cristalino.\n" +
                         "No fim das contas, tudo se resume à gula. Para pôr fim a todos esses “braços”, não adianta cortá-los\n" +
                         "um a um, é preciso derrubar a infraestrutura que os sustenta."
+        );
+        put(
+                "outcome.six",
+                "Olhando ao redor você avista a barraca de sucata, não mais de pé com o vendedor já morto,\n"+
+                        "e se convence de que mesmo morto ainda vai precisar de sua ajuda. Você vasculha a barra e " +
+                        "encontra diversos itens que lhe ajudaram na viajem.:"
         );
         put(
                 "outcome.five",

@@ -16,8 +16,8 @@ public class Monstro extends Personagem{
 
     // Método Construtor
     public Monstro(Boolean saque,long id,
-                   String nome, String descricao, Classe classe, Map<String, String> fala) {
-        super(id, nome, descricao, classe, fala);
+                   String nome, String descricao, Classe classe, Map<String, String> fala, Inventario inventario) {
+        super(id, nome, descricao, classe, fala, inventario);
         this.saque = saque;
     }
 

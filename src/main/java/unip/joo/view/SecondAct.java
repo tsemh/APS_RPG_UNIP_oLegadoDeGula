@@ -33,7 +33,7 @@ public class SecondAct { // Classe de visão
         this.forcaElodin = elodin.getClasse().getAtributo(NomeAtributo.FORCA);
         this.defaultLife = defaultLife;
 
-        printText(scanner,elodin.profile());
+        elodin.menu(scanner);
         secondActInit();
     }
 

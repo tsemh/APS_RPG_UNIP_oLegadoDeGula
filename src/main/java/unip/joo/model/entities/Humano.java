@@ -11,9 +11,9 @@ public class Humano extends Personagem{
 
     // Método Construtor
     public Humano(Sexo sexo, Boolean jogavel,
-                  String nome, String descricao, Classe classe, Map<String, String> fala, long id) {
+                  String nome, String descricao, Classe classe, Map<String, String> fala, long id, Inventario inventario) {
 
-        super(id, nome, descricao, classe, fala);
+        super(id, nome, descricao, classe, fala, inventario);
         this.sexo = sexo;
         this.jogavel = jogavel;
     }

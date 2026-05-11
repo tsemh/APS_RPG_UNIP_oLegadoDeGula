@@ -13,7 +13,7 @@ public class Main { // Classe principal
         int defaultLife = elodin.getClasse().getVida();
 
         FirstAct firstAct = new FirstAct();
-        //firstAct.init(elodin);
+        firstAct.init(elodin);
 
         SecondAct secondAct = new SecondAct();
         secondAct.init(elodin, defaultLife);

@@ -5,6 +5,7 @@ import unip.joo.controller.humanoFactory.HumanoFactoryController;
 import unip.joo.model.ENUM.NomeAtributo;
 import unip.joo.model.entities.Habilidade;
 import unip.joo.model.entities.Humano;
+import unip.joo.model.entities.Item;
 import unip.joo.model.entities.Monstro;
 import unip.joo.resources.GameText;
 import unip.joo.util.Util.*;
@@ -22,6 +23,10 @@ public class FirstAct { // Classe de visão
     private int vigorElodin;
     private int forcaElodin;
 
+    Humano dante = humanoFactoryController.createDante();
+    Humano jonas = humanoFactoryController.createJonas();
+    Humano simmom = humanoFactoryController.createSimmom();
+
     // Mapa para controlar o tempo de espera das habilidades (turno em que ficarão disponíveis)
     private final Map<Integer, Integer> abilityCooldown = new HashMap<>();
     private int currentTurn = 0;
@@ -30,6 +35,7 @@ public class FirstAct { // Classe de visão
         this.elodin = elodin;
         this.vigorElodin = elodin.getClasse().getAtributo(NomeAtributo.VIGOR);
         this.forcaElodin = elodin.getClasse().getAtributo(NomeAtributo.FORCA);
+        
         gameStart();
     }
 
@@ -163,8 +169,6 @@ public class FirstAct { // Classe de visão
     // ==================== INTERAÇÃO COM A BARACA DE SUCATA ====================
 
     private void interactWithScrapTent() {
-        Humano dante = humanoFactoryController.createDante();
-
         List<String> initialDialogue = List.of(
                 gameText.getFirtsAct("pieceTwo.scrap.init"),
                 dante.getFala("init.one"),
@@ -225,7 +229,6 @@ public class FirstAct { // Classe de visão
     // ==================== INTERAÇÃO COM A BARACA DE COMIDA ====================
 
     private void interactWithFoodTent() {
-        Humano jonas = humanoFactoryController.createJonas();
 
         printText(scanner,gameText.getFirtsAct("pieceTwo.food.one.one"));
         printText(scanner,jonas.getFala("init.one"));
@@ -287,8 +290,6 @@ public class FirstAct { // Classe de visão
     // ==================== INTERAÇÃO COM A BARACA DE LÍQUIDO ====================
 
     private void interactWithLiquidTent() {
-        Humano simmom = humanoFactoryController.createSimmom();
-
         List<String> initialDialogue = List.of(
                 gameText.getFirtsAct("pieceTwo.liquid.one.one"),
                 simmom.getFala("init.one"),
@@ -532,19 +533,37 @@ public class FirstAct { // Classe de visão
             
             // Desfecho do combate
             if (droneHealth <= 0) {
-                List<String> victoryDialogue = List.of(
-                        gameText.getFirtsAct("combat.victory.drone.death.one"),
-                        gameText.getFirtsAct("combat.victory.drone.death.two"),
-                        gameText.getFirtsAct("combat.victory.drone.death.three"),
-                        gameText.getFirtsAct("combat.victory.drone.death.four"),
-                        gameText.getFirtsAct("outcome.one"),
-                        gameText.getFirtsAct("outcome.two"),
-                        gameText.getFirtsAct("outcome.three"),
-                        gameText.getFirtsAct("outcome.four"),
-                        gameText.getFirtsAct("outcome.five"),
-                        gameText.getAsciiArts("game.name")
-                );
+                Item kit= dante.getInventario().getItemById(1L);
+                Item jaqueta= dante.getInventario().getItemById(2L);
+                Item barra= dante.getInventario().getItemById(3L);
+                Item pistola= dante.getInventario().getItemById(4L);
+
+                dante.transferItemTo(kit, elodin);
+                dante.transferItemTo(jaqueta, elodin);
+                dante.transferItemTo(barra, elodin);
+                dante.transferItemTo(pistola, elodin);
+
+                List<String> victoryDialogue = new ArrayList<>();
+                victoryDialogue.add(gameText.getFirtsAct("combat.victory.drone.death.one"));
+                victoryDialogue.add(gameText.getFirtsAct("combat.victory.drone.death.two"));
+                victoryDialogue.add(gameText.getFirtsAct("combat.victory.drone.death.three"));
+                victoryDialogue.add(gameText.getFirtsAct("combat.victory.drone.death.four"));
+                victoryDialogue.add(gameText.getFirtsAct("outcome.one"));
+                victoryDialogue.add(gameText.getFirtsAct("outcome.two"));
+                victoryDialogue.add(gameText.getFirtsAct("outcome.three"));
+                victoryDialogue.add(gameText.getFirtsAct("outcome.four"));
+                
+                // Mensagens de itens recebidos
+                victoryDialogue.add(String.format(gameText.getSystemMessage("item.received"), kit.getNome()));
+                victoryDialogue.add(String.format(gameText.getSystemMessage("item.received"), jaqueta.getNome()));
+                victoryDialogue.add(String.format(gameText.getSystemMessage("item.received"), barra.getNome()));
+                victoryDialogue.add(String.format(gameText.getSystemMessage("item.received"), pistola.getNome()));
+                
+                victoryDialogue.add(gameText.getFirtsAct("outcome.five"));
+                victoryDialogue.add(gameText.getAsciiArts("game.name"));
+                
                 displayDialogue(scanner, victoryDialogue);
+
             } else if (playerHealth <= 0) {
                 List<String> defeatDialogue = List.of(
                         gameText.getFirtsAct("combat.defeat.player.death.one"),
@@ -727,10 +746,6 @@ public class FirstAct { // Classe de visão
         } else {
             dialogue.add(gameText.getFirtsAct("combat.enemy.ataqueeletrico.failure"));
         }
-
-        if (elodin.getClasse().getVida() <= 0) {
-            dialogue.add(gameText.getSystemMessage("combat.player.death"));
-        }
     }
 
     private void executeDroneMechanicalCharge(Monstro drone, int playerDefense, int droneForca, List<String> dialogue) {
@@ -766,10 +781,6 @@ public class FirstAct { // Classe de visão
             dialogue.add(String.format(gameText.getSystemMessage("combat.enemy.self.damage"), selfDamage));
         } else {
             dialogue.add(gameText.getFirtsAct("combat.enemy.investida.failure"));
-        }
-
-        if (elodin.getClasse().getVida() <= 0) {
-            dialogue.add(gameText.getSystemMessage("combat.player.death"));
         }
     }
 
@@ -824,9 +835,5 @@ public class FirstAct { // Classe de visão
 
         abilities.add(gameText.getSystemMessage("util.enter"));
         displayDialogue(scanner, abilities);
-    }
-
-    private void temporaryAbilities() {
-        showTemporaryAbilities();
     }
 }

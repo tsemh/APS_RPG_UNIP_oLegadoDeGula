@@ -1,5 +1,6 @@
 package unip.joo.util;
 
+import unip.joo.model.entities.*;
 import unip.joo.resources.GameText;
 
 import java.util.*;
