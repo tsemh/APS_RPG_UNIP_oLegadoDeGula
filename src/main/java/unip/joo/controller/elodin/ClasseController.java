@@ -7,10 +7,11 @@ import unip.joo.model.ENUM.NomeAtributo;
 import unip.joo.model.ENUM.NomeClasse;
 import unip.joo.model.entities.Atributo;
 import unip.joo.model.entities.Classe;
+import unip.joo.resources.DescriptionText;
 import unip.joo.resources.GameText;
 
 public class ClasseController {
-    private final GameText gameText = new GameText();
+    private final DescriptionText description =  new DescriptionText();
     private HabilidadeController habilidades = new HabilidadeController();
     private List<Atributo> atributos;
 
@@ -22,7 +23,7 @@ public class ClasseController {
                 60,
                 15,
                 NomeClasse.SOBREVIVENTE,
-                gameText.getDescriptions("classe.sobrevivente"),
+                description.getclasses("classe.sobrevivente"),
                 habilidades.createAllHabilidades()
         );
     }

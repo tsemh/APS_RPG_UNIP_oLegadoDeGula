@@ -8,25 +8,13 @@ public class DescriptionText {
             "classe.sobrevivente",
             "Um sobrevivente nato, capaz de suportar longos combates e desafios ambientais. Seu \n" +
                     "corpo e mente resistem ao desgaste, mas fraquezas climáticas e energia limitada exigem \n" +
-                    "planejamento e cuidado.\n"
+                    "planejamento e cuidado.\n",
+
+            "classe.drone",
+            ""
 
             );
     private final Map<String, String> characters = Map.of(
-            "classe.sobrevivente",
-            "Um sobrevivente nato, capaz de suportar longos combates e desafios ambientais. Seu \n" +
-                    "corpo e mente resistem ao desgaste, mas fraquezas climáticas e energia limitada exigem \n" +
-                    "planejamento e cuidado.\n",
-
-            "habilidade.esquivaDesesperada",
-            "Após vários anos de sua vida sobrevivendo a combates \n" +
-                    "extremos, o sobrevivente sabe que ficar na frente de um ataque não é uma opção \n" +
-                    "válida, sendo assim, o sobrevivente consegue esquivar de ataques inimigos. (1d4 \n" +
-                    "rodadas de cooldown) ",
-
-            "habilidade.ultimoFolego",
-            "após a vida do personagem ficar menor que 30%, o personagem ganha +1 \n" +
-                    "dado de dado do mesmo tipo na arma que está usando e 10% de resistência a dano. \n" +
-                    "(1 vez por combate) "
 
     );
 
@@ -72,6 +60,7 @@ public class DescriptionText {
                         "dado de dado do mesmo tipo na arma que está usando e 10% de resistência a dano. \n" +
                         "(1 vez por combate) "
         );
+
     }};
 
     public String getAbilities(String key) {

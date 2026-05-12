@@ -556,7 +556,8 @@ public class FirstAct { // Classe de visão
                 victoryDialogue.add(firstActText.getFirtsAct("outcome.two"));
                 victoryDialogue.add(firstActText.getFirtsAct("outcome.three"));
                 victoryDialogue.add(firstActText.getFirtsAct("outcome.four"));
-                
+                victoryDialogue.add(firstActText.getFirtsAct("outcome.six"));
+
                 // Mensagens de itens recebidos
                 victoryDialogue.add(String.format(systemText.getSystemMessage("item.received"), kit.getNome()));
                 victoryDialogue.add(String.format(systemText.getSystemMessage("item.received"), jaqueta.getNome()));

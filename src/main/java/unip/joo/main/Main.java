@@ -1,6 +1,7 @@
 package unip.joo.main;
 
 import unip.joo.controller.elodin.HumanoController;
+import unip.joo.controller.humanoFactory.HumanoFactoryController;
 import unip.joo.model.entities.Humano;
 import unip.joo.view.FirstAct;
 import unip.joo.view.SecondAct;
@@ -14,13 +15,14 @@ public class Main { // Classe principal
         Humano elodin = humanoController.createElodin();
         int defaultLife = elodin.getClasse().getVida();
 
-        Humano lena = humanoController.createElodin();
+        HumanoFactoryController humanoFactoryController = new HumanoFactoryController();
+        Humano lena = humanoFactoryController.createLena();
 
         FirstAct firstAct = new FirstAct();
         //firstAct.init(elodin);
 
         SecondAct secondAct = new SecondAct();
-        //secondAct.init(elodin, lena, defaultLife);
+        secondAct.init(elodin, lena, defaultLife);
         escape = secondAct.escape();
 
         ThirdAct thirdAct = new ThirdAct();

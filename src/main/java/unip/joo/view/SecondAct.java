@@ -137,11 +137,8 @@ public class SecondAct { // Classe de visão
         }
         //Caso se sua tentativa de correr falhar
         if (diceResult < difficultyRun) {
-
             dialogue.add(systemText.getSystemMessage("test.failure"));
             dialogue.add(secondActText.getSecondAct("pieceTwo.Fortress.init.choice.run.failure"));
-            dialogue.add(String.format(systemText.getSystemMessage("item.received"),receiveMask()));
-            //ADICIONAR CÓDIGO PARA INSERIR A MÁSCARA DE GÁS NO INVENTÁRIO
 
             displayDialogue(scanner, dialogue);
             stayChoiceDialogue();
@@ -161,7 +158,6 @@ public class SecondAct { // Classe de visão
 
     private void choiceStayRecieveItem(){
         printText(scanner, secondActText.getSecondAct("pieceTwo.Fortress.init.choice.stay"));
-        printText(scanner, String.format(systemText.getSystemMessage("item.received"),receiveMask()));
 
         stayChoiceDialogue();
     }
@@ -169,7 +165,10 @@ public class SecondAct { // Classe de visão
 
     private void stayChoiceDialogue() {
         Humano lena = humanoFactoryController.createLena();
+        String receivedMask = receiveMask();
+
         List<String> dialogue = Arrays.asList(
+                String.format(systemText.getSystemMessage("item.received"),receivedMask),
                 lena.getFala("secondAct.pieceTwo.Fortress.choice.stay.1"),
                 secondActText.getSecondAct("pieceTwo.Fortress.init.choice.stay.pause.1"),
                 lena.getFala("secondAct.pieceTwo.Fortress.choice.stay.2"),

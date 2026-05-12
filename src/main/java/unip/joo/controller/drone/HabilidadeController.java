@@ -2,13 +2,14 @@ package unip.joo.controller.drone;
 
 import unip.joo.model.entities.Habilidade;
 import unip.joo.model.ENUM.Efeito;
+import unip.joo.resources.DescriptionText;
 import unip.joo.resources.GameText;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HabilidadeController {
-    private final GameText gameText = new GameText();
+    private final DescriptionText description =  new DescriptionText();
 
     public List<Habilidade> createAllHabilidades() {
         List<Habilidade> habilidades = new ArrayList<>();
@@ -25,7 +26,7 @@ public class HabilidadeController {
                 1L,
                 Efeito.ESQUIVA,
                 "Ataque Elétrico",
-                gameText.getDescriptions("habilidade.ataqueletrico"),
+                description.getAbilities("habilidade.ataqueletrico"),
                 1,
                 10,
                 2,
@@ -38,7 +39,7 @@ public class HabilidadeController {
                 2L,
                 Efeito.ESQUIVA,
                 "Investida Mecânica",
-                gameText.getDescriptions("habilidade.investidamecanica"),
+                description.getAbilities("habilidade.investidamecanica"),
                 1,
                 8,
                 3,
@@ -51,7 +52,7 @@ public class HabilidadeController {
                 3L,
                 Efeito.ESQUIVA,
                 "Pulso Eletromagnético",
-                gameText.getDescriptions("habilidade.pulsoeletromagnetico"),
+                description.getAbilities("habilidade.pulsoeletromagnetico"),
                 2,
                 10,
                 3,
@@ -64,7 +65,7 @@ public class HabilidadeController {
                 4L,
                 Efeito.ESQUIVA,
                 "Raio Elétrico",
-                gameText.getDescriptions("habilidade.raioEletrico"),
+                description.getAbilities("habilidade.raioEletrico"),
                 2,
                 6,
                 3,
@@ -77,7 +78,7 @@ public class HabilidadeController {
                 5L,
                 Efeito.ESQUIVA,
                 "Canhão Elétrico",
-                gameText.getDescriptions("habilidade.canhaoEletrico"),
+                description.getAbilities("habilidade.canhaoEletrico"),
                 4,
                 6,
                 0,

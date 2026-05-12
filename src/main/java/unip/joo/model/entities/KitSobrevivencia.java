@@ -8,7 +8,6 @@ public class KitSobrevivencia extends Consumivel {
     public KitSobrevivencia(long id, String nome, String descricao, int curaPercentual, int usosRestantes) {
         super(id, Efeito.CURA, nome, descricao, curaPercentual, usosRestantes);
         this.curaPercentual = curaPercentual;
-        this.usosRestantes = usosRestantes;
     }
 
     public int getCuraPercentual() {
@@ -21,7 +20,7 @@ public class KitSobrevivencia extends Consumivel {
         resumo.append(getNome()).append(" - Consumível\n");
         resumo.append(getDescricao()).append("\n");
         resumo.append("Cura: ").append(curaPercentual).append("% da vida");
-        resumo.append("\nUsos restantes: ").append(usosRestantes);
+        //resumo.append("\nUsos restantes: ").append(usosRestantes);
         return resumo.toString();
     }
 }

@@ -165,11 +165,15 @@ public abstract class Personagem implements Descritivel { // Classe Abstrata
         
         try {
             String input = scanner.nextLine();
-            int escolha = Integer.parseInt(input);
+            int choice = Integer.parseInt(input);
             
-            if (escolha == 1) {
+            if (choice == 1) {
                 if (kit.usar(this)) {
                     System.out.println("Item consumido!");
+                    double percentual = kit.getCuraPercentual() / 100.0;
+                    int heal = (int) (getClasse().getVida() * percentual);
+                    int newLife = getClasse().getVida() + heal;
+                    getClasse().setVida(newLife);
                     if (kit.getUsosRestantes() <= 0) {
                         itens.remove(kit);
                         System.out.println("Item foi removido do inventário.");

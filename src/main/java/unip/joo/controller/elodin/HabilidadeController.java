@@ -2,13 +2,14 @@ package unip.joo.controller.elodin;
 
 import unip.joo.model.entities.Habilidade;
 import unip.joo.model.ENUM.Efeito;
+import unip.joo.resources.DescriptionText;
 import unip.joo.resources.GameText;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HabilidadeController {
-    private final GameText gameText = new GameText();
+    private final DescriptionText description =  new DescriptionText();
 
     public List<Habilidade> createAllHabilidades() {
         List<Habilidade> habilidades = new ArrayList<>();
@@ -26,7 +27,7 @@ public class HabilidadeController {
                 1L,
                 Efeito.ESQUIVA,
                 "Esquiva Desesperada",
-                gameText.getDescriptions("habilidade.esquivaDesesperada"),
+                description.getAbilities("habilidade.esquivaDesesperada"),
                 1,
                 4,
                 0,
@@ -38,7 +39,7 @@ public class HabilidadeController {
                 2L,
                 Efeito.ESQUIVA,
                 "Último fôlego",
-                gameText.getDescriptions("habilidade.ultimoFolego"),
+                description.getAbilities("habilidade.ultimoFolego"),
                 1,
                 1,
                 0,
@@ -50,7 +51,7 @@ public class HabilidadeController {
                 3L,
                 Efeito.ESQUIVA,
                 "Ruptura Desesperada",
-                gameText.getTemporaryAbilities("RupturaDesesperada"),
+                description.getAbilities("RupturaDesesperada"),
                 2,
                 10,
                 3,
@@ -62,7 +63,7 @@ public class HabilidadeController {
                 4L,
                 Efeito.DANO,
                 "Violência Improvisada",
-                gameText.getTemporaryAbilities("ViolenciaImprovisada"),
+                description.getAbilities("ViolenciaImprovisada"),
                 2,
                 10,
                 3,
@@ -74,7 +75,7 @@ public class HabilidadeController {
                 5L,
                 Efeito.DANO,
                 "Impacto Deslizante",
-                gameText.getTemporaryAbilities("ImpactoDeslizante"),
+                description.getAbilities("ImpactoDeslizante"),
                 2,
                 10,
                 3,
@@ -86,7 +87,7 @@ public class HabilidadeController {
                 6L,
                 Efeito.DANO,
                 "Esmaga Crânios",
-                gameText.getTemporaryAbilities("EsmagaCranios"),
+                description.getAbilities("EsmagaCranios"),
                 2,
                 10,
                 3,

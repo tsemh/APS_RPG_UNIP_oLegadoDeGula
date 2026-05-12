@@ -6,6 +6,8 @@ import unip.joo.model.entities.Item;
 import java.util.ArrayList;
 import java.util.List;
 
+import static unip.joo.controller.humanoFactory.ItemFactoryController.createKitSobrevivencia;
+
 public class InventoryController {
     public Inventario createInventory(long personagemId) {
         List<Item> itens = new ArrayList<>();
