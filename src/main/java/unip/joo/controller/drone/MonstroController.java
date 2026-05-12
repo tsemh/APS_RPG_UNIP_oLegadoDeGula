@@ -4,18 +4,19 @@ import unip.joo.model.entities.Monstro;
 
 public class MonstroController {
     private unip.joo.controller.drone.ClasseController classe =  new ClasseController();
-    private InventoryControllerDrone inventoryFactory = new InventoryControllerDrone();
+    private InventoryController inventoryFactory = new InventoryController();
 
     public Monstro createDrone() {
         String nome = "Eletro drone";
+        long id = 400L;
         return new Monstro(
                 false,
-                400L,
+                id,
                 nome,
                 "Descrição Drone",
                 classe.createClasse(),
                 null,
-                inventoryFactory.createInventory(400L)
+                inventoryFactory.createInventory(id)
         );
     }
 }

@@ -3,7 +3,7 @@ package unip.joo.controller.drone;
 import unip.joo.controller.humanoFactory.InventoryFactoryController;
 import unip.joo.model.entities.Inventario;
 
-public class InventoryControllerDrone {
+public class InventoryController {
 
     private InventoryFactoryController inventoryFactory = new InventoryFactoryController();
 

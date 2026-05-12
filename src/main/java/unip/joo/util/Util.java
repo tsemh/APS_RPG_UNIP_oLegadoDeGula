@@ -1,12 +1,15 @@
 package unip.joo.util;
 
 import unip.joo.model.entities.*;
+import unip.joo.resources.AsciiArt;
 import unip.joo.resources.GameText;
+import unip.joo.resources.SystemText;
 
 import java.util.*;
 
 public class Util { // Classe utilitária
-    private static final GameText gameText = new GameText(); // Atributo Estático / Atributo Final
+    private static final AsciiArt asciiArt = new AsciiArt(); // Atributo Estático / Atributo Final
+    private static final SystemText systemText = new SystemText(); // Atributo Estático / Atributo Final
 
     // Método Estático
     public static int rollDice(int quantity, int sides) {
@@ -51,18 +54,18 @@ public class Util { // Classe utilitária
     }
 
     public static void handleInvalidChoice() {
-        System.out.println(gameText.getSystemMessage("error.opcaoInvalida"));
+        System.out.println(systemText.getSystemMessage("error.opcaoInvalida"));
     }
 
     public static String actualLife(int damage, int actualLife, int defaultLife) {
 
-        return String.format(gameText.getSystemMessage("roll.losesLife"), damage)+"\n"+
-               String.format(gameText.getSystemMessage("actualLife"), actualLife, defaultLife);
+        return String.format(systemText.getSystemMessage("roll.losesLife"), damage)+"\n"+
+               String.format(systemText.getSystemMessage("actualLife"), actualLife, defaultLife);
     }
     public static boolean verifyDeath(Scanner scanner,int life, List messageDeath){
         if(life <= 0){
             displayDialogue(scanner, messageDeath);
-            printText(scanner, gameText.getAsciiArts("youDied"));
+            printText(scanner, asciiArt.getAsciiArts("youDied"));
             System.exit(0);
             return true;
         } else {
@@ -73,7 +76,7 @@ public class Util { // Classe utilitária
     public static boolean verifyDeath(Scanner scanner,int life, String messageDeath){
         if(life <= 0){
             printText(scanner, messageDeath);
-            printText(scanner, gameText.getAsciiArts("youDied"));
+            printText(scanner, asciiArt.getAsciiArts("youDied"));
             System.exit(0);
             return true;
         } else {

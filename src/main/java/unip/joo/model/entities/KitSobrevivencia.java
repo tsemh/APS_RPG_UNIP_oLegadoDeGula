@@ -6,7 +6,7 @@ public class KitSobrevivencia extends Consumivel {
     private int curaPercentual;
 
     public KitSobrevivencia(long id, String nome, String descricao, int curaPercentual, int usosRestantes) {
-        super(id, Efeito.CURA, nome, descricao, curaPercentual, 0, usosRestantes);
+        super(id, Efeito.CURA, nome, descricao, curaPercentual, usosRestantes);
         this.curaPercentual = curaPercentual;
         this.usosRestantes = usosRestantes;
     }

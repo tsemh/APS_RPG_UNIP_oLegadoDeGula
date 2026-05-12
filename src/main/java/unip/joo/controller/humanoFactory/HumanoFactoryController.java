@@ -14,7 +14,7 @@ public class HumanoFactoryController { // Classe Controladora de Fábrica
 
     public Humano createDante() { // Criação de objetos (Fábrica)
         String nome = "Dante";
-
+        long id = 500L;
         return new Humano(
                 Sexo.MASCULINO,
                 false,
@@ -22,12 +22,13 @@ public class HumanoFactoryController { // Classe Controladora de Fábrica
                 "Descrição Dante",
                 classeController.createClasse(),
                 falaDante(nome),
-                500L,
-                inventoryController.createInventoryDante(500L)
+                id,
+                inventoryController.createInventoryDante(id)
         );
     }
     public Humano createJonas() {
         String nome = "Jonas";
+        long id = 501L;
         return new Humano(
                 Sexo.MASCULINO,
                 false,
@@ -35,12 +36,13 @@ public class HumanoFactoryController { // Classe Controladora de Fábrica
                 "Descrição Jonas",
                 classeController.createClasse(),
                 falaJonas(nome),
-                501L,
-                inventoryController.createInventory(501L)
+                id,
+                inventoryController.createInventory(id)
         );
     }
     public Humano createSimmom() {
         String nome = "Simmom";
+        long id = 502L;
         return new Humano(
                 Sexo.MASCULINO,
                 false,
@@ -48,12 +50,13 @@ public class HumanoFactoryController { // Classe Controladora de Fábrica
                 "Descrição Simmom",
                 classeController.createClasse(),
                 falaSimmom(nome),
-                502L,
-                inventoryController.createInventory(502L)
+                id,
+                inventoryController.createInventory(id)
         );
     }
     public Humano createBeggar() {
         String nome = "Mendigo";
+        long id = 503L;
         return new Humano(
                 Sexo.MASCULINO,
                 false,
@@ -61,12 +64,13 @@ public class HumanoFactoryController { // Classe Controladora de Fábrica
                 "Descrição Mendigo",
                 classeController.createClasse(),
                 falaBeggar(nome),
-                503L,
-                inventoryController.createInventory(503L)
+                id,
+                inventoryController.createInventory(id)
         );
     }
     public Humano createLena() {
         String nome = "Lena";
+        long id = 504L;
         return new Humano(
                 Sexo.FEMININO,
                 false,
@@ -74,8 +78,8 @@ public class HumanoFactoryController { // Classe Controladora de Fábrica
                 "Descrição Lena",
                 classeController.createClasse(),
                 falaLena(nome),
-                504L,
-                inventoryController.createInventory(504L)
+                id,
+                inventoryController.createInventoryLena(id)
         );
     }
 
@@ -295,14 +299,13 @@ public class HumanoFactoryController { // Classe Controladora de Fábrica
                 p + "E quando ela percebe algo fora do fluxo... ela não ignora");
 
         dialogue.put("thirdAct.lena.penDrive.one",
-                p + "Você não pode tentar matar ela, você tem que restaurar ela!");
-
+                p + "Elodin...você precisar correr, deve ter algum lugar para você plugar isso, não importa,\n"+
+                "contanto que esteja conecta com o servidor essa coisa fará o trabalho por nós...");
+                
         dialogue.put("thirdAct.lena.penDrive.two",
-                p + "Corra até a sala dos servidores e coloque esse PEN DRIVE em um servidor roxo!");
-
-        dialogue.put("thirdAct.lena.penDrive.three",
-                p + "Corra, sua vida e talvez o resto da vida de todos nesse mundo, dependem disso!");
+                p + "Vai...vai antes que seja tarde!");
 
         return dialogue;
     }
 }
+        

@@ -4,8 +4,10 @@ import unip.joo.controller.Gula.MonstroController;
 import unip.joo.model.ENUM.NomeAtributo;
 import unip.joo.model.entities.Habilidade;
 import unip.joo.model.entities.Humano;
+import unip.joo.model.entities.Item;
 import unip.joo.model.entities.Monstro;
-import unip.joo.resources.GameText;
+import unip.joo.resources.SystemText;
+import unip.joo.resources.ThirdActText;
 import unip.joo.util.Util.*;
 
 import java.util.*;
@@ -13,145 +15,87 @@ import java.util.*;
 import static unip.joo.util.Util.*;
 
 public class ThirdAct {
-    private final GameText gameText = new GameText();
+    private final ThirdActText thirdActText = new ThirdActText();
+    private final SystemText systemText = new SystemText();
     private final Scanner scanner = new Scanner(System.in);
+    private final MonstroController monstroController = new MonstroController();
 
-    private Humano dante;
-    private int forcaDante;
-    private int agilidadeDante;
-    private int vigorDante;
+    private Humano elodin;
+    private Humano lena; // Encapsulamento
+    private int forcaElodin;
+    private int agilidadeElodin;
+    private int vigorElodin;
     private int defaultLife;
 
     private final Map<Integer, Integer> abilityCooldown = new HashMap<>();
     private int currentTurn = 0;
+    private Monstro gula = monstroController.createGula();
 
-    public void init(Humano dante, int defaultLife) {
-        this.dante = dante;
-        this.forcaDante = dante.getClasse().getAtributo(NomeAtributo.FORCA);
-        this.agilidadeDante = dante.getClasse().getAtributo(NomeAtributo.AGILIDADE);
-        this.vigorDante = dante.getClasse().getAtributo(NomeAtributo.VIGOR);
+    public void init(Humano elodin, Humano lena, int defaultLife, boolean escape) {
+        this.elodin = elodin;
+        this.lena = lena;
+        this.forcaElodin = elodin.getClasse().getAtributo(NomeAtributo.FORCA);
+        this.agilidadeElodin = elodin.getClasse().getAtributo(NomeAtributo.AGILIDADE);
+        this.vigorElodin = elodin.getClasse().getAtributo(NomeAtributo.VIGOR);
         this.defaultLife = defaultLife;
 
         elodin.menu(scanner);
-        thirdActInit();
+        if(escape) {
+            startDirectCombat();
+        } else {
+            thirdActInit();
+        }
     }
 
     // ========================= TERCEIRO ATO ===========================
 
     private void thirdActInit() {
+        Item pendrive = lena.getInventario().getItemById(6L);
+        lena.transferItemTo(pendrive , elodin);
         List<String> initialDialogue = List.of(
-            "TERCEIRO ATO - A GULA",
-                "Você observa aquilo se aproximando aos poucos...",
-                "Lena olha para você e entrega uma espécie de aparelho com uma entrada antiga.",
-                "Lena: Você não pode tentar matar ela, você tem que restaurar ela!",
-                "Lena: Corra até a sala dos servidores e coloque esse PEN DRIVE em um servidor roxo!",
-                "Lena: Corra, sua vida e talvez o resto da vida de todos nesse mundo, dependem disso!",
-                ">> ITEM RECEBIDO: [PEN DRIVE]"
+                thirdActText.getThirdAct("pieceOne.ato"),
+                thirdActText.getThirdAct("pieceOne.lenaApproaches.1"),
+                lena.getFala("thirdAct.lena.penDrive.one"),
+                String.format(systemText.getSystemMessage("item.received"),pendrive.getNome()),
+                elodin.getFala("thirdAct.pieceOne.talkLena"),
+                thirdActText.getThirdAct("pieceOne.lenaApproaches.2"),
+                thirdActText.getThirdAct("pieceOne.lenaApproaches.3"),
+                lena.getFala("thirdAct.lena.penDrive.two")
         );
         displayDialogue(scanner, initialDialogue);
 
-        chooseToRun();
+        testAgilityToRun();
     }
 
-    private void chooseToRun() {
-        while (true) {
-            int choice = getPlayerChoice(scanner, "\n[1] Correr para os servidores\n[2] Tentar enfrentar Gula");
 
-            if (isValidChoice(choice, 1, 2)) {
-                if (choice == 1) {
-                    testStrengthToRun();
-                } else {
-                    startDirectCombat();
-                }
-                return;
-            } else {
-                handleInvalidChoice();
-            }
-        }
-    }
+    private void testAgilityToRun() {
+        int valueTest = 10;
 
-    private void testStrengthToRun() {
         List<String> dialogue = new ArrayList<>();
-        dialogue.add("Você tenta correr pela sua vida!");
-        dialogue.add(String.format("Teste de Força [%d] vs DT 10", forcaDante));
+        dialogue.add(String.format(systemText.getSystemMessage("test.agilidade"), agilidadeElodin));
 
-        int diceRoll = rollDice(1, 20);
-        int testResult = diceRoll + forcaDante;
-        dialogue.add(String.format(">> Seu dado é: [%s]", diceRoll));
+        int diceResult = 0;
 
-        displayDialogue(scanner, dialogue);
-
-        if (testResult >= 10) {
-            testAgilityToDodgeDoors();
-        } else {
-            failedToRunNarrative();
-            startDirectCombat();
+        for (int roll = 1; roll <= vigorElodin; roll++) {
+            diceResult = rollDice(1, 20);
+            dialogue.add(String.format(systemText.getSystemMessage("roll.dice"), diceResult));
         }
-    }
 
-    private void testAgilityToDodgeDoors() {
-        List<String> narrative = List.of(
-                "Dante corre por sua vida, em disparada em linha reta!",
-                "Conforme você avança, escuta cada vez mais os barulhos metálicos daquela coisa se aproximando.",
-                "A I.A tenta impedir você bloqueando os caminhos!",
-                "\nTeste de Agilidade para escapar dos bloqueios",
-                String.format("Teste de Agilidade [%d] vs DT 12", agilidadeDante)
-        );
-        displayDialogue(scanner, narrative);
+        dialogue.add(thirdActText.getThirdAct("pieceOne.precombat.default"));
 
-        int diceRoll = rollDice(1, 20);
-        int testResult = diceRoll + agilidadeDante;
-
-        printText(scanner, String.format(">> Seu dado é: [%s]", diceRoll));
-
-        if (testResult >= 12) {
-            successfulRunNarrative();
-            startFinalCombat();
+        if (diceResult >= valueTest) {
+            dialogue.add(thirdActText.getThirdAct("pieceOne.precombat.success"));
+            dialogue.add(thirdActText.getThirdAct("pieceOne.precombat.success.2"));
+            dialogue.add(thirdActText.getThirdAct("pieceOne.precombat.success.3"));
         } else {
-            failedToDodgeNarrative();
-            startDirectCombat();
+            dialogue.add(thirdActText.getThirdAct("pieceOne.precombat.failure"));
+            dialogue.add(thirdActText.getThirdAct("pieceOne.precombat.failure.2"));
+
         }
+        displayDialogue(scanner, dialogue);
+        startDirectCombat();
     }
 
-    private void failedToRunNarrative() {
-        List<String> dialogue = List.of(
-                "Dante tenta correr, mas Gula é mais rápida.",
-                "A porta que Lena apontava se fecha violentamente.",
-                "Não há nada que você possa fazer além de enfrentar ela.",
-                "Algo extremamente difícil... mas não impossível.",
-                "Dante saca sua pistola e fica de frente para Gula."
-        );
-        displayDialogue(scanner, dialogue);
-    }
-
-    private void failedToDodgeNarrative() {
-        List<String> dialogue = List.of(
-                "Você tenta fazer um rolamento para passar pela porta antes que ela feche.",
-                "Mas não é rápido o suficiente.",
-                "Seu corpo bate na porta com força.",
-                "Sua visão fica um pouco embaçada.",
-                "Você olha para frente e vê... aquela que destruiu tudo que você amava.",
-                "Se aproximando lentamente.",
-                "Certeira de uma coisa... sua morte."
-        );
-        displayDialogue(scanner, dialogue);
-    }
-
-    private void successfulRunNarrative() {
-        List<String> dialogue = List.of(
-                "Dante se joga para frente e passa pela porta que ia se fechar!",
-                "Ele rola para frente passando por outra... e consecutivamente por mais 3 portas!",
-                "Pronto para acabar com isso!",
-                "GULA acaba ficando para trás.",
-                "Dante chega à sala dos servidores.",
-                "Rapidamente colocando o pen drive no terminal principal e desestabilizando o sistema.",
-                "Todas as portas se abrem.",
-                "A GULA não parece tão imponente mais.",
-                "Agora... é sua chance.",
-                "Agora é seu momento."
-        );
-        displayDialogue(scanner, dialogue);
-    }
 
     private void startDirectCombat() {
         List<String> narrative = List.of(
@@ -161,25 +105,26 @@ public class ThirdAct {
                 "Está na hora."
         );
         displayDialogue(scanner, narrative);
-        startCombat(new MonstroController().createGula(), false);
+        startCombat();
     }
 
     private void startFinalCombat() {
+        gula =  monstroController.createCorruptedGula();
         List<String> narrative = List.of(
                 "LUTA FINAL - DANTE VS GULA (CORROMPIDA)",
                 "Agora desestabilizada pelo pen drive.",
                 "Ela está fraca... mas ainda perigosa."
         );
         displayDialogue(scanner, narrative);
-        startCombat(new MonstroController().createGula(), true);
+        startCombat();
     }
 
-    private void startCombat(Monstro gula, boolean isFinalCombat) {
+    private void startCombat() {
         try {
             initializeAbilityCooldown();
             currentTurn = 0;
 
-            int danteAgilidade = agilidadeDante;
+            int danteAgilidade = agilidadeElodin;
             int gulaAgilidade = gula.getClasse().getAtributo(NomeAtributo.AGILIDADE);
 
             printText(scanner, String.format(">> INICIATIVA: Dante [%d] vs Gula [%d]", danteAgilidade, gulaAgilidade));
@@ -196,17 +141,17 @@ public class ThirdAct {
 
             int gulaDefense = gula.getClasse().getDefesa();
             int gulaHealth = gula.getClasse().getVida();
-            int danteHealth = dante.getClasse().getVida();
-            int danteDefense = dante.getClasse().getDefesa();
+            int elodinHealth = elodin.getClasse().getVida();
+            int elodinDefense = elodin.getClasse().getDefesa();
 
-            while (danteHealth > 0 && gulaHealth > 0) {
+            while (elodinHealth > 0 && gulaHealth > 0) {
                 printText(scanner, String.format("\n>> TURNO [%d]", currentTurn));
-                printText(scanner, String.format(">> Dante: [%d/%d] | Gula: [%d/%d]", danteHealth, defaultLife, gulaHealth, 100));
+                printText(scanner, String.format(">> Dante: [%d/%d] | Gula: [%d/%d]", elodinHealth, defaultLife, gulaHealth, 100));
 
                 int choice = getPlayerChoice(scanner, "\n[1] Ataque Simples [4] Tiro de Precisão\n[2] Ataque Desesperado [5] Ver Habilidades");
 
                 if (choice == 5) {
-                    dante.showAbilities(scanner);
+                    elodin.showAbilities(scanner);
                     continue;
                 }
 
@@ -215,14 +160,14 @@ public class ThirdAct {
                     continue;
                 }
 
-                executeDanteTurn(choice, gula, gulaDefense);
+                executeElodinTurn(choice, gula, gulaDefense);
                 currentTurn++;
                 gulaHealth = gula.getClasse().getVida();
-                danteHealth = dante.getClasse().getVida();
+                elodinHealth = elodin.getClasse().getVida();
 
-                if (gulaHealth > 0 && danteHealth > 0) {
-                    executeGulaTurn(gula, danteDefense);
-                    danteHealth = dante.getClasse().getVida();
+                if (gulaHealth > 0 && elodinHealth > 0) {
+                    executeGulaTurn(gula, elodinDefense);
+                    elodinHealth = elodin.getClasse().getVida();
                 }
             }
 
@@ -242,21 +187,60 @@ public class ThirdAct {
         abilityCooldown.put(2, 0);
     }
 
-    private boolean resolveInitiative(int danteAgility, int gulaAgility) {
-            int danteRoll = rollDice(1, 20);
+    private boolean resolveInitiative(int elodinAgility, int gulaAgility) {
+            int elodinRoll = rollDice(1, 20);
             int gulaRoll = rollDice(1, 20);
 
-            printText(scanner, String.format(">> Seu dado: [%s] | Dado de Gula: [%s]", danteRoll, gulaRoll));
+        printText(scanner, String.format(thirdActText.getThirdAct("combat.diceRoll"), elodinRoll));
+        printText(scanner, String.format(thirdActText.getThirdAct("combat.enemyDiceRoll"), gulaRoll));
 
-            attempts++;
-
-        return danteRoll > gulaRoll;
+        return elodinRoll > gulaRoll;
     }
 
-    private void executeDanteTurn(int choice, Monstro gula, int gulaDefense) {
+    private void showAvailableAbilities() {
+        if (elodin.getClasse() == null) {
+            System.out.println(systemText.getSystemMessage("error.noAbilities"));
+            scanner.nextLine();
+            return;
+        }
+
+        List<Habilidade> habilidades = elodin.getClasse().getHabilidades();
+        
+        if (habilidades == null || habilidades.isEmpty()) {
+            System.out.println(systemText.getSystemMessage("error.noAbilities"));
+            scanner.nextLine();
+            return;
+        }
+
+        System.out.println("\n========== HABILIDADES ==========");
+        for (Habilidade habilidade : habilidades) {
+            System.out.println("- " + habilidade.getNome());
+            System.out.println("  Descrição: " + habilidade.getDescricao());
+            System.out.println("  Dados: " + habilidade.getQuantidadeDado() + "d" + habilidade.getValorDado() + " + " + habilidade.getValorExtra());
+            System.out.println();
+        }
+        System.out.println("=================================");
+        System.out.print("Pressione [ENTER] para continuar: ");
+        scanner.nextLine();
+    }
+
+    private boolean isItemEquipped(String itemName) {
+        if (elodin.getInventario() == null || elodin.getInventario().getItens() == null) {
+            return false;
+        }
+
+        for (unip.joo.model.entities.Item item : elodin.getInventario().getItens()) {
+            if (item.getNome().equals(itemName) && item.isEquipado()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void executeElodinTurn(int choice, Monstro gula, int gulaDefense) {
         List<String> dialogue = new ArrayList<>();
         int diceRoll = rollDice(1, 20);
-        int attackRoll = diceRoll + forcaDante;
+        int attackRoll = diceRoll + forcaElodin;
         int baseDamage = 0;
         String narrativa = "";
 
@@ -264,24 +248,24 @@ public class ThirdAct {
             case 1:
                 baseDamage = rollDice(3, 10) + 3;
                 narrativa = (attackRoll >= gulaDefense) ?
-                        "Dante avança com cautela e golpeia Gula com o cano de metal, acertando partes instáveis!" :
-                        "Dante tenta atacar, mas hesita no último instante. O golpe passa perto sem causar dano.";
+                        "Elodin avança com cautela e golpeia Gula com o cano de metal, acertando partes instáveis!" :
+                        "Elodin tenta atacar, mas hesita no último instante. O golpe passa perto sem causar dano.";
                 break;
             case 2:
                 baseDamage = rollDice(3, 10) + 3;
                 int dualDamage = rollDice(1, 10);
                 baseDamage += dualDamage;
                 narrativa = (attackRoll >= gulaDefense) ?
-                        "Dante percebe a instabilidade e avança sem pensar! Com força total, ele gira o cano acima da cabeça e desfere um golpe horizontal brutal!" :
-                        "Dante tenta atingir em cheio, mas Gula se desfaz em gosma escura. O golpe apenas atravessa energia instável!";
+                        "Elodin percebe a instabilidade e avança sem pensar! Com força total, ele gira o cano acima da cabeça e desfere um golpe horizontal brutal!" :
+                        "Elodin tenta atingir em cheio, mas Gula se desfaz em gosma escura. O golpe apenas atravessa energia instável!";
                 break;
             case 4:
                 diceRoll = rollDice(1, 20);
-                attackRoll = diceRoll + agilidadeDante;
+                attackRoll = diceRoll + agilidadeElodin;
                 baseDamage = rollDice(3, 12) + 3;
                 narrativa = (attackRoll >= gulaDefense) ?
-                        "Dante estabiliza a respiração e aponta a pistola para o núcleo de Gula. O disparo acerta em cheio!" :
-                        "Dante tenta atirar, mas as luzes piscam agressivamente. Seu disparo apenas atravessa uma parte instável.";
+                        "Elodin estabiliza a respiração e aponta a pistola para o núcleo de Gula. O disparo acerta em cheio!" :
+                        "Elodin tenta atirar, mas as luzes piscam agressivamente. Seu disparo apenas atravessa uma parte instável.";
                 break;
         }
 
@@ -301,7 +285,7 @@ public class ThirdAct {
         displayDialogue(scanner, dialogue);
     }
 
-    private void executeGulaTurn(Monstro gula, int danteDefense) {
+    private void executeGulaTurn(Monstro gula, int elodinDefense) {
         try {
             printText(scanner, "\n>> TURNO DE GULA");
 
@@ -316,7 +300,7 @@ public class ThirdAct {
             switch (attackChoice) {
                 case 1:
                     damage = rollDice(1, 10) + 5;
-                    String laserNarrative = (attackRoll >= danteDefense) ?
+                    String laserNarrative = (attackRoll >= elodinDefense) ?
                             "O núcleo de Gula pulsa violentamente! Uma descarga roxa escapa e atinge você brutalmente!" :
                             "A energia oscila descontrolada. O disparo explode contra o cenário antes de alcançá-lo.";
                     dialogue.add(laserNarrative);
@@ -324,7 +308,7 @@ public class ThirdAct {
 
                 case 2:
                     damage = rollDice(2, 6) + 3;
-                    String tentacleNarrative = (attackRoll >= danteDefense) ?
+                    String tentacleNarrative = (attackRoll >= elodinDefense) ?
                             "Partes do corpo de Gula se abrem violentamente! Tentáculos instáveis emergem e atingem você com brutalidade!" :
                             "Os tentáculos avançam descontrolados, atingindo paredes. A instabilidade faz os ataques perderem precisão!";
                     dialogue.add(tentacleNarrative);
@@ -337,9 +321,9 @@ public class ThirdAct {
                     break;
             }
 
-            if (attackRoll >= danteDefense) {
-                int newDanteHealth = dante.getClasse().getVida() - damage;
-                dante.getClasse().setVida(Math.max(0, newDanteHealth));
+            if (attackRoll >= elodinDefense) {
+                int newElodinHealth = elodin.getClasse().getVida() - damage;
+                elodin.getClasse().setVida(Math.max(0, newElodinHealth));
                 dialogue.add(String.format(">> Você perdeu [%d] pontos de vida!", damage));
             } else {
                 dialogue.add(">> Você conseguiu esquivar!");
@@ -361,7 +345,7 @@ public class ThirdAct {
                 "Seu núcleo pisca violentamente enquanto partes de seu corpo perdem forma.",
                 "O brilho roxo que preenchia tudo começa a enfraquecer.",
                 "",
-                "Dante respira com dificuldade.",
+                "Elodin respira com dificuldade.",
                 "Seu corpo dói.",
                 "Suas mãos tremem.",
                 "Mas ele continua avançando.",
@@ -370,7 +354,7 @@ public class ThirdAct {
                 "Distorcendo sua estrutura em formas impossíveis.",
                 "Tarde demais.",
                 "",
-                "Dante ergue o cano de metal acima da cabeça.",
+                "Elodin ergue o cano de metal acima da cabeça.",
                 "Com toda a força que ainda resta... ele atravessa o núcleo de Gula.",
                 "",
                 "Por um instante...",
@@ -384,7 +368,7 @@ public class ThirdAct {
                 "",
                 "E Gula finalmente deixa de existir.",
                 "",
-                "Dante permanece parado diante dos restos da criatura.",
+                "Elodin permanece parado diante dos restos da criatura.",
                 "Tentando recuperar o ar.",
                 "",
                 "Pela primeira vez em muito tempo...",
@@ -399,7 +383,7 @@ public class ThirdAct {
         List<String> defeat = List.of(
                 "\n========== DERROTA ==========",
                 "",
-                "Dante tenta permanecer de pé.",
+                "Elodin tenta permanecer de pé.",
                 "Seu corpo falha.",
                 "O calor das queimaduras atravessa sua pele.",
                 "A instalação inteira pisca ao redor dele.",
@@ -410,7 +394,7 @@ public class ThirdAct {
                 "Seu núcleo pulsa de forma pesada.",
                 "Iluminando o corredor escuro com uma luz roxa instável.",
                 "",
-                "Dante tenta erguer a arma mais uma vez.",
+                "Elodin tenta erguer a arma mais uma vez.",
                 "Mas seus braços não respondem.",
                 "",
                 "A criatura para diante dele.",

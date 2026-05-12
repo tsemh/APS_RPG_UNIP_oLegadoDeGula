@@ -8,18 +8,22 @@ import unip.joo.view.ThirdAct;
 
 public class Main { // Classe principal
     public static void main(String[] args) {
+        boolean escape = false;
         // Criação de objetos e instanciação
         HumanoController humanoController = new HumanoController();
         Humano elodin = humanoController.createElodin();
         int defaultLife = elodin.getClasse().getVida();
 
+        Humano lena = humanoController.createElodin();
+
         FirstAct firstAct = new FirstAct();
         //firstAct.init(elodin);
 
         SecondAct secondAct = new SecondAct();
-        //secondAct.init(elodin, defaultLife);
+        //secondAct.init(elodin, lena, defaultLife);
+        escape = secondAct.escape();
 
         ThirdAct thirdAct = new ThirdAct();
-        thirdAct.init(elodin, defaultLife);
+        thirdAct.init(elodin, lena, defaultLife, escape);
     }
 }

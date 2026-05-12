@@ -8,17 +8,23 @@ import java.util.List;
 
 public class InventoryFactoryController {
 
-    public Inventario createInventory(long personagemId) {
-        List<Item> itens = new ArrayList<>();
-        return new Inventario(1L, personagemId, 10, itens);
+    public Inventario createInventory(long characterId) {
+        List<Item> items = new ArrayList<>();
+        return new Inventario(1L, characterId, 10, items);
     }
 
-    public Inventario createInventoryDante(long personagemId) {
-        List<Item> itens = new ArrayList<>();
-        itens.add(ItemFactoryController.createKitSobrevivencia());
-        itens.add(ItemFactoryController.createJaquetaReforcada());
-        itens.add(ItemFactoryController.createBarraDeMetal());
-        itens.add(ItemFactoryController.createPistola());
-        return new Inventario(1L, personagemId, 10, itens);
+    public Inventario createInventoryDante(long characterId) {
+        List<Item> items = new ArrayList<>();
+        items.add(ItemFactoryController.createKitSobrevivencia());
+        items.add(ItemFactoryController.createJaquetaReforcada());
+        items.add(ItemFactoryController.createBarraDeMetal());
+        items.add(ItemFactoryController.createPistola());
+        return new Inventario(2L, characterId, 10, items);
+    }
+    public Inventario createInventoryLena(long characterId) {
+        List<Item> items = new ArrayList<>();
+        items.add(ItemFactoryController.createMascaraDeGas());
+        items.add(ItemFactoryController.createPendrive());
+        return new Inventario(3L, characterId, 10, items);
     }
 }

@@ -1,21 +1,35 @@
 package unip.joo.controller.Gula;
 
 import unip.joo.model.entities.Monstro;
-import java.util.ArrayList;
 
 public class MonstroController {
     private ClasseController classe = new ClasseController();
+    private InventoryController inventoryFactory = new InventoryController();
 
     public Monstro createGula() {
         String nome = "Gula";
+        long id = 401L;
         return new Monstro(
                 false,
-                401L,
+                id,
                 nome,
-                "A entidade corrompida que tudo destruiu - A I.A que se tornou um deus",
+                "A entidade tudo destruiu - A I.A que se tornou um deus",
                 classe.createClasse(),
                 null,
-                new unip.joo.model.entities.Inventario(2L, 401L, 10, new ArrayList<>())
+                inventoryFactory .createInventory(id)
+        );
+    }
+    public Monstro createCorruptedGula() {
+        String nome = "Gula Corrompida";
+        long id = 402L;
+        return new Monstro(
+                false,
+                id,
+                nome,
+                "A entidade corrompida que tudo destruiu - A I.A que se tornou um deus e caiu",
+                classe.createClasseCorrupted(),
+                null,
+                inventoryFactory .createInventory(id)
         );
     }
 }

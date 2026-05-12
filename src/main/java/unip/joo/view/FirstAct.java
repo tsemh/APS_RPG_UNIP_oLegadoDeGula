@@ -7,7 +7,9 @@ import unip.joo.model.entities.Habilidade;
 import unip.joo.model.entities.Humano;
 import unip.joo.model.entities.Item;
 import unip.joo.model.entities.Monstro;
-import unip.joo.resources.GameText;
+import unip.joo.resources.AsciiArt;
+import unip.joo.resources.FirstActText;
+import unip.joo.resources.SystemText;
 import unip.joo.util.Util.*;
 
 import java.util.*;
@@ -15,7 +17,9 @@ import java.util.*;
 import static unip.joo.util.Util.*;
 
 public class FirstAct { // Classe de visão
-    private final GameText gameText = new GameText(); // Atributo Final
+    private final SystemText systemText = new SystemText(); // Atributo Final
+    private final FirstActText firstActText = new FirstActText(); // Atributo Final
+    private final AsciiArt asciiArt = new AsciiArt(); // Atributo Final
     private final Scanner scanner = new Scanner(System.in); // Atributo Final
 
     private Humano elodin; // Encapsulamento
@@ -68,25 +72,25 @@ public class FirstAct { // Classe de visão
     // ==================== PRIMEIRO ATO ====================
 
     private void gameStart() {
-        System.out.println(gameText.getSystemMessage("game.initial.suggestion"));
+        System.out.println(systemText.getSystemMessage("game.initial.suggestion"));
         scanner.nextLine();
 
         int attempts = 0;
 
         while (true) {
-            int choice = getPlayerChoice(scanner, gameText.getSystemMessage("game.start"));
+            int choice = getPlayerChoice(scanner, systemText.getSystemMessage("game.start"));
 
             if (isValidChoice(choice, 1, 2)) {
                 if (choice == 1) {
                     firstAct();
                     return;
                 } else {
-                    System.out.println(gameText.getSystemMessage("game.close"));
+                    System.out.println(systemText.getSystemMessage("game.close"));
                     return;
                 }
             } else {
                 if (attempts >= 2) {
-                    System.out.println(gameText.getSystemMessage("game.close"));
+                    System.out.println(systemText.getSystemMessage("game.close"));
                     return;
                 } else {
                     handleInvalidChoice();
@@ -97,7 +101,7 @@ public class FirstAct { // Classe de visão
     }
 
     private void firstAct() {
-        Map<String, String> firstAct = gameText.getAllFirtsAct();
+        Map<String, String> firstAct = firstActText.getAllFirtsAct();
         displayActPiece(scanner, firstAct, "pieceOne");
         wakeUpInAlley();
         interactWithBeggar(firstAct);
@@ -110,12 +114,12 @@ public class FirstAct { // Classe de visão
 
         List<String> dialogue = new ArrayList<>();
 
-        dialogue.add(gameText.getSystemMessage("action.wakeUp.getUp"));
-        dialogue.add(String.format(gameText.getSystemMessage("test.vigor"), vigorElodin));
+        dialogue.add(systemText.getSystemMessage("action.wakeUp.getUp"));
+        dialogue.add(String.format(systemText.getSystemMessage("test.vigor"), vigorElodin));
 
         for (int roll = 1; roll <= vigorElodin; roll++) {
             diceResult = rollDice(1, 20);
-            dialogue.add(String.format(gameText.getSystemMessage("roll.dice"), diceResult));
+            dialogue.add(String.format(systemText.getSystemMessage("roll.dice"), diceResult));
 
             if (diceResult >= difficultyToGetUp) {
                 break;
@@ -127,18 +131,18 @@ public class FirstAct { // Classe de visão
             int newHealth = elodin.getClasse().getVida() - damage;
             elodin.getClasse().setVida(newHealth);
 
-            dialogue.add(gameText.getSystemMessage("test.failure"));
-            dialogue.add(gameText.getFirtsAct("action.wakeUp.getUp.failure"));
-            dialogue.add(String.format(gameText.getSystemMessage("roll.losesLife"), damage));
-            dialogue.add(gameText.getFirtsAct("action.wakeUp.getUp.failure.2"));
+            dialogue.add(systemText.getSystemMessage("test.failure"));
+            dialogue.add(firstActText.getFirtsAct("action.wakeUp.getUp.failure"));
+            dialogue.add(String.format(systemText.getSystemMessage("roll.losesLife"), damage));
+            dialogue.add(firstActText.getFirtsAct("action.wakeUp.getUp.failure.2"));
             dialogue.add(elodin.getFala("firstAct.lixo"));
         } else {
-            dialogue.add(gameText.getFirtsAct("action.wakeUp.getUp.failure.2"));
+            dialogue.add(firstActText.getFirtsAct("action.wakeUp.getUp.failure.2"));
         }
 
-        dialogue.add(gameText.getFirtsAct("action.wakeUp.default"));
+        dialogue.add(firstActText.getFirtsAct("action.wakeUp.default"));
         dialogue.add(elodin.getFala("firstAct.pieceOne.claridade"));
-        dialogue.add(gameText.getFirtsAct("action.wakeUp.default.2"));
+        dialogue.add(firstActText.getFirtsAct("action.wakeUp.default.2"));
 
         displayDialogue(scanner, dialogue);
         chooseTentInteraction();
@@ -146,7 +150,7 @@ public class FirstAct { // Classe de visão
 
     private void chooseTentInteraction() {
         while (true) {
-            int choice = getPlayerChoice(scanner, gameText.getFirtsAct("pieceTwo.init.choice.one"));
+            int choice = getPlayerChoice(scanner, firstActText.getFirtsAct("pieceTwo.init.choice.one"));
 
             if (isValidChoice(choice, 1, 2, 3)) {
                 switch (choice) {
@@ -170,7 +174,7 @@ public class FirstAct { // Classe de visão
 
     private void interactWithScrapTent() {
         List<String> initialDialogue = List.of(
-                gameText.getFirtsAct("pieceTwo.scrap.init"),
+                firstActText.getFirtsAct("pieceTwo.scrap.init"),
                 dante.getFala("init.one"),
                 dante.getFala("init.two"),
                 dante.getFala("init.three")
@@ -196,12 +200,12 @@ public class FirstAct { // Classe de visão
     private void showScrapChoiceOne(Humano dante) {
         List<String> dialogue = List.of(
                 dante.getFala("choice.one.one"),
-                gameText.getFirtsAct("pieceTwo.scrap.one.one"),
+                firstActText.getFirtsAct("pieceTwo.scrap.one.one"),
                 dante.getFala("choice.one.two"),
-                gameText.getFirtsAct("pieceTwo.scrap.one.two"),
+                firstActText.getFirtsAct("pieceTwo.scrap.one.two"),
                 dante.getFala("choice.one.three"),
                 elodin.getFala("firstAct.pieceTwo.scrap.one.one"),
-                gameText.getFirtsAct("pieceTwo.scrap.one.three"),
+                firstActText.getFirtsAct("pieceTwo.scrap.one.three"),
                 elodin.getFala("firstAct.pieceTwo.scrap.one.two"),
                 dante.getFala("choice.one.four"),
                 dante.getFala("choice.one.five")
@@ -212,8 +216,8 @@ public class FirstAct { // Classe de visão
     private void showScrapChoiceTwo(Humano dante) {
         List<String> dialogue = List.of(
                 dante.getFala("choice.two.one"),
-                gameText.getFirtsAct("pieceTwo.scrap.two.one"),
-                gameText.getFirtsAct("pieceTwo.scrap.two.two"),
+                firstActText.getFirtsAct("pieceTwo.scrap.two.one"),
+                firstActText.getFirtsAct("pieceTwo.scrap.two.two"),
                 dante.getFala("choice.two.three"),
                 dante.getFala("choice.two.four"),
                 elodin.getFala("firstAct.pieceTwo.scrap.two.one"),
@@ -230,7 +234,7 @@ public class FirstAct { // Classe de visão
 
     private void interactWithFoodTent() {
 
-        printText(scanner,gameText.getFirtsAct("pieceTwo.food.one.one"));
+        printText(scanner,firstActText.getFirtsAct("pieceTwo.food.one.one"));
         printText(scanner,jonas.getFala("init.one"));
 
         while (true) {
@@ -251,7 +255,7 @@ public class FirstAct { // Classe de visão
 
     private void showFoodChoiceOne(Humano jonas) {
         List<String> dialogue = List.of(
-                gameText.getFirtsAct("pieceTwo.food.one.two"),
+                firstActText.getFirtsAct("pieceTwo.food.one.two"),
                 jonas.getFala("choice.one.one"),
                 jonas.getFala("choice.one.two"),
                 jonas.getFala("choice.one.three"),
@@ -262,17 +266,17 @@ public class FirstAct { // Classe de visão
                 jonas.getFala("choice.one.six"),
                 jonas.getFala("choice.one.seven"),
                 elodin.getFala("firstAct.pieceTwo.food.one.three"),
-                gameText.getFirtsAct("pieceTwo.food.one.four"),
+                firstActText.getFirtsAct("pieceTwo.food.one.four"),
                 jonas.getFala("choice.one.eight"),
                 jonas.getFala("choice.one.nine"),
-                gameText.getFirtsAct("pieceTwo.food.one.three")
+                firstActText.getFirtsAct("pieceTwo.food.one.three")
         );
         displayDialogue(scanner, dialogue);
     }
 
     private void showFoodChoiceTwo(Humano jonas) {
         List<String> dialogue = List.of(
-                gameText.getFirtsAct("pieceTwo.food.two.one"),
+                firstActText.getFirtsAct("pieceTwo.food.two.one"),
                 jonas.getFala("choice.two.one"),
                 jonas.getFala("choice.two.two"),
                 jonas.getFala("choice.two.three"),
@@ -291,7 +295,7 @@ public class FirstAct { // Classe de visão
 
     private void interactWithLiquidTent() {
         List<String> initialDialogue = List.of(
-                gameText.getFirtsAct("pieceTwo.liquid.one.one"),
+                firstActText.getFirtsAct("pieceTwo.liquid.one.one"),
                 simmom.getFala("init.one"),
                 simmom.getFala("init.two"),
                 simmom.getFala("init.three")
@@ -317,24 +321,24 @@ public class FirstAct { // Classe de visão
     private void showLiquidChoiceOne(Humano simmom) {
         List<String> dialogue = List.of(
                 simmom.getFala("choice.one.one"),
-                gameText.getFirtsAct("pieceTwo.liquid.one.two"),
+                firstActText.getFirtsAct("pieceTwo.liquid.one.two"),
                 simmom.getFala("choice.one.two"),
                 simmom.getFala("choice.one.three"),
                 elodin.getFala("firstAct.pieceTwo.liquid.one.one"),
                 simmom.getFala("choice.one.four"),
                 simmom.getFala("choice.one.five"),
-                gameText.getFirtsAct("pieceTwo.liquid.one.one"),
-                gameText.getFirtsAct("pieceTwo.liquid.one.two")
+                firstActText.getFirtsAct("pieceTwo.liquid.one.one"),
+                firstActText.getFirtsAct("pieceTwo.liquid.one.two")
         );
         displayDialogue(scanner, dialogue);
     }
 
     private void showLiquidChoiceTwo(Humano simmom) {
         List<String> dialogue = List.of(
-                gameText.getFirtsAct("pieceTwo.liquid.two.one"),
+                firstActText.getFirtsAct("pieceTwo.liquid.two.one"),
                 simmom.getFala("choice.two.one"),
                 elodin.getFala("firstAct.pieceTwo.liquid.two.one"),
-                gameText.getFirtsAct("pieceTwo.liquid.two.two"),
+                firstActText.getFirtsAct("pieceTwo.liquid.two.two"),
                 simmom.getFala("choice.two.two"),
                 elodin.getFala("firstAct.pieceTwo.liquid.two.two"),
                 simmom.getFala("choice.two.three")
@@ -347,8 +351,8 @@ public class FirstAct { // Classe de visão
     private void interactWithBeggar(Map<String, String> firstAct) {
         Humano beggar = humanoFactoryController.createBeggar();
 
-        printText(scanner,gameText.getFirtsAct("prePieceThree.beggar.one"));
-        printText(scanner,gameText.getFirtsAct("prePieceThree.beggar.two"));
+        printText(scanner,firstActText.getFirtsAct("prePieceThree.beggar.one"));
+        printText(scanner,firstActText.getFirtsAct("prePieceThree.beggar.two"));
 
         beggar.getAllFalas().values().forEach(text -> printText(scanner, text));
 
@@ -366,26 +370,26 @@ public class FirstAct { // Classe de visão
             Monstro drone = monstroController.createDrone();
 
             if (drone == null || drone.getClasse() == null) {
-                printText(scanner, gameText.getSystemMessage("error.invalidMonster"));
+                printText(scanner, systemText.getSystemMessage("error.invalidMonster"));
                 return;
             }
 
             int elodinAgilidade = getElodinAgilidade();
             int droneAgilidade = getMonstroAgilidade(drone);
 
-            printText(scanner,String.format(gameText.getSystemMessage("test.iniciativa"), elodinAgilidade));
+            printText(scanner,String.format(systemText.getSystemMessage("test.iniciativa"), elodinAgilidade));
 
             boolean elodinWinsInitiative = resolveInitiative(elodinAgilidade, droneAgilidade);
 
             if (elodinWinsInitiative) {
-                printText(scanner,gameText.getFirtsAct("combat.drone.eletricPulse.failure"));
+                printText(scanner,firstActText.getFirtsAct("combat.drone.eletricPulse.failure"));
                 startCombat(drone);
             } else {
                 applyDroneSpecialAttack(drone);
                 startCombat(drone);
             }
         } catch (Exception e) {
-            printText(scanner,gameText.getSystemMessage("error.combatInit"));
+            printText(scanner,systemText.getSystemMessage("error.combatInit"));
             e.printStackTrace();
         }
     }
@@ -394,7 +398,7 @@ public class FirstAct { // Classe de visão
         try {
             return elodin.getClasse().getAtributo(NomeAtributo.AGILIDADE);
         } catch (NullPointerException e) {
-            printText(scanner,gameText.getSystemMessage("error.missingAttribute"));
+            printText(scanner,systemText.getSystemMessage("error.missingAttribute"));
             return 0;
         }
     }
@@ -403,7 +407,7 @@ public class FirstAct { // Classe de visão
         try {
             return monstro.getClasse().getAtributo(NomeAtributo.AGILIDADE);
         } catch (NullPointerException e) {
-            printText(scanner,gameText.getSystemMessage("error.missingMonsterAttribute"));
+            printText(scanner,systemText.getSystemMessage("error.missingMonsterAttribute"));
             return 0;
         }
     }
@@ -416,18 +420,18 @@ public class FirstAct { // Classe de visão
 
         do {
             if (attempts >= maxAttempts) {
-                printText(scanner,gameText.getSystemMessage("error.initiativeLimit"));
+                printText(scanner,systemText.getSystemMessage("error.initiativeLimit"));
                 return true;
             }
 
             playerRoll = rollDice(1, 20);
             monsterRoll = rollDice(1, 20);
 
-            printText(scanner,String.format(gameText.getSystemMessage("roll.dice"), playerRoll));
-            printText(scanner,String.format(gameText.getSystemMessage("roll.dice.opponent"), monsterRoll));
+            printText(scanner,String.format(systemText.getSystemMessage("roll.dice"), playerRoll));
+            printText(scanner,String.format(systemText.getSystemMessage("roll.dice.opponent"), monsterRoll));
 
             if (playerRoll == monsterRoll) {
-                printText(scanner,gameText.getSystemMessage("test.again"));
+                printText(scanner,systemText.getSystemMessage("test.again"));
             }
 
             attempts++;
@@ -441,14 +445,14 @@ public class FirstAct { // Classe de visão
     private void applyDroneSpecialAttack(Monstro drone) {
         try {
             if (drone == null || drone.getClasse() == null) {
-                printText(scanner,gameText.getSystemMessage("error.invalidMonster"));
+                printText(scanner,systemText.getSystemMessage("error.invalidMonster"));
                 return;
             }
 
             Habilidade electricAbility = drone.getClasse().getHabilidade(3L);
 
             if (electricAbility == null) {
-                printText(scanner,gameText.getSystemMessage("error.missingAbility"));
+                printText(scanner,systemText.getSystemMessage("error.missingAbility"));
                 return;
             }
 
@@ -456,7 +460,7 @@ public class FirstAct { // Classe de visão
             int diceValue = electricAbility.getValorDado();
             int extraValue = electricAbility.getValorExtra();
 
-            printText(scanner,gameText.getFirtsAct("combat.drone.eletricPulse"));
+            printText(scanner,firstActText.getFirtsAct("combat.drone.eletricPulse"));
 
             int damageReceived = 0;
             if (diceQuantity > 0 && diceValue > 0) {
@@ -468,25 +472,25 @@ public class FirstAct { // Classe de visão
             if (damageReceived > 0) {
                 int newHealth = elodin.getClasse().getVida() - damageReceived;
                 elodin.getClasse().setVida(Math.max(0, newHealth));
-                printText(scanner,String.format(gameText.getSystemMessage("roll.losesLife"), damageReceived));
+                printText(scanner,String.format(systemText.getSystemMessage("roll.losesLife"), damageReceived));
             }
 
         } catch (Exception e) {
-            printText(scanner,gameText.getSystemMessage("error.specialAttack"));
+            printText(scanner,systemText.getSystemMessage("error.specialAttack"));
             e.printStackTrace();
         }
     }
 
     private void startCombat(Monstro drone) {
         try {
-            printText(scanner,gameText.getFirtsAct("combat.drone.eletricPulse.default"));
+            printText(scanner,firstActText.getFirtsAct("combat.drone.eletricPulse.default"));
 
             if (drone == null || drone.getClasse() == null) {
-                printText(scanner,gameText.getSystemMessage("error.invalidMonster"));
+                printText(scanner,systemText.getSystemMessage("error.invalidMonster"));
                 return;
             }
 
-            printText(scanner,gameText.getSystemMessage("turn.your"));
+            printText(scanner,systemText.getSystemMessage("turn.your"));
 
             int droneDefense = drone.getClasse().getDefesa();
             int droneHealth = drone.getClasse().getVida();
@@ -494,9 +498,9 @@ public class FirstAct { // Classe de visão
             int playerDefense = elodin.getClasse().getDefesa();
 
             while (playerHealth > 0 && droneHealth > 0) {
-                printText(scanner,String.format(gameText.getSystemMessage("turn.counter"), currentTurn));
+                printText(scanner,String.format(systemText.getSystemMessage("turn.counter"), currentTurn));
 
-                int choice = getPlayerChoice(scanner, gameText.getSystemMessage("temporary.abilities"));
+                int choice = getPlayerChoice(scanner, systemText.getSystemMessage("temporary.abilities"));
 
                 if (choice == 5) {
                     showTemporaryAbilities();
@@ -504,7 +508,7 @@ public class FirstAct { // Classe de visão
                 }
 
                 if (!isValidChoice(choice, 1, 2, 3, 4)) {
-                    printText(scanner,gameText.getSystemMessage("error.invalidOption"));
+                    printText(scanner,systemText.getSystemMessage("error.invalidOption"));
                     continue;
                 }
 
@@ -544,38 +548,38 @@ public class FirstAct { // Classe de visão
                 dante.transferItemTo(pistola, elodin);
 
                 List<String> victoryDialogue = new ArrayList<>();
-                victoryDialogue.add(gameText.getFirtsAct("combat.victory.drone.death.one"));
-                victoryDialogue.add(gameText.getFirtsAct("combat.victory.drone.death.two"));
-                victoryDialogue.add(gameText.getFirtsAct("combat.victory.drone.death.three"));
-                victoryDialogue.add(gameText.getFirtsAct("combat.victory.drone.death.four"));
-                victoryDialogue.add(gameText.getFirtsAct("outcome.one"));
-                victoryDialogue.add(gameText.getFirtsAct("outcome.two"));
-                victoryDialogue.add(gameText.getFirtsAct("outcome.three"));
-                victoryDialogue.add(gameText.getFirtsAct("outcome.four"));
+                victoryDialogue.add(firstActText.getFirtsAct("combat.victory.drone.death.one"));
+                victoryDialogue.add(firstActText.getFirtsAct("combat.victory.drone.death.two"));
+                victoryDialogue.add(firstActText.getFirtsAct("combat.victory.drone.death.three"));
+                victoryDialogue.add(firstActText.getFirtsAct("combat.victory.drone.death.four"));
+                victoryDialogue.add(firstActText.getFirtsAct("outcome.one"));
+                victoryDialogue.add(firstActText.getFirtsAct("outcome.two"));
+                victoryDialogue.add(firstActText.getFirtsAct("outcome.three"));
+                victoryDialogue.add(firstActText.getFirtsAct("outcome.four"));
                 
                 // Mensagens de itens recebidos
-                victoryDialogue.add(String.format(gameText.getSystemMessage("item.received"), kit.getNome()));
-                victoryDialogue.add(String.format(gameText.getSystemMessage("item.received"), jaqueta.getNome()));
-                victoryDialogue.add(String.format(gameText.getSystemMessage("item.received"), barra.getNome()));
-                victoryDialogue.add(String.format(gameText.getSystemMessage("item.received"), pistola.getNome()));
+                victoryDialogue.add(String.format(systemText.getSystemMessage("item.received"), kit.getNome()));
+                victoryDialogue.add(String.format(systemText.getSystemMessage("item.received"), jaqueta.getNome()));
+                victoryDialogue.add(String.format(systemText.getSystemMessage("item.received"), barra.getNome()));
+                victoryDialogue.add(String.format(systemText.getSystemMessage("item.received"), pistola.getNome()));
                 
-                victoryDialogue.add(gameText.getFirtsAct("outcome.five"));
-                victoryDialogue.add(gameText.getAsciiArts("game.name"));
+                victoryDialogue.add(firstActText.getFirtsAct("outcome.five"));
+                victoryDialogue.add(asciiArt.getAsciiArts("game.name"));
                 
                 displayDialogue(scanner, victoryDialogue);
 
             } else if (playerHealth <= 0) {
                 List<String> defeatDialogue = List.of(
-                        gameText.getFirtsAct("combat.defeat.player.death.one"),
-                        gameText.getFirtsAct("combat.defeat.player.death.two"),
-                        gameText.getFirtsAct("combat.defeat.player.death.three"),
-                        gameText.getFirtsAct("combat.defeat.player.death.four"),
-                        gameText.getFirtsAct("combat.defeat.player.death.five")
+                        firstActText.getFirtsAct("combat.defeat.player.death.one"),
+                        firstActText.getFirtsAct("combat.defeat.player.death.two"),
+                        firstActText.getFirtsAct("combat.defeat.player.death.three"),
+                        firstActText.getFirtsAct("combat.defeat.player.death.four"),
+                        firstActText.getFirtsAct("combat.defeat.player.death.five")
                 );
                 verifyDeath(scanner, playerHealth, defeatDialogue);
             }
         } catch (Exception e) {
-            printText(scanner,gameText.getSystemMessage("error.combat"));
+            printText(scanner,systemText.getSystemMessage("error.combat"));
             e.printStackTrace();
         }
     }
@@ -595,15 +599,15 @@ public class FirstAct { // Classe de visão
             int baseDamage = rollDice(2, 10) + 3;
 
             List<String> combatDialogue = new ArrayList<>();
-            combatDialogue.add(String.format(gameText.getSystemMessage("combat.roll.attack"), attackRoll, droneDefense));
+            combatDialogue.add(String.format(systemText.getSystemMessage("combat.roll.attack"), attackRoll, droneDefense));
 
             boolean isCritical = diceRoll == 20;
             boolean isCriticalError = diceRoll == 1;
 
             if (isCritical) {
-                combatDialogue.add(gameText.getSystemMessage("combat.critical"));
+                combatDialogue.add(systemText.getSystemMessage("combat.critical"));
             } else if (isCriticalError) {
-                combatDialogue.add(gameText.getSystemMessage("combat.criticalError"));
+                combatDialogue.add(systemText.getSystemMessage("combat.criticalError"));
             }
 
             boolean attackHit = attackRoll >= droneDefense;
@@ -617,23 +621,23 @@ public class FirstAct { // Classe de visão
                 int newDroneHealth = drone.getClasse().getVida() - finalDamage;
                 drone.getClasse().setVida(Math.max(0, newDroneHealth));
                 combatDialogue.add(getSuccessMessage(abilityChoice));
-                combatDialogue.add(String.format(gameText.getSystemMessage("roll.losesLife.drone"), finalDamage));
+                combatDialogue.add(String.format(systemText.getSystemMessage("roll.losesLife.drone"), finalDamage));
             } else if (isCriticalError) {
                 // Erro crítico: jogador se machuca com o próprio ataque
                 int selfDamage = baseDamage;
                 int newPlayerHealth = elodin.getClasse().getVida() - selfDamage;
                 elodin.getClasse().setVida(Math.max(0, newPlayerHealth));
                 combatDialogue.add(getCriticalErrorMessage(abilityChoice));
-                combatDialogue.add(String.format(gameText.getSystemMessage("combat.player.self.damage"), selfDamage));
+                combatDialogue.add(String.format(systemText.getSystemMessage("combat.player.self.damage"), selfDamage));
             } else {
-                combatDialogue.add(gameText.getSystemMessage("test.failure"));
+                combatDialogue.add(systemText.getSystemMessage("test.failure"));
                 combatDialogue.add(getFailureMessage(abilityChoice));
             }
 
             displayDialogue(scanner, combatDialogue);
 
         } catch (Exception e) {
-            printText(scanner,gameText.getSystemMessage("error.playerTurn"));
+            printText(scanner,systemText.getSystemMessage("error.playerTurn"));
             e.printStackTrace();
         }
     }
@@ -641,47 +645,47 @@ public class FirstAct { // Classe de visão
     private String getSuccessMessage(int abilityChoice) {
         String message;
         switch (abilityChoice) {
-            case 1: message = gameText.getFirtsAct("combat.drone.ruptura.success"); break;
-            case 2: message = gameText.getFirtsAct("combat.drone.Violencia.success"); break;
-            case 3: message = gameText.getFirtsAct("combat.drone.Impacto.success"); break;
-            case 4: message = gameText.getFirtsAct("combat.drone.Esmaga.success"); break;
-            default: message = gameText.getSystemMessage("error.unknownAbility"); break;
+            case 1: message = firstActText.getFirtsAct("combat.drone.ruptura.success"); break;
+            case 2: message = firstActText.getFirtsAct("combat.drone.Violencia.success"); break;
+            case 3: message = firstActText.getFirtsAct("combat.drone.Impacto.success"); break;
+            case 4: message = firstActText.getFirtsAct("combat.drone.Esmaga.success"); break;
+            default: message = systemText.getSystemMessage("error.unknownAbility"); break;
         }
-        return message != null ? message : gameText.getSystemMessage("combat.critical");
+        return message != null ? message : systemText.getSystemMessage("combat.critical");
     }
 
     private String getFailureMessage(int abilityChoice) {
         String message;
         switch (abilityChoice) {
-            case 1: message = gameText.getFirtsAct("combat.drone.ruptura.failure"); break;
-            case 2: message = gameText.getFirtsAct("combat.drone.Violencia.failure"); break;
-            case 3: message = gameText.getFirtsAct("combat.drone.Impacto.failure"); break;
-            case 4: message = gameText.getFirtsAct("combat.drone.Esmaga.failure"); break;
-            default: message = gameText.getSystemMessage("error.unknownAbility"); break;
+            case 1: message = firstActText.getFirtsAct("combat.drone.ruptura.failure"); break;
+            case 2: message = firstActText.getFirtsAct("combat.drone.Violencia.failure"); break;
+            case 3: message = firstActText.getFirtsAct("combat.drone.Impacto.failure"); break;
+            case 4: message = firstActText.getFirtsAct("combat.drone.Esmaga.failure"); break;
+            default: message = systemText.getSystemMessage("error.unknownAbility"); break;
         }
-        return message != null ? message : gameText.getSystemMessage("test.failure");
+        return message != null ? message : systemText.getSystemMessage("test.failure");
     }
 
     private String getCriticalErrorMessage(int abilityChoice) {
         String message;
         switch (abilityChoice) {
-            case 1: message = gameText.getFirtsAct("combat.player.ruptura.criticalError"); break;
-            case 2: message = gameText.getFirtsAct("combat.player.Violencia.criticalError"); break;
-            case 3: message = gameText.getFirtsAct("combat.player.Impacto.criticalError"); break;
-            case 4: message = gameText.getFirtsAct("combat.player.Esmaga.criticalError"); break;
-            default: message = gameText.getSystemMessage("combat.criticalError.default"); break;
+            case 1: message = firstActText.getFirtsAct("combat.player.ruptura.criticalError"); break;
+            case 2: message = firstActText.getFirtsAct("combat.player.Violencia.criticalError"); break;
+            case 3: message = firstActText.getFirtsAct("combat.player.Impacto.criticalError"); break;
+            case 4: message = firstActText.getFirtsAct("combat.player.Esmaga.criticalError"); break;
+            default: message = systemText.getSystemMessage("combat.criticalError.default"); break;
         }
-        return message != null ? message : gameText.getSystemMessage("combat.criticalError.default");
+        return message != null ? message : systemText.getSystemMessage("combat.criticalError.default");
     }
 
     private void executeDroneTurn(Monstro drone, int playerDefense) {
         try {
             if (drone == null || drone.getClasse() == null) {
-                printText(scanner,gameText.getSystemMessage("error.invalidMonster"));
+                printText(scanner,systemText.getSystemMessage("error.invalidMonster"));
                 return;
             }
 
-            printText(scanner,gameText.getSystemMessage("turn.enemy"));
+            printText(scanner,systemText.getSystemMessage("turn.enemy"));
 
             // Drone escolhe aleatoriamente um dos 3 ataques
             int attackChoice = rollDice(1, 3);
@@ -703,10 +707,10 @@ public class FirstAct { // Classe de visão
             }
 
             displayDialogue(scanner, combatDialogue);
-            printText(scanner,gameText.getSystemMessage("combat.separator"));
+            printText(scanner,systemText.getSystemMessage("combat.separator"));
 
         } catch (Exception e) {
-            printText(scanner,gameText.getSystemMessage("error.monsterTurn"));
+            printText(scanner,systemText.getSystemMessage("error.monsterTurn"));
             e.printStackTrace();
         }
     }
@@ -715,16 +719,16 @@ public class FirstAct { // Classe de visão
         int diceRoll = rollDice(1, 20);
         int droneAttackRoll = diceRoll + droneIntelecto;
 
-        dialogue.add(gameText.getSystemMessage("combat.enemy.ataqueeletrico.name"));
-        dialogue.add(String.format(gameText.getSystemMessage("combat.enemy.roll.attack"), droneAttackRoll, playerDefense));
+        dialogue.add(systemText.getSystemMessage("combat.enemy.ataqueeletrico.name"));
+        dialogue.add(String.format(systemText.getSystemMessage("combat.enemy.roll.attack"), droneAttackRoll, playerDefense));
 
         boolean isCritical = diceRoll == 20;
         boolean isCriticalError = diceRoll == 1;
 
         if (isCritical) {
-            dialogue.add(gameText.getSystemMessage("combat.critical"));
+            dialogue.add(systemText.getSystemMessage("combat.critical"));
         } else if (isCriticalError) {
-            dialogue.add(gameText.getSystemMessage("combat.criticalError"));
+            dialogue.add(systemText.getSystemMessage("combat.criticalError"));
         }
 
         if (droneAttackRoll >= playerDefense && !isCriticalError) {
@@ -734,17 +738,17 @@ public class FirstAct { // Classe de visão
             }
             int newHealth = elodin.getClasse().getVida() - damage;
             elodin.getClasse().setVida(Math.max(0, newHealth));
-            dialogue.add(gameText.getFirtsAct("combat.enemy.ataqueeletrico.success"));
-            dialogue.add(String.format(gameText.getSystemMessage("combat.player.damage.taken"), damage));
+            dialogue.add(firstActText.getFirtsAct("combat.enemy.ataqueeletrico.success"));
+            dialogue.add(String.format(systemText.getSystemMessage("combat.player.damage.taken"), damage));
         } else if (isCriticalError) {
             // Erro crítico: drone se danifica com o próprio ataque
             int selfDamage = rollDice(1, 10) + 2;
             int newDroneHealth = drone.getClasse().getVida() - selfDamage;
             drone.getClasse().setVida(Math.max(0, newDroneHealth));
-            dialogue.add(gameText.getFirtsAct("combat.enemy.ataqueeletrico.criticalError"));
-            dialogue.add(String.format(gameText.getSystemMessage("combat.enemy.self.damage"), selfDamage));
+            dialogue.add(firstActText.getFirtsAct("combat.enemy.ataqueeletrico.criticalError"));
+            dialogue.add(String.format(systemText.getSystemMessage("combat.enemy.self.damage"), selfDamage));
         } else {
-            dialogue.add(gameText.getFirtsAct("combat.enemy.ataqueeletrico.failure"));
+            dialogue.add(firstActText.getFirtsAct("combat.enemy.ataqueeletrico.failure"));
         }
     }
 
@@ -752,16 +756,16 @@ public class FirstAct { // Classe de visão
         int diceRoll = rollDice(1, 20);
         int droneAttackRoll = diceRoll + droneForca;
 
-        dialogue.add(gameText.getSystemMessage("combat.enemy.investida.name"));
-        dialogue.add(String.format(gameText.getSystemMessage("combat.enemy.roll.attack"), droneAttackRoll, playerDefense));
+        dialogue.add(systemText.getSystemMessage("combat.enemy.investida.name"));
+        dialogue.add(String.format(systemText.getSystemMessage("combat.enemy.roll.attack"), droneAttackRoll, playerDefense));
 
         boolean isCritical = diceRoll == 20;
         boolean isCriticalError = diceRoll == 1;
 
         if (isCritical) {
-            dialogue.add(gameText.getSystemMessage("combat.critical"));
+            dialogue.add(systemText.getSystemMessage("combat.critical"));
         } else if (isCriticalError) {
-            dialogue.add(gameText.getSystemMessage("combat.criticalError"));
+            dialogue.add(systemText.getSystemMessage("combat.criticalError"));
         }
 
         if (droneAttackRoll >= playerDefense && !isCriticalError) {
@@ -771,16 +775,16 @@ public class FirstAct { // Classe de visão
             }
             int newHealth = elodin.getClasse().getVida() - damage;
             elodin.getClasse().setVida(Math.max(0, newHealth));
-            dialogue.add(gameText.getFirtsAct("combat.enemy.investida.success"));
-            dialogue.add(String.format(gameText.getSystemMessage("combat.player.damage.taken"), damage));
+            dialogue.add(firstActText.getFirtsAct("combat.enemy.investida.success"));
+            dialogue.add(String.format(systemText.getSystemMessage("combat.player.damage.taken"), damage));
         } else if (isCriticalError) {
             int selfDamage = rollDice(1, 8) + 3;
             int newDroneHealth = drone.getClasse().getVida() - selfDamage;
             drone.getClasse().setVida(Math.max(0, newDroneHealth));
-            dialogue.add(gameText.getFirtsAct("combat.enemy.investida.criticalError"));
-            dialogue.add(String.format(gameText.getSystemMessage("combat.enemy.self.damage"), selfDamage));
+            dialogue.add(firstActText.getFirtsAct("combat.enemy.investida.criticalError"));
+            dialogue.add(String.format(systemText.getSystemMessage("combat.enemy.self.damage"), selfDamage));
         } else {
-            dialogue.add(gameText.getFirtsAct("combat.enemy.investida.failure"));
+            dialogue.add(firstActText.getFirtsAct("combat.enemy.investida.failure"));
         }
     }
 
@@ -788,16 +792,16 @@ public class FirstAct { // Classe de visão
         int diceRoll = rollDice(1, 20);
         int droneAttackRoll = diceRoll + droneIntelecto;
 
-        dialogue.add(gameText.getSystemMessage("combat.enemy.pulso.name"));
-        dialogue.add(String.format(gameText.getSystemMessage("combat.enemy.roll.pulso"), droneAttackRoll, playerDefense));
+        dialogue.add(systemText.getSystemMessage("combat.enemy.pulso.name"));
+        dialogue.add(String.format(systemText.getSystemMessage("combat.enemy.roll.pulso"), droneAttackRoll, playerDefense));
 
         boolean isCritical = diceRoll == 20;
         boolean isCriticalError = diceRoll == 1;
 
         if (isCritical) {
-            dialogue.add(gameText.getSystemMessage("combat.critical"));
+            dialogue.add(systemText.getSystemMessage("combat.critical"));
         } else if (isCriticalError) {
-            dialogue.add(gameText.getSystemMessage("combat.criticalError"));
+            dialogue.add(systemText.getSystemMessage("combat.criticalError"));
         }
 
         if (droneAttackRoll >= playerDefense && !isCriticalError) {
@@ -807,16 +811,16 @@ public class FirstAct { // Classe de visão
             }
             int newHealth = elodin.getClasse().getVida() - damage;
             elodin.getClasse().setVida(Math.max(0, newHealth));
-            dialogue.add(gameText.getFirtsAct("combat.enemy.pulso.success"));
-            dialogue.add(String.format(gameText.getSystemMessage("combat.player.damage.taken"), damage));
+            dialogue.add(firstActText.getFirtsAct("combat.enemy.pulso.success"));
+            dialogue.add(String.format(systemText.getSystemMessage("combat.player.damage.taken"), damage));
         } else if (isCriticalError) {
             int selfDamage = rollDice(2, 10)+3;
             int newDroneHealth = drone.getClasse().getVida() - selfDamage;
             drone.getClasse().setVida(Math.max(0, newDroneHealth));
-            dialogue.add(gameText.getFirtsAct("combat.enemy.pulso.criticalError"));
-            dialogue.add(String.format(gameText.getSystemMessage("combat.enemy.self.damage"), selfDamage));
+            dialogue.add(firstActText.getFirtsAct("combat.enemy.pulso.criticalError"));
+            dialogue.add(String.format(systemText.getSystemMessage("combat.enemy.self.damage"), selfDamage));
         } else {
-            dialogue.add(gameText.getFirtsAct("combat.enemy.pulso.failure"));
+            dialogue.add(firstActText.getFirtsAct("combat.enemy.pulso.failure"));
         }
     }
 
@@ -833,7 +837,7 @@ public class FirstAct { // Classe de visão
             }
         }
 
-        abilities.add(gameText.getSystemMessage("util.enter"));
+        abilities.add(systemText.getSystemMessage("util.enter"));
         displayDialogue(scanner, abilities);
     }
 }
