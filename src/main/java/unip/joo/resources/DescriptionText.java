@@ -60,6 +60,10 @@ public class DescriptionText {
                         "dado de dado do mesmo tipo na arma que está usando e 10% de resistência a dano. \n" +
                         "(1 vez por combate) "
         );
+        put("tiroSimples",
+                "Disparo rápido de cadenciado");
+        put("disparoDeRuptura",
+                "Disparo rápido de cadenciado com munição explosiva");
 
     }};
 

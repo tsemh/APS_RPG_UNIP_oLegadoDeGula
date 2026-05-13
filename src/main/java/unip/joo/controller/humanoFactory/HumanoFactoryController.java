@@ -1,6 +1,5 @@
 package unip.joo.controller.humanoFactory;
 
-import unip.joo.controller.elodin.ClasseController;
 import unip.joo.model.ENUM.Sexo;
 import unip.joo.model.entities.Humano;
 
@@ -10,7 +9,7 @@ import java.util.Map;
 
 public class HumanoFactoryController { // Classe Controladora de Fábrica
     private InventoryFactoryController inventoryController = new InventoryFactoryController();
-    private ClasseController classeController = new ClasseController();
+    private ClasseFactoryController classeController = new ClasseFactoryController();
 
     public Humano createDante() { // Criação de objetos (Fábrica)
         String nome = "Dante";

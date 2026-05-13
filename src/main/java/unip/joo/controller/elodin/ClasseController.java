@@ -8,7 +8,6 @@ import unip.joo.model.ENUM.NomeClasse;
 import unip.joo.model.entities.Atributo;
 import unip.joo.model.entities.Classe;
 import unip.joo.resources.DescriptionText;
-import unip.joo.resources.GameText;
 
 public class ClasseController {
     private final DescriptionText description =  new DescriptionText();
@@ -20,6 +19,7 @@ public class ClasseController {
         return new Classe(
                 200L,
                 this.atributos,
+                60,
                 60,
                 15,
                 NomeClasse.SOBREVIVENTE,

@@ -7,10 +7,8 @@ import unip.joo.model.ENUM.NomeAtributo;
 import unip.joo.model.ENUM.NomeClasse;
 import unip.joo.model.entities.Atributo;
 import unip.joo.model.entities.Classe;
-import unip.joo.resources.GameText;
 
 public class ClasseController {
-    private final GameText gameText = new GameText();
     private HabilidadeController habilidades = new HabilidadeController();
     private List<Atributo> atributos;
 
@@ -19,6 +17,7 @@ public class ClasseController {
         return new Classe(
                 301L,
                 this.atributos,
+                120,
                 120,
                 16,
                 NomeClasse.GULA,
@@ -42,10 +41,11 @@ public class ClasseController {
                 302L,
                 this.atributos,
                 80,
+                80,
                 12,
                 NomeClasse.GULA,
                 "A entidade corrompida que tudo tendo destruir",
-                habilidades.createAllHabilidades()
+                habilidades.createAllCorruptedHabilidades()
         );
     }
 

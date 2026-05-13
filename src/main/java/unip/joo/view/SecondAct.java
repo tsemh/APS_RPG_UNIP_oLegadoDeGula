@@ -3,14 +3,10 @@ package unip.joo.view;
 
 import unip.joo.controller.humanoFactory.HumanoFactoryController;
 import unip.joo.model.ENUM.NomeAtributo;
-import unip.joo.model.entities.Habilidade;
 import unip.joo.model.entities.Humano;
 import unip.joo.model.entities.Item;
-import unip.joo.model.entities.Monstro;
-import unip.joo.resources.GameText;
 import unip.joo.resources.SecondActText;
 import unip.joo.resources.SystemText;
-import unip.joo.util.Util.*;
 
 import java.util.*;
 
@@ -158,7 +154,6 @@ public class SecondAct { // Classe de visão
 
     private void choiceStayRecieveItem(){
         printText(scanner, secondActText.getSecondAct("pieceTwo.Fortress.init.choice.stay"));
-
         stayChoiceDialogue();
     }
 

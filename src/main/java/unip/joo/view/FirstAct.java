@@ -1,6 +1,7 @@
 package unip.joo.view;
 
 import unip.joo.controller.drone.MonstroController;
+import unip.joo.controller.elodin.HabilidadeController;
 import unip.joo.controller.humanoFactory.HumanoFactoryController;
 import unip.joo.model.ENUM.NomeAtributo;
 import unip.joo.model.entities.Habilidade;
@@ -14,6 +15,7 @@ import unip.joo.util.Util.*;
 
 import java.util.*;
 
+import static java.lang.System.exit;
 import static unip.joo.util.Util.*;
 
 public class FirstAct { // Classe de visão
@@ -24,8 +26,10 @@ public class FirstAct { // Classe de visão
 
     private Humano elodin; // Encapsulamento
     private final HumanoFactoryController humanoFactoryController = new HumanoFactoryController();
+    private final HabilidadeController habilidadeController = new HabilidadeController();
     private int vigorElodin;
     private int forcaElodin;
+    private int agilidadeElodin;
 
     Humano dante = humanoFactoryController.createDante();
     Humano jonas = humanoFactoryController.createJonas();
@@ -39,7 +43,8 @@ public class FirstAct { // Classe de visão
         this.elodin = elodin;
         this.vigorElodin = elodin.getClasse().getAtributo(NomeAtributo.VIGOR);
         this.forcaElodin = elodin.getClasse().getAtributo(NomeAtributo.FORCA);
-        
+        this.agilidadeElodin = elodin.getClasse().getAtributo(NomeAtributo.AGILIDADE);
+
         gameStart();
     }
 
@@ -91,7 +96,7 @@ public class FirstAct { // Classe de visão
             } else {
                 if (attempts >= 2) {
                     System.out.println(systemText.getSystemMessage("game.close"));
-                    return;
+                    System.exit(0);
                 } else {
                     handleInvalidChoice();
                     attempts++;
@@ -369,92 +374,28 @@ public class FirstAct { // Classe de visão
             MonstroController monstroController = new MonstroController();
             Monstro drone = monstroController.createDrone();
 
-            if (drone == null || drone.getClasse() == null) {
-                printText(scanner, systemText.getSystemMessage("error.invalidMonster"));
-                return;
-            }
+            int elodinAgilidade = agilidadeElodin;
+            int droneAgilidade = drone.getClasse().getAtributo(NomeAtributo.AGILIDADE);
 
-            int elodinAgilidade = getElodinAgilidade();
-            int droneAgilidade = getMonstroAgilidade(drone);
-
-            printText(scanner,String.format(systemText.getSystemMessage("test.iniciativa"), elodinAgilidade));
-
-            boolean elodinWinsInitiative = resolveInitiative(elodinAgilidade, droneAgilidade);
+            boolean elodinWinsInitiative = resolveInitiative(scanner, elodinAgilidade, droneAgilidade);
 
             if (elodinWinsInitiative) {
                 printText(scanner,firstActText.getFirtsAct("combat.drone.eletricPulse.failure"));
-                startCombat(drone);
             } else {
                 applyDroneSpecialAttack(drone);
-                startCombat(drone);
             }
+            startCombat(drone);
         } catch (Exception e) {
             printText(scanner,systemText.getSystemMessage("error.combatInit"));
             e.printStackTrace();
         }
     }
 
-    private int getElodinAgilidade() {
-        try {
-            return elodin.getClasse().getAtributo(NomeAtributo.AGILIDADE);
-        } catch (NullPointerException e) {
-            printText(scanner,systemText.getSystemMessage("error.missingAttribute"));
-            return 0;
-        }
-    }
-
-    private int getMonstroAgilidade(Monstro monstro) {
-        try {
-            return monstro.getClasse().getAtributo(NomeAtributo.AGILIDADE);
-        } catch (NullPointerException e) {
-            printText(scanner,systemText.getSystemMessage("error.missingMonsterAttribute"));
-            return 0;
-        }
-    }
-
-    private boolean resolveInitiative(int playerAgility, int monsterAgility) {
-        int playerRoll;
-        int monsterRoll;
-        int maxAttempts = 10;
-        int attempts = 0;
-
-        do {
-            if (attempts >= maxAttempts) {
-                printText(scanner,systemText.getSystemMessage("error.initiativeLimit"));
-                return true;
-            }
-
-            playerRoll = rollDice(1, 20);
-            monsterRoll = rollDice(1, 20);
-
-            printText(scanner,String.format(systemText.getSystemMessage("roll.dice"), playerRoll));
-            printText(scanner,String.format(systemText.getSystemMessage("roll.dice.opponent"), monsterRoll));
-
-            if (playerRoll == monsterRoll) {
-                printText(scanner,systemText.getSystemMessage("test.again"));
-            }
-
-            attempts++;
-        } while (playerRoll == monsterRoll);
-
-        return playerRoll > monsterRoll;
-    }
-
-
 
     private void applyDroneSpecialAttack(Monstro drone) {
         try {
-            if (drone == null || drone.getClasse() == null) {
-                printText(scanner,systemText.getSystemMessage("error.invalidMonster"));
-                return;
-            }
 
             Habilidade electricAbility = drone.getClasse().getHabilidade(3L);
-
-            if (electricAbility == null) {
-                printText(scanner,systemText.getSystemMessage("error.missingAbility"));
-                return;
-            }
 
             int diceQuantity = electricAbility.getQuantidadeDado();
             int diceValue = electricAbility.getValorDado();
@@ -484,12 +425,6 @@ public class FirstAct { // Classe de visão
     private void startCombat(Monstro drone) {
         try {
             printText(scanner,firstActText.getFirtsAct("combat.drone.eletricPulse.default"));
-
-            if (drone == null || drone.getClasse() == null) {
-                printText(scanner,systemText.getSystemMessage("error.invalidMonster"));
-                return;
-            }
-
             printText(scanner,systemText.getSystemMessage("turn.your"));
 
             int droneDefense = drone.getClasse().getDefesa();
@@ -500,7 +435,7 @@ public class FirstAct { // Classe de visão
             while (playerHealth > 0 && droneHealth > 0) {
                 printText(scanner,String.format(systemText.getSystemMessage("turn.counter"), currentTurn));
 
-                int choice = getPlayerChoice(scanner, systemText.getSystemMessage("temporary.abilities"));
+                int choice = getPlayerChoice(scanner, systemText.getSystemMessage("barra.abilities"));
 
                 if (choice == 5) {
                     showTemporaryAbilities();
@@ -546,7 +481,9 @@ public class FirstAct { // Classe de visão
                 dante.transferItemTo(jaqueta, elodin);
                 dante.transferItemTo(barra, elodin);
                 dante.transferItemTo(pistola, elodin);
-
+                elodin.getClasse().addHabilidade(habilidadeController.createpistolaAbilities());
+                elodin.equiparItemAutomaticamente(elodin.getInventario().getItemById(3L));
+                elodin.getClasse().setVidaMaxima(80);
                 List<String> victoryDialogue = new ArrayList<>();
                 victoryDialogue.add(firstActText.getFirtsAct("combat.victory.drone.death.one"));
                 victoryDialogue.add(firstActText.getFirtsAct("combat.victory.drone.death.two"));
@@ -624,7 +561,6 @@ public class FirstAct { // Classe de visão
                 combatDialogue.add(getSuccessMessage(abilityChoice));
                 combatDialogue.add(String.format(systemText.getSystemMessage("roll.losesLife.drone"), finalDamage));
             } else if (isCriticalError) {
-                // Erro crítico: jogador se machuca com o próprio ataque
                 int selfDamage = baseDamage;
                 int newPlayerHealth = elodin.getClasse().getVida() - selfDamage;
                 elodin.getClasse().setVida(Math.max(0, newPlayerHealth));

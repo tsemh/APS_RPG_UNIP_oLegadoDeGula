@@ -33,12 +33,12 @@ public class Inventario {
         return itens;
     }
 
-  public Item getItemById(long itemId) {
- return itens.stream()
-            .filter(item -> item.getId() == itemId)
-            .findFirst()
-            .orElse(null);
-}
+    public Item getItemById(long itemId) {
+        return itens.stream()
+                .filter(item -> item.getId() == itemId)
+                .findFirst()
+                .orElse(null);
+    }
 
     public boolean addItem(Item item) {
         if (item == null) {
@@ -52,6 +52,17 @@ public class Inventario {
 
     public boolean removeItem(Item item) {
         return itens != null && itens.remove(item);
+    }
+
+    public void desequiparOutrasArmas(Arma armaEquipada) {
+        if (itens == null) {
+            return;
+        }
+        for (Item item : itens) {
+            if (item instanceof Arma && item != armaEquipada && item.isEquipado()) {
+                ((Arma) item).desequipar();
+            }
+        }
     }
 }
 

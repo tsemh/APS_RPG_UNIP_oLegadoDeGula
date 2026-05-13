@@ -1,8 +1,8 @@
 package unip.joo.util;
 
-import unip.joo.model.entities.*;
+import unip.joo.model.ENUM.NomeAtributo;
+import unip.joo.model.entities.Monstro;
 import unip.joo.resources.AsciiArt;
-import unip.joo.resources.GameText;
 import unip.joo.resources.SystemText;
 
 import java.util.*;
@@ -82,6 +82,16 @@ public class Util { // Classe utilitária
         } else {
             return false;
         }
+    }
+
+    public static boolean resolveInitiative(Scanner scanner,int playerAgility, int monsterAgility) {
+
+        int playerRoll = rollDice(1, 20)+playerAgility;
+        int monsterRoll = rollDice(1, 20)+monsterAgility;
+        printText(scanner,String.format(systemText.getSystemMessage("test.iniciative"), playerRoll));
+        printText(scanner,String.format(systemText.getSystemMessage("combat.roll.inciative"), playerRoll, monsterRoll));
+
+        return playerRoll > monsterRoll;
     }
 
 }

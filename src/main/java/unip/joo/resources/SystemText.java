@@ -43,11 +43,6 @@ public class SystemText {
         );
 
         put(
-                "error.initiativeLimit",
-                "Limite de tentativas de iniciativa excedido! Iniciando combate normalmente."
-        );
-
-        put(
                 "error.invalidDice",
                 "ERRO: Valores de dado inválidos!"
         );
@@ -59,7 +54,7 @@ public class SystemText {
 
         put(
                 "error.specialAttack",
-                "ERRO: Falha ao executar ataque especial do drone!"
+                "ERRO: Falha ao executar ataque especial do oponente!"
         );
 
         put(
@@ -98,11 +93,6 @@ public class SystemText {
         );
 
         put(
-                "error.noAbilities",
-                "Nenhuma habilidade temporária disponível no momento."
-        );
-
-        put(
                 "util.spacingDot",
                 ".\n.\n.\n.\n."
         );
@@ -138,7 +128,7 @@ public class SystemText {
 
         );
         put(
-                "test.iniciativa",
+                "test.iniciative",
                 "INICIANDO TESTE DE INICIATIVA(agilidade)"
         );
 
@@ -163,27 +153,17 @@ public class SystemText {
 
         put(
                 "roll.losesLife.drone",
-                ">> O drone perdeu [%s] pontos de vida \n"
+                ">> O oponente perdeu [%s] pontos de vida \n"
         );
 
-        put(
-                "roll.dice",
-                ">> Seu dado é: [%s]"
-        );
-
-        put(
-                "roll.dice.opponent",
-                ">> O dado do seu oponente é: [%s]"
-        );
-
-        put(
-                "roll.dice.enemy",
-                ">> O dado de ataque do inimigo é: [%d]"
-        );
 
         put(
                 "combat.roll.attack",
                 ">> Seu dado de ataque: [%d] vs Defesa do seu oponente: [%d]"
+        );
+        put(
+                "combat.roll.inciative",
+                ">> Seu dado de Iniciativa: [%d] vs iniciativa do seu oponente: [%d]"
         );
 
         put(
@@ -212,12 +192,21 @@ public class SystemText {
         );
 
         put(
-                "temporary.abilities",
+                "barra.abilities",
                 "Use uma habilidade:\n\n" +
                         "[1] Ruptura Desesperada\n" +
                         "[2] Violencia Improvisada\n" +
                         "[3] Impacto Deslizante\n" +
                         "[4] Esmaga Cranios\n" +
+                        "[5] Verificar habilidades\n"
+        );
+        put(
+                "pistola.abilities",
+                "Use uma habilidade:\n\n" +
+                        "[1] Tiro de Precisão\n" +
+                        "[2] Disparo de Ruptura\n" +
+                        "[3] Tiro Simples\n" +
+                        "[4] Disparo Desesperado\n" +
                         "[5] Verificar habilidades\n"
         );
 
@@ -229,6 +218,10 @@ public class SystemText {
         put(
                 "combat.criticalError",
                 "ERRO CRITICO!"
+        );
+        put(
+                "roll.dice",
+                "Seu dado é [%s]"
         );
 
         put(
@@ -270,7 +263,7 @@ public class SystemText {
         );
         put(
                 "combat.enemy.roll.attack",
-                ">> Dado de ataque do drone: [%d] vs Sua defesa: [%d]"
+                ">> Dado de ataque do oponente: [%d] vs Sua defesa: [%d]"
         );
         put(
                 "combat.enemy.roll.pulso",

@@ -3,7 +3,6 @@ package unip.joo.controller.drone;
 import unip.joo.model.entities.Habilidade;
 import unip.joo.model.ENUM.Efeito;
 import unip.joo.resources.DescriptionText;
-import unip.joo.resources.GameText;
 
 import java.util.ArrayList;
 import java.util.List;

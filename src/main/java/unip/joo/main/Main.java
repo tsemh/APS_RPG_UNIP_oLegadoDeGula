@@ -22,7 +22,7 @@ public class Main { // Classe principal
         //firstAct.init(elodin);
 
         SecondAct secondAct = new SecondAct();
-        secondAct.init(elodin, lena, defaultLife);
+        //secondAct.init(elodin, lena, defaultLife);
         escape = secondAct.escape();
 
         ThirdAct thirdAct = new ThirdAct();

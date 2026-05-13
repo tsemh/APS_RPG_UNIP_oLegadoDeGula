@@ -3,7 +3,6 @@ package unip.joo.controller.elodin;
 import unip.joo.model.entities.Habilidade;
 import unip.joo.model.ENUM.Efeito;
 import unip.joo.resources.DescriptionText;
-import unip.joo.resources.GameText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +20,14 @@ public class HabilidadeController {
         habilidades.add(createEsmagaCranios());
         return habilidades;
     }
+    public List<Habilidade> createpistolaAbilities() {
+        List<Habilidade> habilidades = new ArrayList<>();
+        habilidades.add(createTiroSimples());
+        habilidades.add(createDisparoDeRuptura());
+        habilidades.add(createDisparoDesesperado());
+        return habilidades;
+    }
+
 
     private Habilidade createEsquivaDesesperada() {
         return new Habilidade(
@@ -92,6 +99,42 @@ public class HabilidadeController {
                 10,
                 3,
                 2
+        );
+    }
+    private Habilidade createTiroSimples() {
+        return new Habilidade(
+                7L,
+                Efeito.DANO,
+                "Tiro simples",
+                description.getAbilities("tiroSimples"),
+                2,
+                8,
+                3,
+                1
+        );
+    }
+    private Habilidade createDisparoDeRuptura() {
+        return new Habilidade(
+                7L,
+                Efeito.DANO,
+                "Disparo de Ruptura",
+                description.getAbilities("disparoDeRuptura"),
+                4,
+                8,
+                3,
+                2
+        );
+    }
+    private Habilidade createDisparoDesesperado() {
+        return new Habilidade(
+                7L,
+                Efeito.DANO,
+                "Disparo desesperado",
+                description.getAbilities("disparoDesesperado"),
+                5,
+                8,
+                1,
+                4
         );
     }
 }
