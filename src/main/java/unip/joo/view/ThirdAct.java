@@ -6,6 +6,7 @@ import unip.joo.model.entities.Habilidade;
 import unip.joo.model.entities.Humano;
 import unip.joo.model.entities.Item;
 import unip.joo.model.entities.Monstro;
+import unip.joo.resources.AsciiArt;
 import unip.joo.resources.SystemText;
 import unip.joo.resources.ThirdActText;
 import unip.joo.util.Util.*;
@@ -17,10 +18,7 @@ import static unip.joo.util.Util.*;
 public class ThirdAct {
     // ==================== CONSTANTES ====================
     private static final int COOLDOWN_TURNS = 2;
-    private static final int AGILITY_TEST_DC = 10;
-    private static final int SPECIAL_ATTACK_DICE = 2;
-    private static final int SPECIAL_ATTACK_VALUE = 12;
-    private static final int SPECIAL_ATTACK_EXTRA = 5;
+    private static final int AGILITY_TEST_DC = 13;
 
     // IDs das habilidades
     private static final long HABILIDADE_RUPTURA = 3L;
@@ -36,13 +34,15 @@ public class ThirdAct {
     private static final long GULA_HAB_TENTACULOS = 2L;
     private static final long GULA_HAB_LASER_FINAL = 3L;
     private static final long GULA_HAB_CONSUMO = 4L;
-
+    private static final long GULA_HAB_SPECIAL = 5L;
     // ==================== ATRIBUTOS ====================
     private final ThirdActText thirdActText = new ThirdActText();
+    private final AsciiArt asciiArt = new AsciiArt();
     private final SystemText systemText = new SystemText();
     private final Scanner scanner = new Scanner(System.in);
     private final MonstroController monstroController = new MonstroController();
     private final Map<Integer, Integer> abilityCooldown = new HashMap<>();
+    private final Map<Integer, Integer> gulaAbilityCooldown = new HashMap<>();
 
     private Humano elodin;
     private Humano lena;
@@ -84,18 +84,52 @@ public class ThirdAct {
         }
     }
 
+    private void initializeGulaCooldown() {
+        for (int i = 1; i <= 4; i++) {
+            gulaAbilityCooldown.put(i, 0);
+        }
+    }
+
     private boolean isAbilityAvailable(int abilityId) {
         return currentTurn >= abilityCooldown.getOrDefault(abilityId, 0);
+    }
+
+    private boolean isGulaAbilityAvailable(int abilityId) {
+        return currentTurn >= gulaAbilityCooldown.getOrDefault(abilityId, 0);
     }
 
     private void applyCooldown(int abilityId) {
         abilityCooldown.put(abilityId, currentTurn + COOLDOWN_TURNS);
     }
 
+    private void applyGulaCooldown(int abilityId) {
+        long abilityIdentifier = getMonsterAbilityId(abilityId);
+        Habilidade hab = gula.getClasse().getHabilidade(abilityIdentifier);
+
+        if (hab == null) {
+            throw new IllegalStateException(
+                    String.format("Habilidade ID %d não encontrada para aplicar cooldown!", abilityIdentifier)
+            );
+        }
+
+        int cooldown = hab.getTempoEspera();
+        gulaAbilityCooldown.put(abilityId, currentTurn + cooldown);
+    }
+
     private String getCooldownMessage(int abilityId, String abilityName) {
         int turnsRemaining = abilityCooldown.getOrDefault(abilityId, 0) - currentTurn;
-        return String.format("%s está em recarga! Ainda faltam %d turno(s) para poder usá-la novamente.",
+        return String.format(systemText.getSystemMessage("cooldown"),
                 abilityName, turnsRemaining);
+    }
+
+    private long getMonsterAbilityId(int choice) {
+        return switch (choice) {
+            case 1 -> GULA_HAB_LASER;
+            case 2 -> GULA_HAB_TENTACULOS;
+            case 3 -> GULA_HAB_LASER_FINAL;
+            case 4 -> GULA_HAB_CONSUMO;
+            default -> GULA_HAB_LASER;
+        };
     }
 
     // ==================== TERCEIRO ATO - CENA INICIAL ====================
@@ -140,6 +174,14 @@ public class ThirdAct {
         } else {
             handleAgilityFailure(dialogue);
         }
+        dialogue.add(thirdActText.getThirdAct("gula"));
+        dialogue.add(thirdActText.getThirdAct("gula.1"));
+        dialogue.add(thirdActText.getThirdAct("gula.2"));
+        dialogue.add(thirdActText.getThirdAct("gula.3"));
+        dialogue.add(thirdActText.getThirdAct("gula.4"));
+        dialogue.add(thirdActText.getThirdAct("gula.5"));
+        dialogue.add(thirdActText.getThirdAct("gula.6"));
+        dialogue.add(asciiArt.getAsciiArts("gula"));
 
         displayDialogue(scanner, dialogue);
         startCombat();
@@ -209,38 +251,57 @@ public class ThirdAct {
     private void addInitiativeSuccessDialogue(List<String> dialogue) {
         dialogue.add(thirdActText.getThirdAct("pieceOne.directcombat.initiative.success"));
         dialogue.add(thirdActText.getThirdAct("pieceOne.directcombat.initiative.success.2"));
+        dialogue.add(thirdActText.getThirdAct("gula"));
+        dialogue.add(thirdActText.getThirdAct("gula.1"));
+        dialogue.add(thirdActText.getThirdAct("gula.2"));
+        dialogue.add(thirdActText.getThirdAct("gula.3"));
+        dialogue.add(thirdActText.getThirdAct("gula.4"));
+        dialogue.add(thirdActText.getThirdAct("gula.5"));
+        dialogue.add(thirdActText.getThirdAct("gula.6"));
+        dialogue.add(asciiArt.getAsciiArts("gula"));
         dialogue.add(thirdActText.getThirdAct("pieceOne.directcombat.initiative.success.3"));
-        dialogue.add(thirdActText.getThirdAct("pieceOne.directcombat.initiative.success.4"));
     }
 
     private void addInitiativeFailureDialogue(List<String> dialogue) {
         dialogue.add(thirdActText.getThirdAct("pieceOne.directcombat.initiative.failure"));
         dialogue.add(thirdActText.getThirdAct("pieceOne.directcombat.initiative.failure.2"));
         dialogue.add(thirdActText.getThirdAct("pieceOne.directcombat.initiative.failure.3"));
+        dialogue.add(thirdActText.getThirdAct("gula"));
+        dialogue.add(thirdActText.getThirdAct("gula.1"));
+        dialogue.add(thirdActText.getThirdAct("gula.2"));
+        dialogue.add(thirdActText.getThirdAct("gula.3"));
+        dialogue.add(thirdActText.getThirdAct("gula.4"));
+        dialogue.add(thirdActText.getThirdAct("gula.5"));
+        dialogue.add(thirdActText.getThirdAct("gula.6"));
+        dialogue.add(asciiArt.getAsciiArts("gula"));
         dialogue.add(thirdActText.getThirdAct("pieceOne.directcombat.initiative.failure.4"));
         dialogue.add(thirdActText.getThirdAct("pieceOne.directcombat.initiative.failure.5"));
     }
 
     private void applyGulaSpecialAttack() {
-        try {
-            printText(scanner, thirdActText.getThirdAct("combat.gula.specialAttack"));
-            int damage = rollDice(SPECIAL_ATTACK_DICE, SPECIAL_ATTACK_VALUE) + SPECIAL_ATTACK_EXTRA;
+        printText(scanner, thirdActText.getThirdAct("combat.gula.specialAttack"));
 
-            if (damage > 0) {
-                int newHealth = elodin.getClasse().getVida() - damage;
-                elodin.getClasse().setVida(Math.max(0, newHealth));
-                printText(scanner, String.format(systemText.getSystemMessage("roll.losesLife"), damage));
-            }
-        } catch (Exception e) {
-            printText(scanner, systemText.getSystemMessage("error.specialAttack"));
-            e.printStackTrace();
+        Habilidade hab = gula.getClasse().getHabilidade(GULA_HAB_SPECIAL);
+
+        if (hab == null) {
+            throw new IllegalStateException(
+                    String.format("Habilidade LASER (ID %d) não encontrada para o monstro Gula!", GULA_HAB_LASER)
+            );
         }
+
+        int damage = rollDice(hab.getQuantidadeDado(), hab.getValorDado()) + hab.getValorExtra();
+
+        int newHealth = elodin.getClasse().getVida() - damage;
+        elodin.getClasse().setVida(Math.max(0, newHealth));
+        printText(scanner, String.format(systemText.getSystemMessage("roll.losesLife"), damage));
     }
 
     // ==================== LOOP PRINCIPAL DO COMBATE ====================
 
     private void startCombat() {
         try {
+            initializeCooldown();
+            initializeGulaCooldown();
             currentTurn = 0;
             int gulaDefense = gula.getClasse().getDefesa();
             int gulaHealth = gula.getClasse().getVida();
@@ -252,19 +313,31 @@ public class ThirdAct {
 
             while (elodinHealth > 0 && gulaHealth > 0) {
                 printText(scanner, String.format(systemText.getSystemMessage("turn.counter"), currentTurn));
+                printText(scanner, String.format(systemText.getSystemMessage("bothActualLife"), elodinHealth, elodin.getClasse().getVidaMaxima(), gulaHealth, gula.getClasse().getVidaMaxima()));
 
                 int choice = getChoice();
 
                 if (choice == 5) {
+                    boolean inventoryUsed = elodin.inventoryOpen(scanner);
+                    if (inventoryUsed) {
+                        currentTurn++;
+                        gulaHealth = gula.getClasse().getVida();
+                        elodinHealth = elodin.getClasse().getVida();
+
+                        if (gulaHealth > 0 && elodinHealth > 0) {
+                            executeMonsterTurn(gula, elodinDefense);
+                            elodinHealth = elodin.getClasse().getVida();
+                        }
+                    }
                     continue;
                 }
 
-                if (!isValidChoice(choice, 1, 2, 3, 4)) {
+                if (!isValidChoice(choice, 1, 2, 3, 4, 5)) {
                     printText(scanner, systemText.getSystemMessage("error.invalidOption"));
                     continue;
                 }
 
-                if (!isAbilityAvailable(choice)) {
+                if (choice != 5 && !isAbilityAvailable(choice)) {
                     printCooldownMessage(choice);
                     continue;
                 }
@@ -318,23 +391,22 @@ public class ThirdAct {
 
     private int showPistolaAbilities() {
         List<String> options = Arrays.asList(
-                systemText.getSystemMessage("pistola.abilities")
+                systemText.getSystemMessage("pistola.abilities.inventory")
         );
         return getPlayerChoice(scanner, String.join("\n", options));
     }
 
     private int showBarraMetalAbilities() {
         List<String> options = Arrays.asList(
-                systemText.getSystemMessage("barra.abilities")
+                systemText.getSystemMessage("barra.abilities.inventory")
         );
         return getPlayerChoice(scanner, String.join("\n", options));
     }
 
-
     private String getAbilityName(int abilityId, boolean hasPistol) {
         long abilityIdentifier = getAbilityId(abilityId, hasPistol);
         Habilidade hab = elodin.getClasse().getHabilidade(abilityIdentifier);
-        
+
         if (hab != null) {
             return hab.getNome();
         }
@@ -387,7 +459,14 @@ public class ThirdAct {
         boolean hit = attackRoll >= gulaDefense;
 
         int finalDamage = baseDamage;
-        int selfDamage = baseDamage / 2;
+        int selfDamage;
+
+        // CORREÇÃO: No erro crítico, o jogador sofre o dano NORMAL da habilidade
+        if (isCriticalError) {
+            selfDamage = baseDamage;  // Dano normal, sem dobrar ou dividir
+        } else {
+            selfDamage = baseDamage / 2;
+        }
 
         if (isCritical && hit && !isCriticalError) {
             finalDamage = baseDamage * 2;
@@ -397,18 +476,16 @@ public class ThirdAct {
     }
 
     private int getBaseDamage(boolean hasPistol, int choice) {
-        if (hasPistol) {
-            return switch (choice) {
-                case 1, 2, 3 -> rollDice(3, 12) + 3;
-                case 4 -> rollDice(5, 8) + 1;
-                default -> 0;
-            };
-        } else {
-            return switch (choice) {
-                case 1, 2, 3, 4 -> rollDice(2, 10) + 3;
-                default -> 0;
-            };
+        long abilityId = getAbilityId(choice, hasPistol);
+        Habilidade hab = elodin.getClasse().getHabilidade(abilityId);
+
+        if (hab == null) {
+            throw new IllegalStateException(
+                    String.format("Habilidade ID %d não encontrada para o jogador!", abilityId)
+            );
         }
+
+        return rollDice(hab.getQuantidadeDado(), hab.getValorDado()) + hab.getValorExtra();
     }
 
     private void displayPlayerTurnResult(CombatTurnResult result, boolean hasPistol, int choice) {
@@ -464,31 +541,31 @@ public class ThirdAct {
     // ==================== TURNO DO MONSTRO ====================
 
     private void executeMonsterTurn(Monstro gula, int elodinDefense) {
-        try {
-            printText(scanner, systemText.getSystemMessage("turn.enemy"));
+        printText(scanner, systemText.getSystemMessage("turn.enemy"));
 
-            int attackChoice = rollDice(1, 4);
-            MonsterAttack attack = getMonsterAttack(gula, attackChoice);
+        int attackChoice = selectGulaAbility();
+        MonsterAttack attack = getMonsterAttack(gula, attackChoice);
+        CombatTurnResult result = calculateMonsterTurn(gula, attack, elodinDefense);
 
-            if (attack.isHealing) {
-                applyMonsterHeal(gula, attack.damage);
-                return;
+        displayMonsterTurnResult(attack, result);
+
+        if (attack.isHealing) {
+            if (result.hit && !result.criticalError) {
+                applyMonsterHeal(gula, result.finalDamage);
+            } else if (result.criticalError) {
+                applyDamageToMonster(gula, result.selfDamage);
+                applyPlayerHeal(attack.damage);
             }
-
-            CombatTurnResult result = calculateMonsterTurn(gula, attack, elodinDefense);
-            displayMonsterTurnResult(attack, result);
-
+        } else {
             if (result.hit && !result.criticalError) {
                 applyDamageToPlayer(result.finalDamage);
             } else if (result.criticalError) {
                 applyDamageToMonster(gula, result.selfDamage);
             }
-
-            printText(scanner, systemText.getSystemMessage("combat.separator"));
-        } catch (Exception e) {
-            printText(scanner, "Erro no turno de Gula!");
-            e.printStackTrace();
         }
+
+        applyGulaCooldown(attackChoice);
+        printText(scanner, systemText.getSystemMessage("combat.separator"));
     }
 
     private MonsterAttack getMonsterAttack(Monstro gula, int choice) {
@@ -503,12 +580,14 @@ public class ThirdAct {
 
     private MonsterAttack createMonsterAttack(Monstro gula, long abilityId, String narrativeKey, boolean isHealing) {
         Habilidade hab = gula.getClasse().getHabilidade(abilityId);
-        int damage = 0;
-        if (hab != null && !isHealing) {
-            damage = rollDice(hab.getQuantidadeDado(), hab.getValorDado()) + hab.getValorExtra();
-        } else if (hab != null && isHealing) {
-            damage = rollDice(hab.getQuantidadeDado(), hab.getValorDado()) + hab.getValorExtra();
+
+        if (hab == null) {
+            throw new IllegalStateException(
+                    String.format("Habilidade ID %d não encontrada para o monstro Gula!", abilityId)
+            );
         }
+
+        int damage = rollDice(hab.getQuantidadeDado(), hab.getValorDado()) + hab.getValorExtra();
         return new MonsterAttack(damage, thirdActText.getThirdAct(narrativeKey), isHealing);
     }
 
@@ -522,10 +601,20 @@ public class ThirdAct {
         boolean hit = attackRoll >= playerDefense;
 
         int finalDamage = attack.damage;
-        int selfDamage = attack.damage / 2;
+        int selfDamage;
+
+        // CORREÇÃO: No erro crítico, a Gula sofre o dano NORMAL da habilidade
+        if (isCriticalError) {
+            selfDamage = attack.damage;  // Dano normal, sem dobrar ou dividir
+        } else {
+            selfDamage = attack.isHealing ? attack.damage : attack.damage / 2;
+        }
 
         if (isCritical && hit && !isCriticalError) {
             finalDamage = attack.damage * 2;
+            if (attack.isHealing) {
+                selfDamage = attack.damage;
+            }
         }
 
         return new CombatTurnResult(hit, isCritical, isCriticalError, finalDamage, selfDamage, attackRoll);
@@ -546,10 +635,18 @@ public class ThirdAct {
 
         if (result.hit && !result.criticalError) {
             dialogue.add(thirdActText.getThirdAct("combat.gula.success"));
-            dialogue.add(String.format(systemText.getSystemMessage("combat.player.damage.taken"), result.finalDamage));
+            if (attack.isHealing) {
+                dialogue.add(String.format(systemText.getSystemMessage("hit.consumo"), result.finalDamage, result.finalDamage));
+            } else {
+                dialogue.add(String.format(systemText.getSystemMessage("combat.player.damage.taken"), result.finalDamage));
+            }
         } else if (result.criticalError) {
             dialogue.add(thirdActText.getThirdAct("combat.gula.criticalError"));
-            dialogue.add(String.format(systemText.getSystemMessage("combat.enemy.self.damage"), result.selfDamage));
+            if (attack.isHealing) {
+                dialogue.add(String.format(systemText.getSystemMessage("critalError.Consumo"), result.selfDamage, attack.damage));
+            } else {
+                dialogue.add(String.format(systemText.getSystemMessage("combat.enemy.self.damage"), result.selfDamage));
+            }
         } else {
             dialogue.add(thirdActText.getThirdAct("combat.gula.failure"));
         }
@@ -561,20 +658,59 @@ public class ThirdAct {
         int newHealth = gula.getClasse().getVida() + healAmount;
         int maxHealth = gula.getClasse().getVidaMaxima();
         gula.getClasse().setVida(Math.min(maxHealth, newHealth));
-        int elodinNewHealth = elodin.getClasse().getVida() - healAmount;
-        int elodinMaxHealth = elodin.getClasse().getVidaMaxima();
-        elodin.getClasse().setVida(Math.min(elodinMaxHealth, elodinNewHealth));
 
-        List<String> dialogue = new ArrayList<>();
-        dialogue.add(thirdActText.getThirdAct("combat.gula.consumoEnergia"));
-        dialogue.add(String.format(">> Gula recuperou [%d] pontos de vida!", healAmount));
-        dialogue.add(String.format(">> Você perdeu [%d] pontos de vida!", healAmount));
-        displayDialogue(scanner, dialogue);
+        int elodinNewHealth = elodin.getClasse().getVida() - healAmount;
+        elodin.getClasse().setVida(Math.max(0, elodinNewHealth));
+    }
+
+    private int selectGulaAbility() {
+        int gulaHealth = gula.getClasse().getVida();
+        int gulaMaxHealth = gula.getClasse().getVidaMaxima();
+
+        boolean canConsume = isGulaAbilityAvailable(4);
+        boolean lowHealth = gulaHealth <= gulaMaxHealth / 4;
+
+        if (lowHealth && canConsume) {
+            return 4;
+        }
+
+        List<Integer> availableAbilities = new ArrayList<>();
+        for (int i = 1; i <= 4; i++) {
+            if (isGulaAbilityAvailable(i)) {
+                availableAbilities.add(i);
+            }
+        }
+
+        if (availableAbilities.isEmpty()) {
+            return getGulaAbilityWithLowestCooldown();
+        }
+
+        return availableAbilities.get(new Random().nextInt(availableAbilities.size()));
+    }
+
+    private int getGulaAbilityWithLowestCooldown() {
+        int bestChoice = 1;
+        int bestCooldown = Integer.MAX_VALUE;
+
+        for (int i = 1; i <= 4; i++) {
+            int readyTurn = gulaAbilityCooldown.getOrDefault(i, 0);
+            if (readyTurn < bestCooldown) {
+                bestCooldown = readyTurn;
+                bestChoice = i;
+            }
+        }
+        return bestChoice;
     }
 
     private void applyDamageToPlayer(int damage) {
         int newHealth = elodin.getClasse().getVida() - damage;
         elodin.getClasse().setVida(Math.max(0, newHealth));
+    }
+
+    private void applyPlayerHeal(int healAmount) {
+        int newHealth = elodin.getClasse().getVida() + healAmount;
+        int maxHealth = elodin.getClasse().getVidaMaxima();
+        elodin.getClasse().setVida(Math.min(maxHealth, newHealth));
     }
 
     // ==================== DESFECHO DO COMBATE ====================
@@ -589,7 +725,8 @@ public class ThirdAct {
                 thirdActText.getThirdAct("combat.victory.7"),
                 thirdActText.getThirdAct("combat.victory.8"),
                 thirdActText.getThirdAct("combat.victory.9"),
-                thirdActText.getThirdAct("combat.victory.10")
+                thirdActText.getThirdAct("combat.victory.10"),
+                asciiArt.getAsciiArts("end")
         );
         displayDialogue(scanner, victory);
     }
