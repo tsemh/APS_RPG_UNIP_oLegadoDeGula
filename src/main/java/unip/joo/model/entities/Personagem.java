@@ -2,11 +2,9 @@ package unip.joo.model.entities;
 
 import unip.joo.model.ENUM.NomeAtributo;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Scanner;
 
 public abstract class Personagem implements Descritivel { // Classe Abstrata
@@ -32,7 +30,7 @@ public abstract class Personagem implements Descritivel { // Classe Abstrata
     public long getId() {
         return id;
     }
-    
+
     public String getNome() { return nome; }
 
     public String getDescricao() {
@@ -93,24 +91,41 @@ public abstract class Personagem implements Descritivel { // Classe Abstrata
         perfil.append(descricao).append("\n");
         perfil.append("-------- Classe --------\n");
         perfil.append("Nome: ").append(classe.getNomeClasse()).append("\n\n");
-        perfil.append("Habilidades: ").append(classe.getNameAbilities()).append("\n\n");
+        
+        // Mostrar habilidades com seus danos
+        if (classe.getHabilidades() != null && !classe.getHabilidades().isEmpty()) {
+            perfil.append("------ Habilidades ------\n");
+            for (Habilidade hab : classe.getHabilidades()) {
+                perfil.append("• ").append(hab.getNome()).append("\n");
+                perfil.append("  Dano: ").append(hab.getQuantidadeDado()).append("d").append(hab.getValorDado());
+                if (hab.getValorExtra() > 0) {
+                    perfil.append("+").append(hab.getValorExtra());
+                }
+                perfil.append("\n");
+                perfil.append("  Descrição: ").append(hab.getDescricao()).append("\n");
+            }
+            perfil.append("\n");
+        } else {
+            perfil.append("Habilidades: Nenhuma habilidade disponivel\n\n");
+        }
+        
         perfil.append("Descricao: ").append(classe.getDescricao()).append("\n\n");
         perfil.append("===========================");
         return perfil.toString();
     }
 
-    public void inventoryOpen(Scanner scanner) {
+    public boolean inventoryOpen(Scanner scanner) {
         if (inventario == null) {
             System.out.println("Nenhum inventário disponível.");
-            return;
+            return false;
         }
 
         List<Item> itens = inventario.getItens();
-        
+
         while (true) {
             System.out.println("\n========== INVENTÁRIO ==========");
             System.out.println("Personagem: " + nome);
-            
+
             if (itens.isEmpty()) {
                 System.out.println("Inventário vazio.");
                 break;
@@ -122,58 +137,80 @@ public abstract class Personagem implements Descritivel { // Classe Abstrata
                 System.out.println("["+(i + 1) + "] " + item.getNome());
                 System.out.println("   " + item.obterResumo().replace("\n", "\n   "));
             }
-            
+
             System.out.println("["+(itens.size() + 1) + "] . Sair");
             System.out.println("===============================");
             System.out.print("Selecione um item: ");
-            
+
             try {
                 String input = scanner.nextLine();
                 int escolha = Integer.parseInt(input);
-                
+
                 if (escolha == itens.size() + 1) {
                     System.out.println("Fechando inventário...");
                     break;
                 }
-                
+
                 if (escolha < 1 || escolha > itens.size()) {
                     System.out.println("Opção inválida!");
                     continue;
                 }
 
                 Item itemSelecionado = itens.get(escolha - 1);
-                exibirOpcoesPorTipo(scanner, itemSelecionado, itens);
+                if (exibirOpcoesPorTipo(scanner, itemSelecionado, itens)) {
+                    return true;
+                }
             } catch (NumberFormatException e) {
                 System.out.println("Opção inválida!");
             }
         }
+
+        return false;
     }
 
-    private void exibirOpcoesPorTipo(Scanner scanner, Item item, List<Item> itens) {
+    private boolean exibirOpcoesPorTipo(Scanner scanner, Item item, List<Item> itens) {
         if (item instanceof KitSobrevivencia) {
-            manipularConsumivel(scanner, (KitSobrevivencia) item, itens);
+            return manipularConsumivel(scanner, (KitSobrevivencia) item, itens);
         } else if (item instanceof Equipamento) {
-            manipularEquipamento(scanner, (Equipamento) item);
+            return manipularEquipamento(scanner, (Equipamento) item);
         }
+        return false;
     }
 
-    private void manipularConsumivel(Scanner scanner, KitSobrevivencia kit, List<Item> itens) {
+    private boolean manipularConsumivel(Scanner scanner, KitSobrevivencia kit, List<Item> itens) {
         System.out.println("\n--- Opções do Consumível ---");
         System.out.println("[1] Usar");
         System.out.println("[2] Voltar");
         System.out.print("Escolha: ");
-        
+
         try {
             String input = scanner.nextLine();
-            int escolha = Integer.parseInt(input);
-            
-            if (escolha == 1) {
+            int choice = Integer.parseInt(input);
+
+            if (choice == 1) {
                 if (kit.usar(this)) {
+                    int vidaAnterior = getClasse().getVida();
+                    double percentual = kit.getCuraPercentual() / 100.0;
+                    int heal = (int) (getClasse().getVidaMaxima() * percentual);
+                    int newLife = vidaAnterior + heal;
+                    
+                    // Limitar a cura à vida máxima
+                    if (newLife > getClasse().getVidaMaxima()) {
+                        newLife = getClasse().getVidaMaxima();
+                    }
+                    
+                    int curaReal = newLife - vidaAnterior;
+                    getClasse().setVida(newLife);
+                    
                     System.out.println("Item consumido!");
+                    System.out.println("Vida curada: +" + curaReal + " pontos");
+                    System.out.println("Vida atual: " + newLife + " / " + getClasse().getVidaMaxima());
+                    
                     if (kit.getUsosRestantes() <= 0) {
                         itens.remove(kit);
                         System.out.println("Item foi removido do inventário.");
                     }
+                    return true;
                 } else {
                     System.out.println("Não foi possível usar este item.");
                 }
@@ -181,37 +218,148 @@ public abstract class Personagem implements Descritivel { // Classe Abstrata
         } catch (NumberFormatException e) {
             System.out.println("Opção inválida!");
         }
+        return false;
     }
 
-    private void manipularEquipamento(Scanner scanner, Equipamento equipamento) {
+    private boolean manipularEquipamento(Scanner scanner, Equipamento equipamento) {
         System.out.println("\n--- Opções do Equipamento ---");
-        
+
         try {
-            if (equipamento.isEquipado()) {
-                System.out.println("[1] Desequipar");
-                System.out.println("[2] Voltar");
-                System.out.print("Escolha: ");
-                
-                String input = scanner.nextLine();
-                int escolha = Integer.parseInt(input);
-                if (escolha == 1) {
-                    equipamento.desequipar();
-                    System.out.println("Equipamento desequipado.");
+            if (equipamento instanceof Arma) {
+                if (equipamento.isEquipado()) {
+                    System.out.println("[1] Desequipar");
+                    System.out.println("[2] Voltar");
+                    System.out.print("Escolha: ");
+
+                    String input = scanner.nextLine();
+                    int escolha = Integer.parseInt(input);
+                    if (escolha == 1) {
+                        // Verificar se há outra arma disponível antes de desequipar
+                        if (temOutraArmaDisponivel()) {
+                            equipamento.desequipar();
+                            System.out.println("Equipamento desequipado.");
+                            return true;
+                        } else {
+                            System.out.println("Erro: É obrigatório ter uma arma equipada!");
+                        }
+                    }
+                } else {
+                    System.out.println("[1] Equipar");
+                    System.out.println("[2] Voltar");
+                    System.out.print("Escolha: ");
+
+                    String input = scanner.nextLine();
+                    int escolha = Integer.parseInt(input);
+                    if (escolha == 1) {
+                        // Desequipar outras armas automaticamente
+                        inventario.desequiparOutrasArmas((Arma) equipamento);
+                        equipamento.equipar();
+                        System.out.println("Equipamento equipado.");
+                        return true;
+                    }
                 }
             } else {
-                System.out.println("[1] Equipar");
-                System.out.println("[2] Voltar");
-                System.out.print("Escolha: ");
-                
-                String input = scanner.nextLine();
-                int escolha = Integer.parseInt(input);
-                if (escolha == 1) {
-                    equipamento.equipar();
-                    System.out.println("Equipamento equipado.");
+                if (equipamento.isEquipado()) {
+                    System.out.println("[1] Desequipar");
+                    System.out.println("[2] Voltar");
+                    System.out.print("Escolha: ");
+
+                    String input = scanner.nextLine();
+                    int escolha = Integer.parseInt(input);
+                    if (escolha == 1) {
+                        if (equipamento instanceof Armadura) {
+                            desequiparArmadura((Armadura) equipamento);
+                        } else {
+                            equipamento.desequipar();
+                        }
+                        System.out.println("Equipamento desequipado.");
+                        return true;
+                    }
+                } else {
+                    System.out.println("[1] Equipar");
+                    System.out.println("[2] Voltar");
+                    System.out.print("Escolha: ");
+
+                    String input = scanner.nextLine();
+                    int escolha = Integer.parseInt(input);
+                    if (escolha == 1) {
+                        if (equipamento instanceof Armadura) {
+                            equiparArmadura((Armadura) equipamento);
+                        } else {
+                            equipamento.equipar();
+                        }
+                        System.out.println("Equipamento equipado.");
+                        return true;
+                    }
                 }
             }
         } catch (NumberFormatException e) {
             System.out.println("Opção inválida!");
+        }
+        return false;
+    }
+
+    private boolean temOutraArmaDisponivel() {
+        if (inventario == null || inventario.getItens() == null) {
+            return false;
+        }
+
+        int contagemArmas = 0;
+        for (Item item : inventario.getItens()) {
+            if (item instanceof Arma) {
+                contagemArmas++;
+            }
+        }
+
+        // Se temos mais de uma arma, podemos desequipar uma
+        return contagemArmas > 1;
+    }
+
+    public void equiparArmadura(Armadura armadura) {
+        if (armadura == null || classe == null) {
+            return;
+        }
+
+        // Aplicar defesa
+        int defesaAtual = classe.getDefesa();
+        int bonusDefesa = armadura.getBonusDefesa();
+        classe.setDefesa(defesaAtual + bonusDefesa);
+
+        // Equipar a armadura
+        armadura.equipar();
+    }
+
+    public void desequiparArmadura(Armadura armadura) {
+        if (armadura == null || classe == null) {
+            return;
+        }
+
+        // Remover defesa
+        int defesaAtual = classe.getDefesa();
+        int bonusDefesa = armadura.getBonusDefesa();
+        classe.setDefesa(defesaAtual - bonusDefesa);
+
+        // Desequipar a armadura
+        armadura.desequipar();
+    }
+
+    public void equiparItemAutomaticamente(Item item) {
+        if (item == null || !item.isEquipavel()) {
+            return;
+        }
+
+        Equipamento equipamento = (Equipamento) item;
+
+        if (equipamento instanceof Arma) {
+            // Desequipar outras armas automaticamente
+            inventario.desequiparOutrasArmas((Arma) equipamento);
+            equipamento.equipar();
+        } else if (equipamento instanceof Armadura) {
+            // Aplicar defesa da armadura
+            equiparArmadura((Armadura) equipamento);
+        } else {
+            // Para outros equipamentos, apenas equipar
+            equipamento.equipar();
         }
     }
 
@@ -229,7 +377,7 @@ public abstract class Personagem implements Descritivel { // Classe Abstrata
 
             try {
                 int choice = Integer.parseInt(scanner.nextLine());
-                
+
                 if (choice < 1 || choice > 5) {
                     System.out.println("Opção inválida!");
                     continue;
@@ -269,7 +417,7 @@ public abstract class Personagem implements Descritivel { // Classe Abstrata
         }
 
         List<Habilidade> habilidades = classe.getHabilidades();
-        
+
         if (habilidades == null || habilidades.isEmpty()) {
             System.out.println("Nenhuma habilidade disponível.");
             scanner.nextLine();

@@ -14,6 +14,10 @@ public class Armadura extends Equipamento {
         return ignorarImpactoPercentual;
     }
 
+    public int getBonusDefesa() {
+        return ignorarImpactoPercentual;
+    }
+
     @Override
     public String obterResumo() {
         StringBuilder resumo = new StringBuilder();

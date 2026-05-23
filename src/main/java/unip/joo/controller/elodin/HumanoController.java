@@ -12,6 +12,7 @@ public class HumanoController { // Classe Controladora
 
     public Humano createElodin() { // Método Construtor de objetos via controller
         String nome = "Elodin";
+        long id = 100L;
         return new Humano(
                 Sexo.MASCULINO,
                 true,
@@ -19,8 +20,8 @@ public class HumanoController { // Classe Controladora
                 "Descrição protagonista",
                 classe.createClasse(),
                 falaElodin(nome),
-                100L,
-                inventoryFactory.createInventory(100L)
+                id,
+                inventoryFactory.createInventory(id)
                 );
     }
 
@@ -96,6 +97,9 @@ public class HumanoController { // Classe Controladora
 
         dialogue.put("secondAct.pieceTwo.Fortress.choice.stay.5",
                 p + "Então o que eram essas pessoas...?");
+
+        dialogue.put("thirdAct.pieceOne.talkLena",
+                p + "E você?? o que pretende fazer???");
 
         return dialogue;
     }}

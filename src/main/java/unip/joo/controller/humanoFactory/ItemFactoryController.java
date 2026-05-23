@@ -9,8 +9,8 @@ public class ItemFactoryController {
         return new KitSobrevivencia(
             1L,
             "Kit de Sobrevivência",
-            "Restaura 25% da vida do personagem. Pode ser usado duas vezes.",
-            25,
+            "Restaura 75% da vida do personagem. Pode ser usado duas vezes.",
+            75,
             2
         );
     }
@@ -19,8 +19,8 @@ public class ItemFactoryController {
         return new Armadura(
             2L,
             "Jaqueta Reforçada",
-            "Reduz danos de impacto em 10%.",
-            10
+            "Aumente a defesa do usuário em 1 ponto.",
+            1
         );
     }
 

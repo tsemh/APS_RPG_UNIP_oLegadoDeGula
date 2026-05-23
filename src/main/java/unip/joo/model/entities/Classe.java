@@ -3,11 +3,13 @@ package unip.joo.model.entities;
 import unip.joo.model.ENUM.NomeAtributo;
 import unip.joo.model.ENUM.NomeClasse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Classe { // Classe
     private long id; // Encapsulamento
     private int vida;
+    private int vidaMaxima;
     private int defesa;
     private NomeClasse nomeClasse;
     private String descricao;
@@ -15,10 +17,11 @@ public class Classe { // Classe
     private List<Habilidade> habilidades;
 
     // Método Construtor
-    public Classe(long id, List<Atributo> atributos, int vida, int defesa, NomeClasse nomeClasse, String descricao, List<Habilidade> habilidades) {
+    public Classe(long id, List<Atributo> atributos, int vida, int vidaMaxima, int defesa, NomeClasse nomeClasse, String descricao, List<Habilidade> habilidades) {
         this.id = id;
         this.atributos =  atributos;
         this.vida = vida;
+        this.vidaMaxima = vida;
         this.defesa = defesa;
         this.nomeClasse = nomeClasse;
         this.descricao = descricao;
@@ -36,6 +39,10 @@ public class Classe { // Classe
     public int getVida() {
         return vida;
     }
+    public int getVidaMaxima() {
+        return vidaMaxima;
+    }
+    public void setVidaMaxima(int vidaMaxima) {this.vidaMaxima = vidaMaxima;}
 
     public void setVida(int vida) {
         this.vida = vida;
@@ -64,6 +71,16 @@ public class Classe { // Classe
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+        public void addHabilidade(List<Habilidade> habilidade) {
+            if (habilidade == null) {
+                return;
+            }
+            if (this.habilidades == null) {
+                this.habilidades = new ArrayList<>();
+            }
+            this.habilidades.addAll(habilidade);
+        }
 
     public String getNameAbilities() {
         if (habilidades == null || habilidades.isEmpty()) {
