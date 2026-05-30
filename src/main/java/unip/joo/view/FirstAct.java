@@ -91,7 +91,7 @@ public class FirstAct { // Classe de visão
                     return;
                 } else {
                     System.out.println(systemText.getSystemMessage("game.close"));
-                    return;
+                    System.exit(1);
                 }
             } else {
                 if (attempts >= 2) {
